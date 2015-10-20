@@ -1,0 +1,7 @@
+cd life
+mvn clean compile assembly:single
+cd ..
+
+rm -rf dist
+mkdir dist
+cp life/target/life-*-jar-with-dependencies.jar dist/life.jar
