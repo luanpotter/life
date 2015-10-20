@@ -1,33 +1,43 @@
 package xyz.luan.life;
 
 import javafx.application.Application;
+import javafx.scene.Group;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.layout.StackPane;
+import javafx.scene.canvas.Canvas;
 import javafx.stage.Stage;
 
 public class Main extends Application {
+
+	private Game game;
+	private Canvas canvas;
+
 	public static void main(String[] args) {
 		launch(args);
 	}
 
 	@Override
 	public void start(Stage stage) {
+		canvas = new Canvas(300, 250);
+		game = new Game();
+
+		setupStage(stage);
+
+		draw();
+	}
+
+	private void setupStage(Stage stage) {
 		stage.setTitle("Hello World!");
-		stage.setScene(new Scene(rootPane(), 300, 250));
+		stage.setScene(new Scene(rootPane()));
 		stage.show();
 	}
 
-	private StackPane rootPane() {
-		StackPane root = new StackPane();
-		root.getChildren().add(simpleButton());
+	private Group rootPane() {
+		Group root = new Group();
+		root.getChildren().add(canvas);
 		return root;
 	}
 
-	private Button simpleButton() {
-		Button btn = new Button();
-		btn.setText("Say 'Hello World'");
-		btn.setOnAction(e -> System.out.println("Hello World!"));
-		return btn;
+	public void draw() {
+		game.draw(canvas.getGraphicsContext2D());
 	}
 }
