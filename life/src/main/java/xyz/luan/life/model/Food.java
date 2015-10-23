@@ -12,21 +12,12 @@ public class Food extends Entity {
 
     private static final double SIZE = 2;
 
-    private static Polygon generateBody(Point2D position) {
-        Polygon body = new Polygon(position.getX() - SIZE,
-                position.getY() - SIZE,
-                position.getX() + SIZE,
-                position.getY() - SIZE,
-                position.getX() + SIZE,
-                position.getY() + SIZE,
-                position.getX() - SIZE,
-                position.getY() + SIZE);
-        body.setFill(Util.DEFAULT_FOOD_COLOR);
-        return body;
+    private static EntityShape generateBody(Point2D position) {
+        return null;
     }
 
-    private static Polygon generateBody(Individual individual) {
-        Polygon body = individual.getBody();
+    private static EntityShape generateBody(Individual individual) {
+        EntityShape body = individual.getBody();
         body.setFill(Util.DEFAULT_FOOD_COLOR);
         return body;
     }

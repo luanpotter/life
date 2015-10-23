@@ -15,7 +15,7 @@ public class Individual extends Entity {
 
 	private Genome genome;
 
-    private static Polygon generateBody(Point2D position, Genome genome) {
+    private static EntityShape generateBody(Point2D position, Genome genome) {
         double size = 0;
         if (genome.getGenes().containsKey(Gene.SIZE)) {
             size = genome.get(Gene.SIZE);

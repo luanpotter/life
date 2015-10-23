@@ -29,22 +29,4 @@ public class Util {
     public static final double ACCEPTABLE_AREA_PROPORTION_TO_EAT = 2;
     public static final int RARITY_OF_IMMUTABILITY = 10;
 
-    public static double getArea(Polygon polygon) {
-        ObservableList<Double> points = polygon.getPoints();
-        int n = points.size() / 2;
-        double[] x = new double[n];
-        double[] y = new double[n];
-        for (int i = 0, j = 0; i < points.size(); i += 2, j++) {
-            x[j] = points.get(i);
-            y[j] = points.get(i + 1);
-        }
-
-        double sum = 0;
-        for (int i = 0; i < (n - 1); i++) {
-            sum += x[i] * y[i+1] + y[i] * x[i+1];
-        }
-        sum += x[n - 1] * y[0] + y[n - 1] * x[0];
-
-        return (double) Math.abs(sum) / 2d;
-    }
 }

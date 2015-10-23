@@ -10,17 +10,17 @@ import java.util.List;
 
 public abstract class Entity {
 
-    private Polygon body;
+    private EntityShape body;
     private double area;
     private double energy;
 
     public abstract void tick(List<Entity> entities);
     public abstract void onCollide(Entity entity, Shape intersection, Group group, List<Entity> entities);
 
-    public Entity(Polygon body, double energy) {
+    public Entity(EntityShape body, double energy) {
         this.body = body;
         this.energy = energy;
-        this.area = Util.getArea(body);
+        this.area = body.getArea();
     }
 
     public Shape intersects(Entity entity) {
@@ -45,7 +45,7 @@ public abstract class Entity {
         this.energy -= energy;
     }
 
-    public Polygon getBody() {
+    public EntityShape getBody() {
         return body;
     }
 
