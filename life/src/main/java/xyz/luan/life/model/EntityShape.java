@@ -10,7 +10,7 @@ import javafx.scene.shape.Polygon;
 public class EntityShape extends Polygon {
 
     public static final int PRECISION = 100;
-    public static final double ARC = 2 * Math.PI / PRECISION;
+    public static final double ARC = 2 * Math.PI / (double) PRECISION;
 
     private Point2D center;
     private double[] characteristics;
@@ -34,7 +34,7 @@ public class EntityShape extends Polygon {
         double d = characteristics[i++] * Math.sin(characteristics[i++] * t);
         double e = characteristics[i++] * Math.sin(characteristics[i++] * t) * Math.cos(characteristics[i++] * t);
         double f = characteristics[i++] * Math.cos(characteristics[i++] * t);
-        double radius = a + b + c + d + e + f;
+        double radius =  4 * (a + b + c + d + e + f);
         return new Point2D(center.getX() + radius * Math.cos(t), center.getY() + radius * Math.sin(t));
     }
 
