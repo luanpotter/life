@@ -6,6 +6,8 @@ import javafx.scene.Node;
 import javafx.scene.shape.Polygon;
 import javafx.scene.shape.Shape;
 
+import java.util.List;
+
 public abstract class Entity {
 
     private Polygon body;
@@ -13,7 +15,7 @@ public abstract class Entity {
     private double energy;
 
     public abstract void tick();
-    public abstract void onCollide(Entity entity, Shape intersection, Group group);
+    public abstract void onCollide(Entity entity, Shape intersection, Group group, List<Entity> entities);
 
     public Entity(Polygon body, double energy) {
         this.body = body;
@@ -25,12 +27,22 @@ public abstract class Entity {
         return Shape.intersect(body, entity.body);
     }
 
+    public double die(Group group, List<Entity> entities) {
+        group.getChildren().remove(body);
+        entities.remove(this);
+        return energy * Util.BASE_ENERGY_RELEASED;
+    }
+
     public double getEnergy() {
         return energy;
     }
 
-    public void setEnergy(double energy) {
-        this.energy = energy;
+    public void gainEnergy(double energy) {
+        this.energy += energy;
+    }
+
+    public void loseEnergy(double energy) {
+        this.energy -= energy;
     }
 
     public Polygon getBody() {

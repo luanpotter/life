@@ -8,6 +8,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Polygon;
 import javafx.scene.shape.Shape;
 
+import java.util.List;
 import java.util.Random;
 
 public class Individual extends Entity {
@@ -15,15 +16,20 @@ public class Individual extends Entity {
 	private Genome genome;
 
     private static Polygon generateBody(Point2D position, Genome genome) {
-        double SIZE = 4;
-        Polygon body = new Polygon(position.getX() - SIZE,
-                position.getY() - SIZE,
-                position.getX() + SIZE,
-                position.getY() - SIZE,
-                position.getX() + SIZE,
-                position.getY() + SIZE,
-                position.getX() - SIZE,
-                position.getY() + SIZE);
+        double size = 0;
+        if (genome.getGenes().containsKey(Gene.SIZE)) {
+            size = genome.get(Gene.SIZE);
+        } else {
+            size = Util.DEFAULT_INDIVIDUAL_SIZE;
+        }
+        Polygon body = new Polygon(position.getX() - size,
+                position.getY() - size,
+                position.getX() + size,
+                position.getY() - size,
+                position.getX() + size,
+                position.getY() + size,
+                position.getX() - size,
+                position.getY() + size);
         return null;
     }
 
@@ -46,7 +52,7 @@ public class Individual extends Entity {
 
     public double sharedEnergy() {
         double amount = this.getArea() * genome.get(Gene.CHARITY);
-        this.setEnergy(this.getEnergy() - amount);
+        this.loseEnergy(amount);
         return amount;
     }
 
@@ -98,13 +104,18 @@ public class Individual extends Entity {
     }
 
     @Override
-    public void onCollide(Entity entity, Shape intersection, Group group) {
-        if (entity instanceof Food) {
-
-        } else if (entity instanceof Individual) {
+    public void onCollide(Entity entity, Shape intersection, Group group, List<Entity> entities) {
+        if (entity instanceof Individual) {
             if (((Individual) entity).isAvailableToReproduce()) {
                 Individual child = reproduce((Individual) entity, intersection);
                 group.getChildren().add(child.getBody());
+            }
+        }
+        if (Util.ACCEPTABLE_AREA_PROPORTION_TO_EAT > this.getArea() / entity.getArea() ) {
+            double cost = Util.BASE_METABOLIZATION_ENERGY_COST * entity.getArea();
+            if (this.getEnergy() > cost) {
+                this.loseEnergy(cost);
+                this.gainEnergy(entity.die(group, entities));
             }
         }
     }

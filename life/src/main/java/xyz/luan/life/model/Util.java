@@ -15,10 +15,14 @@ public class Util {
     public static final Color DEFAULT_INDIVIDUAL_COLOR = Color.WHITE;
     public static final double DEFAULT_INDIVIDUAL_CHARITY = 0;
     public static final double DEFAULT_INDIVIDUAL_LIBIDO = 0;
+    public static final double DEFAULT_INDIVIDUAL_SIZE = 1;
 
     public static final double BASE_REPRODUCTION_ENERGY_COST = 2;
+    public static final double BASE_METABOLIZATION_ENERGY_COST = 0.1;
+    public static final double BASE_ENERGY_RELEASED = 0.9;
 
     public static final double ACCEPTABLE_GENETIC_DISTANCE_TO_REPRODUCE = 2;
+    public static final double ACCEPTABLE_AREA_PROPORTION_TO_EAT = 2;
     public static final int RARITY_OF_IMMUTABILITY = 10;
 
     public static double getArea(Polygon polygon) {

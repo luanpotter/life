@@ -31,7 +31,7 @@ public class Game {
                 if (entity != otherEntity) {
                     Shape intersection = entity.intersects(otherEntity);
                     if (intersection.getLayoutBounds().getHeight() == 0 && intersection.getLayoutBounds().getWidth() == 0) {
-                        entity.onCollide(otherEntity, intersection, group);
+                        entity.onCollide(otherEntity, intersection, group, entities);
                     }
                 }
             }

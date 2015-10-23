@@ -5,6 +5,7 @@ import javafx.scene.shape.Polygon;
 import javafx.scene.shape.Shape;
 
 import java.awt.geom.Point2D;
+import java.util.List;
 
 
 public class Food extends Entity {
@@ -33,7 +34,7 @@ public class Food extends Entity {
     }
 
     @Override
-    public void onCollide(Entity entity, Shape intersection, Group group) {
+    public void onCollide(Entity entity, Shape intersection, Group group, List<Entity> entities) {
 
     }
 }
