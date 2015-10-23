@@ -20,7 +20,7 @@ public abstract class Entity {
     public Entity(EntityShape body, double energy) {
         this.body = body;
         this.energy = energy;
-        this.area = body.getArea();
+        this.area = body.estimateArea();
     }
 
     public Shape intersects(Entity entity) {

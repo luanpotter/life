@@ -47,7 +47,7 @@ public class EntityShape extends Polygon {
         }
     }
 
-    public double getArea() {
+    public double estimateArea() {
         double sum = 0;
         for (int i = 0; i < (PRECISION - 1); i++) {
             sum += points[i].getX() * points[i + 1].getY() + points[i].getY() * points[i + 1].getX();
@@ -69,10 +69,6 @@ public class EntityShape extends Polygon {
         return characteristics;
     }
 
-    public void setCharacteristics(double[] characteristics) {
-        this.characteristics = characteristics;
-    }
-
     public Color getColor() {
         return color;
     }
@@ -83,9 +79,5 @@ public class EntityShape extends Polygon {
 
     public Point2D[] getPoints2D() {
         return points;
-    }
-
-    public void setPoints2D(Point2D[] points) {
-        this.points = points;
     }
 }
