@@ -1,6 +1,5 @@
 package xyz.luan.life.model;
 
 public enum Gene {
-
-	SPEED, SIZE;
+	SIZE, SPEED, COLOR;
 }

@@ -1,15 +1,23 @@
 package xyz.luan.life;
 
 import javafx.application.Application;
+import javafx.application.Platform;
+import javafx.geometry.Dimension2D;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.*;
 import javafx.stage.Stage;
+
+import java.util.Random;
+
 
 public class Main extends Application {
 
 	private Game game;
-	private Canvas canvas;
+    private Group root;
+    private Scene scene;
 
 	public static void main(String[] args) {
 		launch(args);
@@ -17,27 +25,23 @@ public class Main extends Application {
 
 	@Override
 	public void start(Stage stage) {
-		canvas = new Canvas(300, 250);
-		game = new Game();
+        Dimension2D dimension = new Dimension2D(400, 400);
+        game = new Game(dimension);
+        root = new Group();
+        scene = new Scene(root, dimension.getWidth(), dimension.getHeight(), Color.BLACK);
 
-		setupStage(stage);
+        setupStage(stage);
 
-		draw();
-	}
+        /*Platform.runLater(() -> {
+            for (int i = 0; i < 10; i++) {
+                game.tick(root);
+            }
+        });*/
+    }
 
 	private void setupStage(Stage stage) {
-		stage.setTitle("Hello World!");
-		stage.setScene(new Scene(rootPane()));
+		stage.setTitle("Game of Life");
+		stage.setScene(scene);
 		stage.show();
-	}
-
-	private Group rootPane() {
-		Group root = new Group();
-		root.getChildren().add(canvas);
-		return root;
-	}
-
-	public void draw() {
-		game.draw(canvas.getGraphicsContext2D());
 	}
 }

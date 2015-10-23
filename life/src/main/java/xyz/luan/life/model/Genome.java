@@ -1,14 +1,26 @@
 package xyz.luan.life.model;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class Genome {
 
-	private int[] genes;
+    private Map<Gene, Double> genes;
+
 
 	public Genome() {
-		this.genes = new int[Gene.values().length];
+		genes = new HashMap<>();
 	}
 
-	public int get(Gene gene) {
-		return genes[gene.ordinal()];
+	public double get(Gene gene) {
+		return genes.get(gene);
 	}
+
+    public int numberOfGenes() {
+        return genes.size();
+    }
+
+    public Map<Gene, Double> getGenes() {
+        return genes;
+    }
 }
