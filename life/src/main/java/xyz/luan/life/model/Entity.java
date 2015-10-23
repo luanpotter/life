@@ -30,7 +30,7 @@ public abstract class Entity {
     public double die(Group group, List<Entity> entities) {
         group.getChildren().remove(body);
         entities.remove(this);
-        return energy * Util.BASE_ENERGY_RELEASED;
+        return energy * Util.BASE_ENERGY_RELEASED + area * Util.BASE_STRUCTURE_ENERGY;
     }
 
     public double getEnergy() {
