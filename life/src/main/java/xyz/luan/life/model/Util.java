@@ -1,24 +1,42 @@
 package xyz.luan.life.model;
 
+import javafx.collections.ObservableList;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Polygon;
 
 import java.util.Map.Entry;
 
 public class Util {
 
-    public static final Color[] COLORS = {Color.RED, Color.GREEN, Color.BLUE};
     public static final double INFINITY = Double.POSITIVE_INFINITY;
 
-    public static double geneticDistance(Individual i1, Individual i2) {
-        boolean sameGeneTypes = i1.getGenome().getGenes().keySet().equals(i2.getGenome().getGenes());
-        if (sameGeneTypes) {
-            double sum = 0;
-            for (Gene gene : i1.getGenome().getGenes().keySet()) {
-                sum += Math.pow(i1.getGenome().get(gene) - i2.getGenome().get(gene), 2);
-            }
-            return sum;
-        } else {
-            return INFINITY;
+    public static final Color[] COLORS = {Color.RED, Color.GREEN, Color.BLUE};
+
+    public static final Color DEFAULT_INDIVIDUAL_COLOR = Color.WHITE;
+    public static final double DEFAULT_INDIVIDUAL_CHARITY = 0;
+    public static final double DEFAULT_INDIVIDUAL_LIBIDO = 0;
+
+    public static final double BASE_REPRODUCTION_ENERGY_COST = 2;
+
+    public static final double ACCEPTABLE_GENETIC_DISTANCE_TO_REPRODUCE = 2;
+    public static final int RARITY_OF_IMMUTABILITY = 10;
+
+    public static double getArea(Polygon polygon) {
+        ObservableList<Double> points = polygon.getPoints();
+        int n = points.size() / 2;
+        double[] x = new double[n];
+        double[] y = new double[n];
+        for (int i = 0, j = 0; i < points.size(); i += 2, j++) {
+            x[j] = points.get(i);
+            y[j] = points.get(i + 1);
         }
+
+        double sum = 0;
+        for (int i = 0; i < (n - 1); i++) {
+            sum += x[i] * y[i+1] + y[i] * x[i+1];
+        }
+        sum += x[n - 1] * y[0] + y[n - 1] * x[0];
+
+        return (double) Math.abs(sum) / 2d;
     }
 }
