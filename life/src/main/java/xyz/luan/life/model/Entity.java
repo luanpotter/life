@@ -14,7 +14,7 @@ public abstract class Entity {
     private double area;
     private double energy;
 
-    public abstract void tick();
+    public abstract void tick(List<Entity> entities);
     public abstract void onCollide(Entity entity, Shape intersection, Group group, List<Entity> entities);
 
     public Entity(Polygon body, double energy) {
@@ -27,7 +27,7 @@ public abstract class Entity {
         return Shape.intersect(body, entity.body);
     }
 
-    public double die(Group group, List<Entity> entities) {
+    public double eaten(Group group, List<Entity> entities) {
         group.getChildren().remove(body);
         entities.remove(this);
         return energy * Util.BASE_ENERGY_RELEASED + area * Util.BASE_STRUCTURE_ENERGY;

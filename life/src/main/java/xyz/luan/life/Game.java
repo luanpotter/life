@@ -26,7 +26,7 @@ public class Game {
 
     public void tick(Group group) {
         for (Entity entity : entities) {
-            entity.tick();
+            entity.tick(entities);
             for (Entity otherEntity : entities) {
                 if (entity != otherEntity) {
                     Shape intersection = entity.intersects(otherEntity);

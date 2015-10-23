@@ -21,6 +21,13 @@ public class Food extends Entity {
                 position.getY() + SIZE,
                 position.getX() - SIZE,
                 position.getY() + SIZE);
+        body.setFill(Util.DEFAULT_FOOD_COLOR);
+        return body;
+    }
+
+    private static Polygon generateBody(Individual individual) {
+        Polygon body = individual.getBody();
+        body.setFill(Util.DEFAULT_FOOD_COLOR);
         return body;
     }
 
@@ -28,8 +35,12 @@ public class Food extends Entity {
         super(Food.generateBody(position), energy);
     }
 
+    public Food(Individual individual) {
+        super(Food.generateBody(individual), 0);
+    }
+
     @Override
-    public void tick() {
+    public void tick(List<Entity> entities) {
 
     }
 

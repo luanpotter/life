@@ -17,6 +17,8 @@ public class Util {
     public static final double DEFAULT_INDIVIDUAL_LIBIDO = 0;
     public static final double DEFAULT_INDIVIDUAL_SIZE = 1;
 
+    public static final Color DEFAULT_FOOD_COLOR = Color.GRAY;
+
     public static final double BASE_LIFE_ENERGY_COST = 0.2;
     public static final double BASE_REPRODUCTION_ENERGY_COST = 2;
     public static final double BASE_METABOLIZATION_ENERGY_COST = 0.1;

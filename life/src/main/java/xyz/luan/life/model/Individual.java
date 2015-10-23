@@ -103,11 +103,18 @@ public class Individual extends Entity {
         }
     }
 
+    private void die(List<Entity> entities) {
+        Food food = new Food(this);
+        entities.remove(this);
+        entities.add(food);
+    }
+
     @Override
     public void onCollide(Entity entity, Shape intersection, Group group, List<Entity> entities) {
         if (entity instanceof Individual) {
             if (((Individual) entity).isAvailableToReproduce()) {
                 Individual child = reproduce((Individual) entity, intersection);
+                entities.add(child);
                 group.getChildren().add(child.getBody());
             }
         }
@@ -115,13 +122,16 @@ public class Individual extends Entity {
             double cost = Util.BASE_METABOLIZATION_ENERGY_COST * entity.getArea();
             if (this.getEnergy() >= cost) {
                 this.loseEnergy(cost);
-                this.gainEnergy(entity.die(group, entities));
+                this.gainEnergy(entity.eaten(group, entities));
             }
         }
     }
 
     @Override
-    public void tick() {
-        
+    public void tick(List<Entity> entities) {
+        this.loseEnergy(Util.BASE_LIFE_ENERGY_COST * this.getArea());
+        if (this.getEnergy() < 0) {
+            die(entities);
+        }
     }
 }
