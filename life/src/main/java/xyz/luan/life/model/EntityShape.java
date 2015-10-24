@@ -10,6 +10,7 @@ public class EntityShape extends Polygon {
     public static final double ARC = 2 * Math.PI / (double) PRECISION;
 
     private Point2D center;
+    private double angle;
     private double[] characteristics;
     private Color color;
     private Point2D[] points;
@@ -18,11 +19,13 @@ public class EntityShape extends Polygon {
         this.center = center;
         this.characteristics = characteristics;
         this.color = color;
+        this.angle = 0;
 
         generatePoints();
         this.setFill(color);
         this.setTranslateX(center.getX());
         this.setTranslateY(center.getY());
+        this.setRotate(angle);
     }
 
     private Point2D getPoint(double t) {
@@ -58,6 +61,15 @@ public class EntityShape extends Polygon {
 
     public Point2D getCenter() {
         return center;
+    }
+
+    public double getAngle() {
+        return angle;
+    }
+
+    public void rotate(double angle) {
+        this.angle += angle;
+        this.setRotate(Math.toDegrees(this.angle));
     }
 
     public void translate(double x, double y) {

@@ -46,6 +46,8 @@ public class Main extends Application {
         for (Point2D p : entityShape.getPoints2D()) {
             System.out.print("<" + p.getX() + "," + p.getY() + ">");
         }
+        entityShape.rotate(1);
+        entityShape.translate(-100, 0);
 
         double[] chars2 = {
                 0, 1, // a * sin^2(b * t)
