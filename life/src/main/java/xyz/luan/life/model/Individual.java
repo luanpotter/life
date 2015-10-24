@@ -9,7 +9,6 @@ import javafx.geometry.Point2D;
 import javafx.scene.Group;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Shape;
-import javafx.scene.transform.Rotate;
 
 public class Individual extends Entity {
 
@@ -38,7 +37,7 @@ public class Individual extends Entity {
         super(Individual.generateBody(position, genome), energy);
 
         this.genome = genome;
-        this.velocity = new Point2D(Math.sqrt(2) * genome.get(Gene.TRANSLATION_SPEED) / 100, Math.sqrt(2) * genome.get(Gene.TRANSLATION_SPEED) / 100);
+        this.velocity = new Point2D(Math.sqrt(2) * genome.get(Gene.TRANSLATION_SPEED) / 75, Math.sqrt(2) * genome.get(Gene.TRANSLATION_SPEED) / 75);
         this.velocity = Util.rotate(this.velocity, Math.random() * 360);
 
         if (genome.getGenes().containsKey(Gene.COLOR)) {
@@ -140,7 +139,8 @@ public class Individual extends Entity {
     }
 
     private void move() {
-        velocity = Util.rotate(this.velocity, Math.random() * 360 / genome.get(Gene.TRANSLATION_CONSTANCY) / 100);
+        int sign = Math.random() > 0.5 ? 1 : -1;
+        velocity = Util.rotate(this.velocity, sign * Math.random() * 180 / genome.get(Gene.TRANSLATION_CONSTANCY) / 50);
         body.translate(velocity.getX(), velocity.getY());
     }
 

@@ -19,7 +19,12 @@ public class Game {
         this.dimension = dimension;
 
         entities.add(Individual.abiogenesis());
-        root.getChildren().add(entities.get(0).getBody());
+        entities.add(Individual.abiogenesis());
+        entities.add(Individual.abiogenesis());
+
+        for (Entity e : entities) {
+            root.getChildren().add(e.getBody());
+        }
     }
 
     public void tick(Group group) {
