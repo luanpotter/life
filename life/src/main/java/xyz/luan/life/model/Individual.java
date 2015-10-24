@@ -17,10 +17,11 @@ public class Individual extends Entity {
     private static EntityShape generateBody(Point2D position, Genome genome) {
         Color color = null;
         if (genome.getGenes().containsKey(Gene.COLOR)) {
-            color = Util.COLORS[(int) genome.get(Gene.COLOR)];
+            color = Util.COLORS[(int) (genome.get(Gene.COLOR) % Util.COLORS.length)];
         }
 
-        List<Gene> morfologicalGenes = Arrays.asList(Gene.A, Gene.B, Gene.C, Gene.D, Gene.E, Gene.F, Gene.G, Gene.H, Gene.I, Gene.J, Gene.K, Gene.L, Gene.M, Gene.N, Gene.O);
+        List<Gene> morfologicalGenes = Arrays.asList(Gene.A, Gene.B, Gene.C, Gene.D, Gene.E, Gene.F, Gene.G, Gene.H, Gene.I, Gene.J, Gene.K, Gene.L, Gene.M,
+                Gene.N, Gene.O);
         double[] characteristics = morfologicalGenes.stream().map(g -> {
             return genome.getGenes().containsKey(g) ? genome.getGenes().get(g) : Util.DEFAULT_INDIVIDUAL_MORFOLOGY;
         }).mapToDouble(Double::doubleValue).toArray();

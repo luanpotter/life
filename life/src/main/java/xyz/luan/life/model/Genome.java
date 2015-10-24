@@ -8,12 +8,19 @@ public class Genome {
     private Map<Gene, Double> genes;
 
     public Genome() {
-		genes = new HashMap<>();
-	}
+        genes = new HashMap<>();
+        randomGenes();
+    }
 
-	public double get(Gene gene) {
-		return genes.get(gene);
-	}
+    private void randomGenes() {
+        for (Gene gene : Gene.values()) {
+            genes.put(gene, Math.random() * 10);
+        }
+    }
+
+    public double get(Gene gene) {
+        return genes.get(gene);
+    }
 
     public int numberOfGenes() {
         return genes.size();
