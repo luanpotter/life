@@ -20,7 +20,7 @@ public class Food extends Entity {
                 0, 0, // a * sin(b)
                 SIZE / 8d, 2, 2, // a * sin(b) * cos(c)
                 0, 0}; // a * cos(b)
-        return new EntityShape(position, chars, Util.DEFAULT_FOOD_COLOR);
+        return new EntityShape(position, chars, Util.DEFAULT_FOOD_COLOR, 10);
     }
 
     public static Food abiogenesis(Dimension2D dimension) {

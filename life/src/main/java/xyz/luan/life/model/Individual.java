@@ -16,7 +16,7 @@ public class Individual extends Entity {
     private Genome genome;
     private Point2D velocity;
 
-    private static EntityShape generateBody(Point2D position, Genome genome) {
+    private static EntityShape generateBody(Point2D position, Genome genome, int precision) {
         Color color = null;
         if (genome.getGenes().containsKey(Gene.COLOR)) {
             color = Util.COLORS[(int) (genome.get(Gene.COLOR) % Util.COLORS.length)];
@@ -27,7 +27,7 @@ public class Individual extends Entity {
         double[] characteristics = morfologicalGenes.stream().map(g -> {
             return genome.getGenes().containsKey(g) ? genome.getGenes().get(g) : Util.DEFAULT_INDIVIDUAL_MORFOLOGY;
         }).mapToDouble(Double::doubleValue).toArray();
-        return new EntityShape(position, characteristics, color);
+        return new EntityShape(position, characteristics, color, precision);
     }
 
     public static Individual abiogenesis(Dimension2D dimension) {
@@ -36,7 +36,7 @@ public class Individual extends Entity {
     }
 
     private Individual(Point2D position, double energy, Genome genome) {
-        super(Individual.generateBody(position, genome), energy);
+        super(Individual.generateBody(position, genome, 100), energy);
 
         this.genome = genome;
         this.velocity = new Point2D(Math.sqrt(2) * genome.get(Gene.TRANSLATION_SPEED) / 75, Math.sqrt(2) * genome.get(Gene.TRANSLATION_SPEED) / 75);

@@ -6,20 +6,21 @@ import javafx.scene.shape.Polygon;
 
 public class EntityShape extends Polygon {
 
-    public static final int PRECISION = 100;
-    public static final double ARC = 2 * Math.PI / (double) PRECISION;
-
+    public double arc;
+    private int precision;
     private Point2D center;
     private double angle;
     private double[] characteristics;
     private Color color;
     private Point2D[] points;
 
-    public EntityShape(Point2D center, double[] characteristics, Color color) {
+    public EntityShape(Point2D center, double[] characteristics, Color color, int precision) {
         this.center = center;
         this.characteristics = characteristics;
         this.color = color;
         this.angle = 0;
+        this.precision = precision;
+        this.arc = 2 * Math.PI / (double) precision;
 
         generatePoints();
         this.setFill(color);
@@ -41,9 +42,9 @@ public class EntityShape extends Polygon {
     }
 
     private void generatePoints() {
-        points = new Point2D[PRECISION];
-        for (int i = 0; i < PRECISION; i++) {
-            Point2D point = getPoint(i * ARC);
+        points = new Point2D[precision];
+        for (int i = 0; i < precision; i++) {
+            Point2D point = getPoint(i * arc);
             points[i] = point;
             this.getPoints().addAll(point.getX(), point.getY());
         }
@@ -51,10 +52,10 @@ public class EntityShape extends Polygon {
 
     public double estimateArea() {
         double sum = 0;
-        for (int i = 0; i < (PRECISION - 1); i++) {
+        for (int i = 0; i < (precision - 1); i++) {
             sum += points[i].getX() * points[i + 1].getY() - points[i].getY() * points[i + 1].getX();
         }
-        sum += points[PRECISION - 1].getX() * points[0].getY() - points[PRECISION - 1].getY() * points[0].getX();
+        sum += points[precision - 1].getX() * points[0].getY() - points[precision - 1].getY() * points[0].getX();
 
         return (double) Math.abs(sum) / 2d;
     }
