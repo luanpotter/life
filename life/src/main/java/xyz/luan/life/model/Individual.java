@@ -19,10 +19,9 @@ public class Individual extends Entity {
     private static EntityShape generateBody(Point2D position, Genome genome, int precision) {
         Color color = null;
         if (genome.getGenes().containsKey(Gene.COLOR)) {
-            color = Color.hsb(Math.toDegrees(genome.get(Gene.COLOR)), 1d, 1d);
-                    //Util.COLORS[(int) (genome.get(Gene.COLOR) % Util.COLORS.length)];
+            color = Color.hsb(Math.toDegrees(genome.get(Gene.COLOR)), Util.DEFAULT_INDIVIDUAL_COLOR_SATURATION, Util.DEFAULT_INDIVIDUAL_COLOR_VALUE);
         } else {
-            color = Util.DEFAULT_INDIVIDUAL_COLOR;
+            color = Color.hsb(Util.DEFAULT_INDIVIDUAL_COLOR_HUE, Util.DEFAULT_INDIVIDUAL_COLOR_SATURATION, Util.DEFAULT_INDIVIDUAL_COLOR_VALUE);
         }
 
         List<Gene> morfologicalGenes = Arrays.asList(Gene.A, Gene.B, Gene.C, Gene.D, Gene.E, Gene.F, Gene.G, Gene.H, Gene.I, Gene.J, Gene.K, Gene.L, Gene.M,
@@ -44,12 +43,6 @@ public class Individual extends Entity {
         this.genome = genome;
         this.velocity = new Point2D(Math.sqrt(2) * genome.get(Gene.TRANSLATION_SPEED) / 75, Math.sqrt(2) * genome.get(Gene.TRANSLATION_SPEED) / 75);
         this.velocity = Util.rotate(this.velocity, Math.random() * 360);
-
-        if (genome.getGenes().containsKey(Gene.COLOR)) {
-            this.getBody().setFill(Color.hsb(Math.toDegrees(genome.get(Gene.COLOR)), 1d, 1d));
-        } else {
-            this.getBody().setFill(Util.DEFAULT_INDIVIDUAL_COLOR);
-        }
     }
 
     public Genome getGenome() {

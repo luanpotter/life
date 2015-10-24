@@ -6,7 +6,7 @@ import javafx.scene.shape.Polygon;
 
 public class EntityShape extends Polygon {
 
-    public double arc;
+    private double arc;
     private int precision;
     private Point2D center;
     private double angle;
