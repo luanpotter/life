@@ -59,11 +59,11 @@ public class Individual extends Entity {
         }
         if (this.getEnergy() >=  cost) {
             if (genome.getGenes().containsKey(Gene.LIBIDO)) {
-                if (genome.get(Gene.LIBIDO) < (this.getEnergy() / cost)) {
+                if (genome.get(Gene.LIBIDO) <= (this.getEnergy() / cost)) {
                     return true;
                 }
             } else {
-                if (Util.DEFAULT_INDIVIDUAL_LIBIDO < (this.getEnergy() / cost)) {
+                if (Util.DEFAULT_INDIVIDUAL_LIBIDO <= (this.getEnergy() / cost)) {
                     return true;
                 }
             }
