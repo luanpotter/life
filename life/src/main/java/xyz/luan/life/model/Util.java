@@ -1,12 +1,14 @@
 package xyz.luan.life.model;
 
+import javafx.geometry.Point2D;
 import javafx.scene.paint.Color;
+import javafx.scene.transform.Rotate;
 
 public class Util {
 
     public static final double INFINITY = Double.POSITIVE_INFINITY;
 
-    public static final Color[] COLORS = {Color.RED, Color.GREEN, Color.BLUE};
+    public static final Color[] COLORS = { Color.RED, Color.GREEN, Color.BLUE };
 
     public static final Color DEFAULT_INDIVIDUAL_COLOR = Color.WHITE;
     public static final double DEFAULT_INDIVIDUAL_CHARITY = 0d;
@@ -25,4 +27,7 @@ public class Util {
     public static final double ACCEPTABLE_AREA_PROPORTION_TO_EAT = 2d;
     public static final int RARITY_OF_IMMUTABILITY = 10;
 
+    public static Point2D rotate(Point2D p, double thetaDegrees) {
+        return new Rotate(thetaDegrees, 0, 0).transform(p);
+    }
 }
