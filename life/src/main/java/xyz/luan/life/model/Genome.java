@@ -28,7 +28,7 @@ public class Genome {
         if (sameGeneTypes) {
             double sum = 0;
             for (Gene gene : this.getGenes().keySet()) {
-                sum += Math.abs(Math.pow(this.get(gene) - genome.get(gene), 3));
+                sum += Math.abs(Math.pow(this.get(gene) - genome.get(gene), 4));
             }
             return sum;
         } else {
