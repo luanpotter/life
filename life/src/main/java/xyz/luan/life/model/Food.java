@@ -1,7 +1,9 @@
 package xyz.luan.life.model;
 
 import java.util.List;
+import java.util.Random;
 
+import javafx.geometry.Dimension2D;
 import javafx.geometry.Point2D;
 import javafx.scene.Group;
 import javafx.scene.shape.Shape;
@@ -19,6 +21,11 @@ public class Food extends Entity {
                 SIZE / 8d, 2, 2, // a * sin(b) * cos(c)
                 0, 0}; // a * cos(b)
         return new EntityShape(position, chars, Util.DEFAULT_FOOD_COLOR);
+    }
+
+    public static Food abiogenesis(Dimension2D dimension) {
+        Random r = new Random();
+        return new Food(new Point2D(r.nextInt((int) dimension.getWidth()), r.nextInt((int) dimension.getHeight())), 0);
     }
 
     private static EntityShape generateBody(Individual individual) {

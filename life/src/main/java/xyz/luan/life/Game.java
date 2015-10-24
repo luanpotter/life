@@ -8,6 +8,7 @@ import javafx.geometry.Dimension2D;
 import javafx.scene.Group;
 import javafx.scene.shape.Shape;
 import xyz.luan.life.model.Entity;
+import xyz.luan.life.model.Food;
 import xyz.luan.life.model.Individual;
 
 public class Game {
@@ -19,9 +20,13 @@ public class Game {
         this.entities = new ArrayList<Entity>();
         this.dimension = dimension;
 
-        entities.add(Individual.abiogenesis());
-        entities.add(Individual.abiogenesis());
-        entities.add(Individual.abiogenesis());
+        entities.add(Individual.abiogenesis(dimension));
+        entities.add(Individual.abiogenesis(dimension));
+        entities.add(Individual.abiogenesis(dimension));
+
+        for (int i = 0; i < 10; i ++) {
+            entities.add(Food.abiogenesis(dimension));
+        }
 
         for (Entity e : entities) {
             root.getChildren().add(e.getBody());
@@ -41,9 +46,13 @@ public class Game {
             entity.fixPosition(dimension);
             for (Entity otherEntity : entities) {
                 if (entity != otherEntity) {
-                    Shape intersection = entity.intersects(otherEntity);
-                    if (intersection.getLayoutBounds().getHeight() == 0 && intersection.getLayoutBounds().getWidth() == 0) {
-                        entity.onCollide(otherEntity, intersection, group, entities);
+                    try {
+                        Shape intersection = entity.intersects(otherEntity);
+                        if (intersection.getLayoutBounds().getHeight() > 0 && intersection.getLayoutBounds().getWidth() > 0) {
+                            entity.onCollide(otherEntity, intersection, group, entities);
+                        }
+                    } catch (Exception e) {
+                        System.out.println(".");
                     }
                 }
             }

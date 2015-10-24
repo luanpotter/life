@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Random;
 
 import javafx.geometry.Bounds;
+import javafx.geometry.Dimension2D;
 import javafx.geometry.Point2D;
 import javafx.scene.Group;
 import javafx.scene.paint.Color;
@@ -29,8 +30,9 @@ public class Individual extends Entity {
         return new EntityShape(position, characteristics, color);
     }
 
-    public static Individual abiogenesis() {
-        return new Individual(new Point2D(100, 100), 100000, new Genome());
+    public static Individual abiogenesis(Dimension2D dimension) {
+        Random r = new Random();
+        return new Individual(new Point2D(r.nextInt((int) dimension.getWidth()), r.nextInt((int) dimension.getHeight())), 100000, new Genome());
     }
 
     private Individual(Point2D position, double energy, Genome genome) {
@@ -118,7 +120,8 @@ public class Individual extends Entity {
                 group.getChildren().add(child.getBody());
             }
         }
-        if (Util.ACCEPTABLE_AREA_PROPORTION_TO_EAT > this.getArea() / entity.getArea()) {
+        System.out.println("p: " + (entity.getArea() / this.getArea()));
+        if (Util.ACCEPTABLE_AREA_PROPORTION_TO_EAT >  entity.getArea() / this.getArea()) {
             double cost = Util.BASE_METABOLIZATION_ENERGY_COST * entity.getArea();
             if (this.getTotalEnergy() >= cost) {
                 this.loseEnergy(cost);
