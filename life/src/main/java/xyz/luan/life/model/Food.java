@@ -1,11 +1,10 @@
 package xyz.luan.life.model;
 
-import javafx.geometry.Point2D;
-import javafx.scene.Group;
-import javafx.scene.shape.Polygon;
-import javafx.scene.shape.Shape;
 import java.util.List;
 
+import javafx.geometry.Point2D;
+import javafx.scene.Group;
+import javafx.scene.shape.Shape;
 
 public class Food extends Entity {
 

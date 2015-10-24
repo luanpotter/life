@@ -1,20 +1,19 @@
 package xyz.luan.life.model;
 
-import javafx.collections.ObservableList;
-import javafx.scene.Group;
-import javafx.scene.Node;
-import javafx.scene.shape.Polygon;
-import javafx.scene.shape.Shape;
-
 import java.util.List;
+
+import javafx.geometry.Dimension2D;
+import javafx.scene.Group;
+import javafx.scene.shape.Shape;
 
 public abstract class Entity {
 
-    private EntityShape body;
-    private double area;
-    private double energy;
+    protected EntityShape body;
+    protected double area;
+    protected double energy;
 
     public abstract void tick(List<Entity> entities);
+
     public abstract void onCollide(Entity entity, Shape intersection, Group group, List<Entity> entities);
 
     public Entity(EntityShape body, double energy) {
@@ -55,5 +54,17 @@ public abstract class Entity {
 
     public double getArea() {
         return area;
+    }
+
+    public void fixPosition(Dimension2D d) {
+        if (body.getCenter().getX() < 0) {
+            body.translate(d.getWidth(), 0);
+        } else if (body.getCenter().getX() > d.getWidth()) {
+            body.translate(-d.getWidth(), 0);
+        } else if (body.getCenter().getY() < 0) {
+            body.translate(0, d.getHeight());
+        } else if (body.getCenter().getY() > d.getHeight()) {
+            body.translate(0, -d.getHeight());
+        }
     }
 }

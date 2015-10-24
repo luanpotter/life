@@ -1,10 +1,6 @@
 package xyz.luan.life.model;
 
-import javafx.collections.ObservableList;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Polygon;
-
-import java.util.Map.Entry;
 
 public class Util {
 

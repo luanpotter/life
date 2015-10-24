@@ -7,7 +7,7 @@ public class Genome {
 
     private Map<Gene, Double> genes;
 
-	public Genome() {
+    public Genome() {
 		genes = new HashMap<>();
 	}
 

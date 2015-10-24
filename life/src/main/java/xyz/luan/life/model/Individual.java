@@ -1,20 +1,18 @@
 package xyz.luan.life.model;
 
-import com.sun.javafx.geom.FlatteningPathIterator;
-import javafx.geometry.Bounds;
-import javafx.geometry.Point2D;
-import javafx.scene.Group;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Polygon;
-import javafx.scene.shape.Shape;
-
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
+import javafx.geometry.Bounds;
+import javafx.geometry.Point2D;
+import javafx.scene.Group;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Shape;
+
 public class Individual extends Entity {
 
-	private Genome genome;
+    private Genome genome;
 
     private static EntityShape generateBody(Point2D position, Genome genome) {
         Color color = null;
@@ -22,7 +20,7 @@ public class Individual extends Entity {
             color = Util.COLORS[(int) genome.get(Gene.COLOR)];
         }
 
-        double a, b, c, d, e ,f ,g, h, i, j, k, l, m, n, o;
+        double a, b, c, d, e, f, g, h, i, j, k, l, m, n, o;
         a = b = c = d = e = f = g = h = i = j = k = l = m = n = o = Util.DEFAULT_INDIVIDUAL_MORFOLOGY;
 
         Map<Gene, Double> genes = genome.getGenes();
@@ -72,8 +70,12 @@ public class Individual extends Entity {
             o = genome.get(Gene.O);
         }
 
-        double[] characteristics = {a, b, c, d, e ,f ,g, h, i, j, k, l, m, n, o};
+        double[] characteristics = { a, b, c, d, e, f, g, h, i, j, k, l, m, n, o };
         return new EntityShape(position, characteristics, color);
+    }
+
+    public static Individual abiogenesis() {
+        return new Individual(new Point2D(100, 100), 100000, new Genome());
     }
 
     private Individual(Point2D position, double energy, Genome genome) {
@@ -106,7 +108,7 @@ public class Individual extends Entity {
         } else {
             cost += this.getArea() * Util.DEFAULT_INDIVIDUAL_CHARITY;
         }
-        if (this.getEnergy() >=  cost) {
+        if (this.getEnergy() >= cost) {
             if (genome.getGenes().containsKey(Gene.LIBIDO)) {
                 if (genome.get(Gene.LIBIDO) <= (this.getEnergy() / cost)) {
                     return true;
@@ -137,8 +139,7 @@ public class Individual extends Entity {
 
             double initialEnergy = this.sharedEnergy() + pair.sharedEnergy();
             Bounds bounds = intersection.getBoundsInParent();
-            Point2D center = new Point2D((bounds.getMaxX() + bounds.getMinX()) / 2,
-                    (bounds.getMaxY() + bounds.getMinY()) / 2);
+            Point2D center = new Point2D((bounds.getMaxX() + bounds.getMinX()) / 2, (bounds.getMaxY() + bounds.getMinY()) / 2);
             Individual child = new Individual(center, initialEnergy, genome);
             return child;
         } else {
@@ -161,7 +162,7 @@ public class Individual extends Entity {
                 group.getChildren().add(child.getBody());
             }
         }
-        if (Util.ACCEPTABLE_AREA_PROPORTION_TO_EAT > this.getArea() / entity.getArea() ) {
+        if (Util.ACCEPTABLE_AREA_PROPORTION_TO_EAT > this.getArea() / entity.getArea()) {
             double cost = Util.BASE_METABOLIZATION_ENERGY_COST * entity.getArea();
             if (this.getTotalEnergy() >= cost) {
                 this.loseEnergy(cost);
@@ -176,5 +177,12 @@ public class Individual extends Entity {
         if (this.getEnergy() < 0) {
             die(entities);
         }
+
+        this.move();
     }
+
+    private void move() {
+        this.body.translate(Math.random() * 4 - 2, Math.random() * 4 - 2);
+    }
+
 }

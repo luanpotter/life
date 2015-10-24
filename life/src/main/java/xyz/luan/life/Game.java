@@ -5,28 +5,27 @@ import java.util.List;
 
 import javafx.geometry.Dimension2D;
 import javafx.scene.Group;
-import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
 import xyz.luan.life.model.Entity;
 import xyz.luan.life.model.Individual;
 
 public class Game {
 
-	private List<Entity> entities;
+    private List<Entity> entities;
     private Dimension2D dimension;
 
-	public Game(Dimension2D dimension) {
-		this.entities = new ArrayList<Entity>();
+    public Game(Dimension2D dimension, Group root) {
+        this.entities = new ArrayList<Entity>();
         this.dimension = dimension;
 
-        //entities.add(new Individual());
-	}
+        entities.add(Individual.abiogenesis());
+        root.getChildren().add(entities.get(0).getBody());
+    }
 
     public void tick(Group group) {
         for (Entity entity : entities) {
             entity.tick(entities);
+            entity.fixPosition(dimension);
             for (Entity otherEntity : entities) {
                 if (entity != otherEntity) {
                     Shape intersection = entity.intersects(otherEntity);
