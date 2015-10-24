@@ -25,7 +25,7 @@ public abstract class Entity {
     }
 
     public Shape intersects(Entity entity) {
-        if (this.body != null && entity != null) {
+        if (entity != null && body.getBoundsInParent().intersects(entity.body.getBoundsInParent())) {
             return Shape.intersect(body, entity.body);
         } else {
             return null;
