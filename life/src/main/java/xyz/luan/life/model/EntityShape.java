@@ -21,6 +21,8 @@ public class EntityShape extends Polygon {
 
         generatePoints();
         this.setFill(color);
+        this.setTranslateX(center.getX());
+        this.setTranslateY(center.getY());
     }
 
     private Point2D getPoint(double t) {
@@ -32,7 +34,7 @@ public class EntityShape extends Polygon {
         double e = characteristics[i++] * Math.sin(characteristics[i++] * t) * Math.cos(characteristics[i++] * t);
         double f = characteristics[i++] * Math.cos(characteristics[i++] * t);
         double radius =  a + b + c + d + e + f;
-        return new Point2D(center.getX() + radius * Math.cos(t), center.getY() + radius * Math.sin(t));
+        return new Point2D(radius * Math.cos(t), radius * Math.sin(t));
     }
 
     private void generatePoints() {
@@ -58,8 +60,10 @@ public class EntityShape extends Polygon {
         return center;
     }
 
-    public void setCenter(Point2D center) {
-        this.center = center;
+    public void translate(double x, double y) {
+        center = new Point2D(center.getX() + x, center.getY() + y);
+        this.setTranslateX(center.getX());
+        this.setTranslateY(center.getY());
     }
 
     public double[] getCharacteristics() {
