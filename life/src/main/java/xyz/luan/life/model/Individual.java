@@ -13,6 +13,7 @@ import javafx.scene.shape.Shape;
 public class Individual extends Entity {
 
     private Genome genome;
+    private Point2D velocity;
 
     private static EntityShape generateBody(Point2D position, Genome genome) {
         Color color = null;
@@ -36,6 +37,7 @@ public class Individual extends Entity {
         super(Individual.generateBody(position, genome), energy);
 
         this.genome = genome;
+        this.velocity = new Point2D(0, 0);
 
         if (genome.getGenes().containsKey(Gene.COLOR)) {
             int color = (int) (genome.get(Gene.COLOR) % Util.COLORS.length);
@@ -136,7 +138,8 @@ public class Individual extends Entity {
     }
 
     private void move() {
-        this.body.translate(Math.random() * 4 - 2, Math.random() * 4 - 2);
+        velocity = velocity.add(Math.random() * .4 - .2, Math.random() * .4 - .2);
+        body.translate(velocity.getX(), velocity.getY());
     }
 
 }
