@@ -111,7 +111,7 @@ public class Individual extends Entity {
 
     @Override
     public void onCollide(Entity entity, Shape intersection, Group group, List<Entity> entities) {
-        if (entity instanceof Individual) {
+        if (this.isAvailableToReproduce() && entity instanceof Individual) {
             if (((Individual) entity).isAvailableToReproduce()) {
                 Individual child = reproduce((Individual) entity, intersection);
                 entities.add(child);
