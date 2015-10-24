@@ -19,7 +19,10 @@ public class Individual extends Entity {
     private static EntityShape generateBody(Point2D position, Genome genome, int precision) {
         Color color = null;
         if (genome.getGenes().containsKey(Gene.COLOR)) {
-            color = Util.COLORS[(int) (genome.get(Gene.COLOR) % Util.COLORS.length)];
+            color = Color.hsb(Math.toDegrees(genome.get(Gene.COLOR)), 1d, 1d);
+                    //Util.COLORS[(int) (genome.get(Gene.COLOR) % Util.COLORS.length)];
+        } else {
+            color = Util.DEFAULT_INDIVIDUAL_COLOR;
         }
 
         List<Gene> morfologicalGenes = Arrays.asList(Gene.A, Gene.B, Gene.C, Gene.D, Gene.E, Gene.F, Gene.G, Gene.H, Gene.I, Gene.J, Gene.K, Gene.L, Gene.M,
@@ -43,8 +46,7 @@ public class Individual extends Entity {
         this.velocity = Util.rotate(this.velocity, Math.random() * 360);
 
         if (genome.getGenes().containsKey(Gene.COLOR)) {
-            int color = (int) (genome.get(Gene.COLOR) % Util.COLORS.length);
-            this.getBody().setFill(Util.COLORS[color]);
+            this.getBody().setFill(Color.hsb(Math.toDegrees(genome.get(Gene.COLOR)), 1d, 1d));
         } else {
             this.getBody().setFill(Util.DEFAULT_INDIVIDUAL_COLOR);
         }

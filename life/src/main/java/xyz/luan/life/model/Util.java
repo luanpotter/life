@@ -8,8 +8,6 @@ public class Util {
 
     public static final double INFINITY = Double.POSITIVE_INFINITY;
 
-    public static final Color[] COLORS = { Color.RED, Color.GREEN, Color.BLUE };
-
     public static final Color DEFAULT_INDIVIDUAL_COLOR = Color.WHITE;
     public static final double DEFAULT_INDIVIDUAL_CHARITY = 0d;
     public static final double DEFAULT_INDIVIDUAL_LIBIDO = 0d;
