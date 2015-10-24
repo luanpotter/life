@@ -1,7 +1,7 @@
 package xyz.luan.life.model;
 
+import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
 import java.util.Random;
 
 import javafx.geometry.Bounds;
@@ -20,57 +20,10 @@ public class Individual extends Entity {
             color = Util.COLORS[(int) genome.get(Gene.COLOR)];
         }
 
-        double a, b, c, d, e, f, g, h, i, j, k, l, m, n, o;
-        a = b = c = d = e = f = g = h = i = j = k = l = m = n = o = Util.DEFAULT_INDIVIDUAL_MORFOLOGY;
-
-        Map<Gene, Double> genes = genome.getGenes();
-        if (genes.containsKey(Gene.A)) {
-            a = genome.get(Gene.A);
-        }
-        if (genes.containsKey(Gene.B)) {
-            b = genome.get(Gene.B);
-        }
-        if (genes.containsKey(Gene.C)) {
-            c = genome.get(Gene.C);
-        }
-        if (genes.containsKey(Gene.D)) {
-            d = genome.get(Gene.D);
-        }
-        if (genes.containsKey(Gene.E)) {
-            e = genome.get(Gene.E);
-        }
-        if (genes.containsKey(Gene.F)) {
-            f = genome.get(Gene.F);
-        }
-        if (genes.containsKey(Gene.G)) {
-            g = genome.get(Gene.G);
-        }
-        if (genes.containsKey(Gene.H)) {
-            h = genome.get(Gene.H);
-        }
-        if (genes.containsKey(Gene.I)) {
-            i = genome.get(Gene.I);
-        }
-        if (genes.containsKey(Gene.J)) {
-            j = genome.get(Gene.J);
-        }
-        if (genes.containsKey(Gene.K)) {
-            k = genome.get(Gene.K);
-        }
-        if (genes.containsKey(Gene.L)) {
-            l = genome.get(Gene.L);
-        }
-        if (genes.containsKey(Gene.M)) {
-            m = genome.get(Gene.M);
-        }
-        if (genes.containsKey(Gene.N)) {
-            n = genome.get(Gene.N);
-        }
-        if (genes.containsKey(Gene.O)) {
-            o = genome.get(Gene.O);
-        }
-
-        double[] characteristics = { a, b, c, d, e, f, g, h, i, j, k, l, m, n, o };
+        List<Gene> morfologicalGenes = Arrays.asList(Gene.A, Gene.B, Gene.C, Gene.D, Gene.E, Gene.F, Gene.G, Gene.H, Gene.I, Gene.J, Gene.K, Gene.L, Gene.M, Gene.N, Gene.O);
+        double[] characteristics = morfologicalGenes.stream().map(g -> {
+            return genome.getGenes().containsKey(g) ? genome.getGenes().get(g) : Util.DEFAULT_INDIVIDUAL_MORFOLOGY;
+        }).mapToDouble(Double::doubleValue).toArray();
         return new EntityShape(position, characteristics, color);
     }
 
