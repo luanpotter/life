@@ -25,7 +25,11 @@ public abstract class Entity {
     }
 
     public Shape intersects(Entity entity) {
-        return Shape.intersect(body, entity.body);
+        if (this.body != null && entity != null) {
+            return Shape.intersect(body, entity.body);
+        } else {
+            return null;
+        }
     }
 
     public double eaten(Group group, List<Entity> entities) {

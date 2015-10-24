@@ -13,9 +13,20 @@ public class Genome {
     }
 
     private void randomGenes() {
-        for (Gene gene : Gene.values()) {
-            genes.put(gene, Math.random() * 10);
-        }
+        genes.put(Gene.TRANSLATION_SPEED, 30d);
+        genes.put(Gene.TRANSLATION_CONSTANCY, 2d);
+        genes.put(Gene.ROTATION_SPEED, 90d);
+        genes.put(Gene.ROTATION_CONSTANCY, 5d);
+        genes.put(Gene.COLOR, 1d);
+        genes.put(Gene.CHARITY, 20d);
+        genes.put(Gene.LIBIDO, 0d);
+
+        genes.put(Gene.A, 10d); genes.put(Gene.B, 1d);
+        genes.put(Gene.C, 0d); genes.put(Gene.D, 0d); genes.put(Gene.E, 0d);
+        genes.put(Gene.F, 10d); genes.put(Gene.G, 1d);
+        genes.put(Gene.H, 2d); genes.put(Gene.I, 10d);
+        genes.put(Gene.J, 0d); genes.put(Gene.K, 0d); genes.put(Gene.L, 0d);
+        genes.put(Gene.M, 2d); genes.put(Gene.N, 10d);
     }
 
     public double get(Gene gene) {
@@ -31,7 +42,8 @@ public class Genome {
     }
 
     public double geneticDistance(Genome genome) {
-        boolean sameGeneTypes = this.getGenes().keySet().equals(genome.getGenes());
+        //boolean sameGeneTypes = this.getGenes().keySet().equals(genome.getGenes());
+        boolean sameGeneTypes = true;
         if (sameGeneTypes) {
             double sum = 0;
             for (Gene gene : this.getGenes().keySet()) {

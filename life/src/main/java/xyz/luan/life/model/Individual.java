@@ -23,7 +23,7 @@ public class Individual extends Entity {
         }
 
         List<Gene> morfologicalGenes = Arrays.asList(Gene.A, Gene.B, Gene.C, Gene.D, Gene.E, Gene.F, Gene.G, Gene.H, Gene.I, Gene.J, Gene.K, Gene.L, Gene.M,
-                Gene.N, Gene.O);
+                Gene.N);
         double[] characteristics = morfologicalGenes.stream().map(g -> {
             return genome.getGenes().containsKey(g) ? genome.getGenes().get(g) : Util.DEFAULT_INDIVIDUAL_MORFOLOGY;
         }).mapToDouble(Double::doubleValue).toArray();
@@ -116,12 +116,13 @@ public class Individual extends Entity {
         if (this.isAvailableToReproduce() && entity instanceof Individual) {
             if (((Individual) entity).isAvailableToReproduce()) {
                 Individual child = reproduce((Individual) entity, intersection);
-                entities.add(child);
-                group.getChildren().add(child.getBody());
+                if (child != null) {
+                    entities.add(child);
+                    group.getChildren().add(child.getBody());
+                }
             }
         }
-        System.out.println("p: " + (entity.getArea() / this.getArea()));
-        if (Util.ACCEPTABLE_AREA_PROPORTION_TO_EAT >  entity.getArea() / this.getArea()) {
+        if (Util.ACCEPTABLE_AREA_PROPORTION_TO_EAT <  this.getArea() / entity.getArea()) {
             double cost = Util.BASE_METABOLIZATION_ENERGY_COST * entity.getArea();
             if (this.getTotalEnergy() >= cost) {
                 this.loseEnergy(cost);

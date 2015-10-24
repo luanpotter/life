@@ -25,7 +25,7 @@ public class Food extends Entity {
 
     public static Food abiogenesis(Dimension2D dimension) {
         Random r = new Random();
-        return new Food(new Point2D(r.nextInt((int) dimension.getWidth()), r.nextInt((int) dimension.getHeight())), 0);
+        return new Food(new Point2D(r.nextInt((int) dimension.getWidth()), r.nextInt((int) dimension.getHeight())), 50000);
     }
 
     private static EntityShape generateBody(Individual individual) {
