@@ -1,19 +1,25 @@
 package xyz.luan.life.model;
 
+import javafx.geometry.Point2D;
 import javafx.scene.Group;
 import javafx.scene.shape.Polygon;
 import javafx.scene.shape.Shape;
-
-import java.awt.geom.Point2D;
 import java.util.List;
 
 
 public class Food extends Entity {
 
-    private static final double SIZE = 2;
+    private static final double SIZE = 2d;
 
     private static EntityShape generateBody(Point2D position) {
-        return null;
+        double[] chars = {
+                SIZE, 1, // a * sin^2(b * t)
+                0, 0, 0, // a * sin^2(b * t) * cos^2(c * t)
+                SIZE, 1, // a * cos^2(b * t)
+                0, 0, // a * sin(b)
+                SIZE / 8d, 2, 2, // a * sin(b) * cos(c)
+                0, 0}; // a * cos(b)
+        return new EntityShape(position, chars, Util.DEFAULT_FOOD_COLOR);
     }
 
     private static EntityShape generateBody(Individual individual) {

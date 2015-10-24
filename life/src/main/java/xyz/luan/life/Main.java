@@ -35,12 +35,12 @@ public class Main extends Application {
         setupStage(stage);
 
         double[] chars = {
-                50, 1, // a * sin^2(b * t)
-                75, 10, 10, // a * sin^2(b * t) * cos^2(c * t)
-                50, 1, // a * cos^2(b * t)
-                15, 5, // a * sin(b)
-                15, 5, 5, // a * sin(b) * cos(c)
-                15, 5}; // a * cos(b)
+                80, 1, // a * sin^2(b * t)
+                0, 10, 10, // a * sin^2(b * t) * cos^2(c * t)
+                80, 1, // a * cos^2(b * t)
+                0, 4, // a * sin(b)
+                10, 2, 2, // a * sin(b) * cos(c)
+                0, 4}; // a * cos(b)
         EntityShape entityShape = new EntityShape(new Point2D(200, 200), chars, Color.RED);
         root.getChildren().add(entityShape);
         for (Point2D p : entityShape.getPoints2D()) {
