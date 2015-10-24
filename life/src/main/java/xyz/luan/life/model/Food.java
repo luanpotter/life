@@ -18,7 +18,7 @@ public class Food extends Entity {
 
     private static EntityShape generateBody(Individual individual) {
         EntityShape body = individual.getBody();
-        body.setFill(Util.DEFAULT_FOOD_COLOR);
+        body.setColor(Util.DEFAULT_FOOD_COLOR);
         return body;
     }
 

@@ -16,21 +16,15 @@ public class Individual extends Entity {
 	private Genome genome;
 
     private static EntityShape generateBody(Point2D position, Genome genome) {
-        double size = 0;
-        if (genome.getGenes().containsKey(Gene.SIZE)) {
-            size = genome.get(Gene.SIZE);
-        } else {
-            size = Util.DEFAULT_INDIVIDUAL_SIZE;
+        Color color = null;
+        if (genome.getGenes().containsKey(Gene.COLOR)) {
+            color = Util.COLORS[(int) genome.get(Gene.COLOR)];
         }
-        Polygon body = new Polygon(position.getX() - size,
-                position.getY() - size,
-                position.getX() + size,
-                position.getY() - size,
-                position.getX() + size,
-                position.getY() + size,
-                position.getX() - size,
-                position.getY() + size);
-        return null;
+        double[] characteristics = {genome.get(Gene.A), genome.get(Gene.B), genome.get(Gene.C), genome.get(Gene.D),
+                genome.get(Gene.E), genome.get(Gene.F), genome.get(Gene.G), genome.get(Gene.H), genome.get(Gene.I),
+                genome.get(Gene.J), genome.get(Gene.K), genome.get(Gene.L), genome.get(Gene.M), genome.get(Gene.N),
+                genome.get(Gene.O)};
+        return new EntityShape(position, characteristics, color);
     }
 
     private Individual(Point2D position, double energy, Genome genome) {

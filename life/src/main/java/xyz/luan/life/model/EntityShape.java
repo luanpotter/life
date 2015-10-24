@@ -72,6 +72,7 @@ public class EntityShape extends Polygon {
 
     public void setColor(Color color) {
         this.color = color;
+        this.setFill(color);
     }
 
     public Point2D[] getPoints2D() {
