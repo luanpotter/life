@@ -32,7 +32,7 @@ public class Individual extends Entity {
 
     public static Individual abiogenesis(Dimension2D dimension) {
         Random r = new Random();
-        return new Individual(new Point2D(r.nextInt((int) dimension.getWidth()), r.nextInt((int) dimension.getHeight())), 100000, new Genome());
+        return new Individual(new Point2D(r.nextInt((int) dimension.getWidth()), r.nextInt((int) dimension.getHeight())), 50000, new Genome());
     }
 
     private Individual(Point2D position, double energy, Genome genome) {

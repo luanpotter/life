@@ -41,7 +41,7 @@ public class Game {
     }
 
     public void tick(Group group) {
-        if (rand.nextInt(100) == 0) {
+        if (rand.nextInt(10) == 0) {
             Food f = Food.abiogenesis(dimension);
             entities.add(f);
             group.getChildren().add(f.getBody());

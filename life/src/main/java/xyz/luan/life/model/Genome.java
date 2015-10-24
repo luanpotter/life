@@ -19,14 +19,14 @@ public class Genome {
         genes.put(Gene.ROTATION_CONSTANCY, 5d);
         genes.put(Gene.COLOR, 1d);
         genes.put(Gene.CHARITY, 20d);
-        genes.put(Gene.LIBIDO, 0d);
+        genes.put(Gene.LIBIDO, 1d);
 
         genes.put(Gene.A, 10d); genes.put(Gene.B, 1d);
         genes.put(Gene.C, 0d); genes.put(Gene.D, 0d); genes.put(Gene.E, 0d);
         genes.put(Gene.F, 10d); genes.put(Gene.G, 1d);
-        genes.put(Gene.H, 2d); genes.put(Gene.I, 10d);
+        genes.put(Gene.H, 2d); genes.put(Gene.I, 1d);
         genes.put(Gene.J, 0d); genes.put(Gene.K, 0d); genes.put(Gene.L, 0d);
-        genes.put(Gene.M, 2d); genes.put(Gene.N, 10d);
+        genes.put(Gene.M, 2d); genes.put(Gene.N, 1d);
     }
 
     public double get(Gene gene) {
