@@ -36,12 +36,17 @@ public class Food extends Entity {
     }
 
     @Override
-    public void tick(List<Entity> entities) {
-
+    public boolean tick() {
+        return true;
     }
 
     @Override
     public void onCollide(Entity entity, Shape intersection, Group group, List<Entity> entities) {
 
+    }
+
+    @Override
+    public Entity onDeath() {
+        return null;
     }
 }

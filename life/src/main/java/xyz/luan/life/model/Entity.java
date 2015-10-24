@@ -12,9 +12,11 @@ public abstract class Entity {
     protected double area;
     protected double energy;
 
-    public abstract void tick(List<Entity> entities);
+    public abstract boolean tick();
 
     public abstract void onCollide(Entity entity, Shape intersection, Group group, List<Entity> entities);
+
+    public abstract Entity onDeath();
 
     public Entity(EntityShape body, double energy) {
         this.body = body;

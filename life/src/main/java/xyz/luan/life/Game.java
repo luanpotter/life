@@ -1,6 +1,7 @@
 package xyz.luan.life;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import javafx.geometry.Dimension2D;
@@ -28,8 +29,15 @@ public class Game {
     }
 
     public void tick(Group group) {
-        for (Entity entity : entities) {
-            entity.tick(entities);
+        Iterator<Entity> it = entities.iterator();
+        List<Entity> newEntites = new ArrayList<>();
+        while (it.hasNext()) {
+            Entity entity = it.next();
+            boolean alive = entity.tick();
+            if (!alive) {
+                it.remove();
+                newEntites.add(entity.onDeath());
+            }
             entity.fixPosition(dimension);
             for (Entity otherEntity : entities) {
                 if (entity != otherEntity) {
@@ -40,6 +48,7 @@ public class Game {
                 }
             }
         }
+        newEntites.stream().filter(e -> e != null).forEach(e -> entities.add(e));
     }
 
     public List<Entity> getEntities() {

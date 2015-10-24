@@ -104,10 +104,9 @@ public class Individual extends Entity {
         }
     }
 
-    private void die(List<Entity> entities) {
-        Food food = new Food(this);
-        entities.remove(this);
-        entities.add(food);
+    @Override
+    public Food onDeath() {
+        return new Food(this);
     }
 
     @Override
@@ -129,13 +128,14 @@ public class Individual extends Entity {
     }
 
     @Override
-    public void tick(List<Entity> entities) {
+    public boolean tick() {
         this.loseEnergy(Util.BASE_LIFE_ENERGY_COST * this.getArea());
         if (this.getEnergy() < 0) {
-            die(entities);
+            return false;
         }
 
         this.move();
+        return true;
     }
 
     private void move() {
