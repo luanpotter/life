@@ -4,9 +4,6 @@ import javafx.geometry.Point2D;
 import javafx.scene.paint.*;
 import javafx.scene.shape.Polygon;
 
-/**
- * Created by lucas-cleto on 10/23/15.
- */
 public class EntityShape extends Polygon {
 
     public static final int PRECISION = 100;
@@ -34,7 +31,7 @@ public class EntityShape extends Polygon {
         double d = characteristics[i++] * Math.sin(characteristics[i++] * t);
         double e = characteristics[i++] * Math.sin(characteristics[i++] * t) * Math.cos(characteristics[i++] * t);
         double f = characteristics[i++] * Math.cos(characteristics[i++] * t);
-        double radius =  4 * (a + b + c + d + e + f);
+        double radius =  a + b + c + d + e + f;
         return new Point2D(center.getX() + radius * Math.cos(t), center.getY() + radius * Math.sin(t));
     }
 
@@ -50,9 +47,9 @@ public class EntityShape extends Polygon {
     public double estimateArea() {
         double sum = 0;
         for (int i = 0; i < (PRECISION - 1); i++) {
-            sum += points[i].getX() * points[i + 1].getY() + points[i].getY() * points[i + 1].getX();
+            sum += points[i].getX() * points[i + 1].getY() - points[i].getY() * points[i + 1].getX();
         }
-        sum += points[PRECISION - 1].getX() * points[0].getY() + points[PRECISION - 1].getY() * points[0].getX();
+        sum += points[PRECISION - 1].getX() * points[0].getY() - points[PRECISION - 1].getY() * points[0].getX();
 
         return (double) Math.abs(sum) / 2d;
     }
