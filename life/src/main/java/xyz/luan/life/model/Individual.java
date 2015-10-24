@@ -163,7 +163,7 @@ public class Individual extends Entity {
         }
         if (Util.ACCEPTABLE_AREA_PROPORTION_TO_EAT > this.getArea() / entity.getArea() ) {
             double cost = Util.BASE_METABOLIZATION_ENERGY_COST * entity.getArea();
-            if (this.getEnergy() >= cost) {
+            if (this.getTotalEnergy() >= cost) {
                 this.loseEnergy(cost);
                 this.gainEnergy(entity.eaten(group, entities));
             }

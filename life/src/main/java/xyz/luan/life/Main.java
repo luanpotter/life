@@ -2,6 +2,7 @@ package xyz.luan.life;
 
 import javafx.application.Application;
 import javafx.application.Platform;
+import javafx.geometry.Bounds;
 import javafx.geometry.Dimension2D;
 import javafx.geometry.Point2D;
 import javafx.scene.Group;
@@ -35,17 +36,35 @@ public class Main extends Application {
         setupStage(stage);
 
         double[] chars = {
-                2, 1, // a * sin^2(b * t)
-                0, 1, 1, // a * sin^2(b * t) * cos^2(c * t)
-                2, 1, // a * cos^2(b * t)
-                0, 4, // a * sin(b)
-                2/8, 2, 2, // a * sin(b) * cos(c)
-                0, 4}; // a * cos(b)
+                100, 1, // a * sin^2(b * t)
+                80, 10, 10, // a * sin^2(b * t) * cos^2(c * t)
+                100, 10, // a * cos^2(b * t)
+                0, 10, // a * sin(b)
+                20, 10, 10, // a * sin(b) * cos(c)
+                0, 10}; // a * cos(b)
         EntityShape entityShape = new EntityShape(new Point2D(200, 200), chars, Color.RED);
-        root.getChildren().add(entityShape);
         for (Point2D p : entityShape.getPoints2D()) {
             System.out.print("<" + p.getX() + "," + p.getY() + ">");
         }
+
+        double[] chars2 = {
+                0, 1, // a * sin^2(b * t)
+                0, 10, 10, // a * sin^2(b * t) * cos^2(c * t)
+                100, 1, // a * cos^2(b * t)
+                0, 10, // a * sin(b)
+                30, 10, 10, // a * sin(b) * cos(c)
+                0, 10}; // a * cos(b)
+        EntityShape entityShape2 = new EntityShape(new Point2D(200, 200), chars2, Color.BLUE);
+
+        Shape inter = Shape.intersect(entityShape, entityShape2);
+        inter.setFill(Color.GREEN);
+        Bounds b = inter.getBoundsInParent();
+        Rectangle rec = new Rectangle(b.getMinX(), b.getMinY(), b.getMaxX() - b.getMinX(), b.getMaxY() - b.getMinY());
+        rec.setFill(Color.TRANSPARENT);
+        rec.setStroke(Color.WHITE);
+        rec.setStrokeWidth(5);
+        root.getChildren().addAll(entityShape, entityShape2, inter, rec);
+
         System.out.println();
         System.out.println("Area: " + entityShape.estimateArea());
         System.out.println("Arc: " + entityShape.ARC);
