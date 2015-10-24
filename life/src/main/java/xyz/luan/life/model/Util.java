@@ -15,6 +15,7 @@ public class Util {
     public static final Color DEFAULT_INDIVIDUAL_COLOR = Color.WHITE;
     public static final double DEFAULT_INDIVIDUAL_CHARITY = 0d;
     public static final double DEFAULT_INDIVIDUAL_LIBIDO = 0d;
+    public static final double DEFAULT_INDIVIDUAL_MORFOLOGY = 1d;
 
     public static final Color DEFAULT_FOOD_COLOR = Color.GRAY;
 

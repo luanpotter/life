@@ -9,6 +9,7 @@ import javafx.scene.shape.Polygon;
 import javafx.scene.shape.Shape;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
 public class Individual extends Entity {
@@ -20,10 +21,58 @@ public class Individual extends Entity {
         if (genome.getGenes().containsKey(Gene.COLOR)) {
             color = Util.COLORS[(int) genome.get(Gene.COLOR)];
         }
-        double[] characteristics = {genome.get(Gene.A), genome.get(Gene.B), genome.get(Gene.C), genome.get(Gene.D),
-                genome.get(Gene.E), genome.get(Gene.F), genome.get(Gene.G), genome.get(Gene.H), genome.get(Gene.I),
-                genome.get(Gene.J), genome.get(Gene.K), genome.get(Gene.L), genome.get(Gene.M), genome.get(Gene.N),
-                genome.get(Gene.O)};
+
+        double a, b, c, d, e ,f ,g, h, i, j, k, l, m, n, o;
+        a = b = c = d = e = f = g = h = i = j = k = l = m = n = o = Util.DEFAULT_INDIVIDUAL_MORFOLOGY;
+
+        Map<Gene, Double> genes = genome.getGenes();
+        if (genes.containsKey(Gene.A)) {
+            a = genome.get(Gene.A);
+        }
+        if (genes.containsKey(Gene.B)) {
+            b = genome.get(Gene.B);
+        }
+        if (genes.containsKey(Gene.C)) {
+            c = genome.get(Gene.C);
+        }
+        if (genes.containsKey(Gene.D)) {
+            d = genome.get(Gene.D);
+        }
+        if (genes.containsKey(Gene.E)) {
+            e = genome.get(Gene.E);
+        }
+        if (genes.containsKey(Gene.F)) {
+            f = genome.get(Gene.F);
+        }
+        if (genes.containsKey(Gene.G)) {
+            g = genome.get(Gene.G);
+        }
+        if (genes.containsKey(Gene.H)) {
+            h = genome.get(Gene.H);
+        }
+        if (genes.containsKey(Gene.I)) {
+            i = genome.get(Gene.I);
+        }
+        if (genes.containsKey(Gene.J)) {
+            j = genome.get(Gene.J);
+        }
+        if (genes.containsKey(Gene.K)) {
+            k = genome.get(Gene.K);
+        }
+        if (genes.containsKey(Gene.L)) {
+            l = genome.get(Gene.L);
+        }
+        if (genes.containsKey(Gene.M)) {
+            m = genome.get(Gene.M);
+        }
+        if (genes.containsKey(Gene.N)) {
+            n = genome.get(Gene.N);
+        }
+        if (genes.containsKey(Gene.O)) {
+            o = genome.get(Gene.O);
+        }
+
+        double[] characteristics = {a, b, c, d, e ,f ,g, h, i, j, k, l, m, n, o};
         return new EntityShape(position, characteristics, color);
     }
 
