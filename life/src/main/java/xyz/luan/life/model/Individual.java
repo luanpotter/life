@@ -59,7 +59,7 @@ public class Individual extends Entity {
         super(Individual.generateBody(position, genome, 100), energy);
 
         this.genome = genome;
-        this.velocity = new Point2D(Math.sqrt(2) * genome.get(Gene.TRANSLATION_SPEED) / 75, Math.sqrt(2) * genome.get(Gene.TRANSLATION_SPEED) / 75);
+        this.velocity = new Point2D(Math.sqrt(2) * genome.get(Gene.TRANSLATION_SPEED), Math.sqrt(2) * genome.get(Gene.TRANSLATION_SPEED));
         this.velocity = Util.rotate(this.velocity, Math.random() * 360);
     }
 
@@ -176,7 +176,7 @@ public class Individual extends Entity {
 
     private void move() {
         int sign = Math.random() > 0.5 ? 1 : -1;
-        velocity = Util.rotate(this.velocity, sign * Math.random() * 180 / genome.get(Gene.TRANSLATION_CONSTANCY) / 50);
+        velocity = Util.rotate(this.velocity, sign * Math.random() * 180 / genome.get(Gene.TRANSLATION_CONSTANCY));
         body.translate(velocity.getX(), velocity.getY());
     }
 

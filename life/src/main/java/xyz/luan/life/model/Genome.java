@@ -13,10 +13,10 @@ public class Genome {
     }
 
     private void randomGenes() {
-        genes.put(Gene.TRANSLATION_SPEED, 30d);
-        genes.put(Gene.TRANSLATION_CONSTANCY, 2d);
-        genes.put(Gene.ROTATION_SPEED, 90d);
-        genes.put(Gene.ROTATION_CONSTANCY, 5d);
+        genes.put(Gene.TRANSLATION_SPEED, 0.5);
+        genes.put(Gene.TRANSLATION_CONSTANCY, 0.5);
+        genes.put(Gene.ROTATION_SPEED, 0.5);
+        genes.put(Gene.ROTATION_CONSTANCY, 0.5);
         genes.put(Gene.COLOR, 3 * Math.PI / 2);
         genes.put(Gene.CHARITY, 20d);
         genes.put(Gene.LIBIDO, 1d);
@@ -30,7 +30,7 @@ public class Genome {
     }
 
     public double get(Gene gene) {
-        return genes.get(gene);
+        return gene.getCoefficient() * genes.get(gene);
     }
 
     public int numberOfGenes() {
