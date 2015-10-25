@@ -103,7 +103,7 @@ public class Individual extends Entity {
             double diff = Math.abs(a - b);
             double mix = Math.min(a, b) + diff * random.nextDouble();
             if (random.nextInt(Util.RARITY_OF_IMMUTABILITY) == 0) {
-                mix = mix + random.nextDouble() * Math.pow(-1, random.nextInt(1));
+                mix = mix + 2 * random.nextDouble() * Math.pow(-1, random.nextInt(1));
             }
             genome.getGenes().put(gene, Math.abs(mix));
         }

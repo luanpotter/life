@@ -26,9 +26,9 @@ public class Genome {
         genes.put(Gene.A, 10d); genes.put(Gene.B, 1d);
         genes.put(Gene.C, 0d); genes.put(Gene.D, 0d); genes.put(Gene.E, 0d);
         genes.put(Gene.F, 10d); genes.put(Gene.G, 1d);
-        genes.put(Gene.H, 1d); genes.put(Gene.I, 10d);
+        genes.put(Gene.H, 3d); genes.put(Gene.I, 10d);
         genes.put(Gene.J, 0d); genes.put(Gene.K, 0d); genes.put(Gene.L, 0d);
-        genes.put(Gene.M, 1d); genes.put(Gene.N, 10d);
+        genes.put(Gene.M, 1d); genes.put(Gene.N, 40d);
     }
 
     public double get(Gene gene) {
@@ -49,7 +49,7 @@ public class Genome {
         if (sameGeneTypes) {
             double sum = 0;
             for (Gene gene : this.getGenes().keySet()) {
-                sum += Math.abs(Math.pow(this.get(gene) - genome.get(gene), 4));
+                sum += Math.abs(Math.pow(this.get(gene) - genome.get(gene), 2));
             }
             return sum;
         } else {

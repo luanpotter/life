@@ -57,14 +57,16 @@ public class Game {
             }
             entity.fixPosition(dimension);
 
-            for (Entity otherEntity : entities) {
-                if (entity != otherEntity) {
-                    try {
-                        if (entity.estimatedIntersects(otherEntity)) {
-                            entity.onCollide(otherEntity, group, entities);
+            if (!(entity instanceof Food)) {
+                for (Entity otherEntity : entities) {
+                    if (entity != otherEntity) {
+                        try {
+                            if (entity.estimatedIntersects(otherEntity)) {
+                                entity.onCollide(otherEntity, group, entities);
+                            }
+                        } catch (Exception e) {
+                            e.printStackTrace();
                         }
-                    } catch (Exception e) {
-                        e.printStackTrace();
                     }
                 }
             }

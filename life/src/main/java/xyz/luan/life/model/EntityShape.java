@@ -43,9 +43,9 @@ public class EntityShape extends Polygon {
 
     private Point2D getPoint(double t) {
         int i = 0;
-        double a = characteristics[i++] * Math.pow(Math.sin(characteristics[i++] * t), 2);
+        double a = characteristics[i++] * Math.pow(Math.sin(characteristics[i++]*0 + t), 2);
         double b = characteristics[i++] * Math.pow(Math.sin(characteristics[i++] * t), 2) * Math.pow(Math.cos(characteristics[i++] * t), 2);
-        double c = characteristics[i++] * Math.pow(Math.cos(characteristics[i++] * t), 2);
+        double c = characteristics[i++] * Math.pow(Math.cos(characteristics[i++]*0 + t), 2);
         double d = characteristics[i++] * Math.sin(characteristics[i++] * t);
         double e = characteristics[i++] * Math.sin(characteristics[i++] * t) * Math.cos(characteristics[i++] * t);
         double f = characteristics[i++] * Math.cos(characteristics[i++] * t);
