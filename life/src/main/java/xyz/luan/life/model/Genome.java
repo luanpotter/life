@@ -1,7 +1,5 @@
 package xyz.luan.life.model;
 
-import javafx.scene.paint.Color;
-
 import java.util.HashMap;
 import java.util.Map;
 

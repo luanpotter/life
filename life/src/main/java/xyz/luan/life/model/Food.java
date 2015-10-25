@@ -6,7 +6,6 @@ import java.util.Random;
 import javafx.geometry.Dimension2D;
 import javafx.geometry.Point2D;
 import javafx.scene.Group;
-import javafx.scene.shape.Shape;
 
 public class Food extends Entity {
 

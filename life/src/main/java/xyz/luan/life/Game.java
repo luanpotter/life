@@ -7,7 +7,6 @@ import java.util.Random;
 
 import javafx.geometry.Dimension2D;
 import javafx.scene.Group;
-import javafx.scene.shape.Shape;
 import xyz.luan.life.model.Entity;
 import xyz.luan.life.model.Food;
 import xyz.luan.life.model.Individual;
@@ -31,7 +30,7 @@ public class Game {
         entities.add(Individual.abiogenesis(dimension));
         entities.add(Individual.abiogenesis(dimension));
 
-        for (int i = 0; i < 10; i ++) {
+        for (int i = 0; i < 10; i++) {
             entities.add(Food.abiogenesis(dimension));
         }
 
