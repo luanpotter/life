@@ -12,7 +12,7 @@ public class Util {
     public static final double DEFAULT_INDIVIDUAL_CHARITY = 0d;
     public static final double DEFAULT_INDIVIDUAL_LIBIDO = 0d;
     public static final double DEFAULT_INDIVIDUAL_MORFOLOGY = 1d;
-    public static final double DEFAULT_INDIVIDUAL_COLOR_SATURATION = 0.5;
+    public static final double DEFAULT_INDIVIDUAL_COLOR_SATURATION = 1;
     public static final double DEFAULT_INDIVIDUAL_COLOR_VALUE = 1;
 
     public static final Color DEFAULT_FOOD_COLOR = Color.GRAY;

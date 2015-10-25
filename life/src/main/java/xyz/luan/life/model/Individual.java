@@ -46,6 +46,7 @@ public class Individual extends Entity {
         double[] characteristics = morfologicalGenes.stream().map(g -> {
             return genome.getGenes().containsKey(g) ? genome.getGenes().get(g) : Util.DEFAULT_INDIVIDUAL_MORFOLOGY;
         }).mapToDouble(Double::doubleValue).toArray();
+
         return new EntityShape(position, characteristics, color, precision);
     }
 

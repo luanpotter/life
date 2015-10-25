@@ -1,6 +1,8 @@
 package xyz.luan.life.model;
 
+import javafx.event.EventHandler;
 import javafx.geometry.Point2D;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.*;
 import javafx.scene.shape.Polygon;
 
@@ -27,6 +29,16 @@ public class EntityShape extends Polygon {
         this.setTranslateX(center.getX());
         this.setTranslateY(center.getY());
         this.setRotate(angle);
+
+        this.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent t) {
+                for (double d : characteristics) {
+                    System.out.printf("%06.3f ", d);
+                }
+                System.out.println();
+            }
+        });
     }
 
     private Point2D getPoint(double t) {

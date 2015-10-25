@@ -40,7 +40,7 @@ public class Game {
         }
     }
 
-    public void tick(Group group) {
+    public void tick(Group group) throws Exception {
         if (rand.nextInt(10) == 0) {
             Food f = Food.abiogenesis(dimension);
             entities.add(f);
@@ -56,6 +56,7 @@ public class Game {
                 newEntites.add(entity.onDeath());
             }
             entity.fixPosition(dimension);
+
             for (Entity otherEntity : entities) {
                 if (entity != otherEntity) {
                     try {

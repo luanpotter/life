@@ -31,7 +31,11 @@ public class Main extends Application {
 
             @Override
             public void handle(long now) {
-                game.tick(root);
+                try {
+                    game.tick(root);
+                } catch (Exception e) {
+
+                }
             }
 
         }.start();
