@@ -14,7 +14,7 @@ public abstract class Entity {
 
     public abstract boolean tick();
 
-    public abstract void onCollide(Entity entity, Shape intersection, Group group, List<Entity> entities);
+    public abstract void onCollide(Entity entity, Group group, List<Entity> entities);
 
     public abstract Entity onDeath();
 
@@ -24,8 +24,12 @@ public abstract class Entity {
         this.area = body.estimateArea();
     }
 
+    public boolean estimatedIntersects(Entity entity) {
+        return body.getBoundsInParent().intersects(entity.body.getBoundsInParent());
+    }
+
     public Shape intersects(Entity entity) {
-        if (entity != null && body.getBoundsInParent().intersects(entity.body.getBoundsInParent())) {
+        if (entity != null) {
             return Shape.intersect(body, entity.body);
         } else {
             return null;
@@ -33,8 +37,8 @@ public abstract class Entity {
     }
 
     public double eaten(Group group, List<Entity> entities) {
-        group.getChildren().remove(body);
         entities.remove(this);
+        group.getChildren().remove(body);
         return energy * Util.BASE_ENERGY_RELEASED + area * Util.BASE_STRUCTURE_ENERGY;
     }
 

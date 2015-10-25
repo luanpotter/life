@@ -59,9 +59,8 @@ public class Game {
             for (Entity otherEntity : entities) {
                 if (entity != otherEntity) {
                     try {
-                        Shape intersection = entity.intersects(otherEntity);
-                        if (intersection != null && intersection.getLayoutBounds().getHeight() > 0 && intersection.getLayoutBounds().getWidth() > 0) {
-                            entity.onCollide(otherEntity, intersection, group, entities);
+                        if (entity.estimatedIntersects(otherEntity)) {
+                            entity.onCollide(otherEntity, group, entities);
                         }
                     } catch (Exception e) {
                         e.printStackTrace();

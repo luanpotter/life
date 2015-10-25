@@ -16,6 +16,23 @@ public class Individual extends Entity {
     private Genome genome;
     private Point2D velocity;
 
+    private static class SendShape {
+
+        private Shape shape;
+
+        public Shape getShape() {
+            return shape;
+        }
+
+        public void setShape(Shape shape) {
+            this.shape = shape;
+        }
+
+        public SendShape(Shape shape) {
+            this.shape = shape;
+        }
+    }
+
     private static EntityShape generateBody(Point2D position, Genome genome, int precision) {
         Color color = null;
         if (genome.getGenes().containsKey(Gene.COLOR)) {
@@ -77,28 +94,59 @@ public class Individual extends Entity {
     }
 
     private Individual reproduce(Individual pair, Shape intersection) {
-        if (genome.geneticDistance(pair.genome) < Util.ACCEPTABLE_GENETIC_DISTANCE_TO_REPRODUCE) {
-            Random random = new Random();
-            Genome genome = new Genome();
-            for (Gene gene : this.getGenome().getGenes().keySet()) {
-                double a = this.getGenome().get(gene);
-                double b = pair.getGenome().get(gene);
-                double diff = Math.abs(a - b);
-                double mix = Math.min(a, b) + diff * random.nextDouble();
-                if (random.nextInt(Util.RARITY_OF_IMMUTABILITY) == 0) {
-                    mix = mix + random.nextDouble() * Math.pow(-1, random.nextInt(1));
-                }
-                genome.getGenes().put(gene, Math.abs(mix));
+        Random random = new Random();
+        Genome genome = new Genome();
+        for (Gene gene : this.getGenome().getGenes().keySet()) {
+            double a = this.getGenome().get(gene);
+            double b = pair.getGenome().get(gene);
+            double diff = Math.abs(a - b);
+            double mix = Math.min(a, b) + diff * random.nextDouble();
+            if (random.nextInt(Util.RARITY_OF_IMMUTABILITY) == 0) {
+                mix = mix + random.nextDouble() * Math.pow(-1, random.nextInt(1));
             }
-
-            double initialEnergy = this.sharedEnergy() + pair.sharedEnergy();
-            Bounds bounds = intersection.getBoundsInParent();
-            Point2D center = new Point2D((bounds.getMaxX() + bounds.getMinX()) / 2, (bounds.getMaxY() + bounds.getMinY()) / 2);
-            Individual child = new Individual(center, initialEnergy, genome);
-            return child;
-        } else {
-            return null;
+            genome.getGenes().put(gene, Math.abs(mix));
         }
+
+        double initialEnergy = this.sharedEnergy() + pair.sharedEnergy();
+        Bounds bounds = intersection.getBoundsInParent();
+        Point2D center = new Point2D((bounds.getMaxX() + bounds.getMinX()) / 2, (bounds.getMaxY() + bounds.getMinY()) / 2);
+        Individual child = new Individual(center, initialEnergy, genome);
+        return child;
+    }
+
+    public boolean tryToReproduce(Entity entity, Group group, List<Entity> entities, SendShape intersection) {
+        if (this.isAvailableToReproduce() && entity instanceof Individual) {
+            if (((Individual) entity).isAvailableToReproduce()
+                    && genome.geneticDistance(((Individual) entity).genome) < Util.ACCEPTABLE_GENETIC_DISTANCE_TO_REPRODUCE) {
+                if (intersection.getShape() == null) {
+                    intersection.setShape(this.intersects(entity));
+                }
+                if (intersection.getShape() != null && intersection.getShape().getLayoutBounds().getHeight() > 0 && intersection.getShape().getLayoutBounds().getWidth() > 0) {
+                    Individual child = reproduce((Individual) entity, intersection.getShape());
+                    entities.add(child);
+                    group.getChildren().add(child.getBody());
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    public boolean tryToEat(Entity entity, Group group, List<Entity> entities, SendShape intersection) {
+        if (Util.ACCEPTABLE_AREA_PROPORTION_TO_EAT <  this.getArea() / entity.getArea()) {
+            double cost = Util.BASE_METABOLIZATION_ENERGY_COST * entity.getArea();
+            if (this.getTotalEnergy() >= cost) {
+                if (intersection.getShape() == null) {
+                    intersection.setShape(this.intersects(entity));
+                }
+                if (intersection.getShape() != null && intersection.getShape().getLayoutBounds().getHeight() > 0 && intersection.getShape().getLayoutBounds().getWidth() > 0) {
+                    this.loseEnergy(cost);
+                    this.gainEnergy(entity.eaten(group, entities));
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     @Override
@@ -107,22 +155,10 @@ public class Individual extends Entity {
     }
 
     @Override
-    public void onCollide(Entity entity, Shape intersection, Group group, List<Entity> entities) {
-        if (this.isAvailableToReproduce() && entity instanceof Individual) {
-            if (((Individual) entity).isAvailableToReproduce()) {
-                Individual child = reproduce((Individual) entity, intersection);
-                if (child != null) {
-                    entities.add(child);
-                    group.getChildren().add(child.getBody());
-                }
-            }
-        }
-        if (Util.ACCEPTABLE_AREA_PROPORTION_TO_EAT <  this.getArea() / entity.getArea()) {
-            double cost = Util.BASE_METABOLIZATION_ENERGY_COST * entity.getArea();
-            if (this.getTotalEnergy() >= cost) {
-                this.loseEnergy(cost);
-                this.gainEnergy(entity.eaten(group, entities));
-            }
+    public void onCollide(Entity entity, Group group, List<Entity> entities) {
+        SendShape intersection = new SendShape(null);
+        if (!tryToReproduce(entity, group, entities, intersection)) {
+            tryToEat(entity, group, entities, intersection);
         }
     }
 

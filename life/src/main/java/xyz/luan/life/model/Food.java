@@ -50,7 +50,7 @@ public class Food extends Entity {
     }
 
     @Override
-    public void onCollide(Entity entity, Shape intersection, Group group, List<Entity> entities) {
+    public void onCollide(Entity entity, Group group, List<Entity> entities) {
 
     }
 
