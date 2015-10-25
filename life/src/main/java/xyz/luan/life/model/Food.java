@@ -36,10 +36,12 @@ public class Food extends Entity {
 
     public Food(Point2D position, double energy) {
         super(Food.generateBody(position), energy);
+        this.body.toBack();
     }
 
     public Food(Individual individual) {
         super(Food.generateBody(individual), 0);
+        this.body.toBack();
     }
 
     @Override

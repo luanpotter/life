@@ -24,11 +24,11 @@ public class Genome {
         genes.put(Gene.LIBIDO, 1d);
 
         genes.put(Gene.A, 10d); genes.put(Gene.B, 1d);
-        genes.put(Gene.C, 0d); genes.put(Gene.D, 0d); genes.put(Gene.E, 0d);
+        genes.put(Gene.C, 100d); genes.put(Gene.D, 10d); genes.put(Gene.E, 10d);
         genes.put(Gene.F, 10d); genes.put(Gene.G, 1d);
-        genes.put(Gene.H, 2d); genes.put(Gene.I, 1d);
-        genes.put(Gene.J, 0d); genes.put(Gene.K, 0d); genes.put(Gene.L, 0d);
-        genes.put(Gene.M, 2d); genes.put(Gene.N, 1d);
+        genes.put(Gene.H, 1d); genes.put(Gene.I, 10d);
+        genes.put(Gene.J, 0d); genes.put(Gene.K, 5d); genes.put(Gene.L, 5d);
+        genes.put(Gene.M, 1d); genes.put(Gene.N, 10d);
     }
 
     public double get(Gene gene) {
