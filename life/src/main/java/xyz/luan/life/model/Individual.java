@@ -111,6 +111,10 @@ public class Individual extends Entity {
             genome.getGenes().put(gene, Math.abs(mix));
         }
 
+        double cost = this.getArea() * Util.BASE_REPRODUCTION_ENERGY_COST;
+        this.loseEnergy(cost);
+        pair.loseEnergy(cost);
+
         double initialEnergy = this.sharedEnergy() + pair.sharedEnergy();
         Bounds bounds = intersection.getBoundsInParent();
         Point2D center = new Point2D((bounds.getMaxX() + bounds.getMinX()) / 2, (bounds.getMaxY() + bounds.getMinY()) / 2);
