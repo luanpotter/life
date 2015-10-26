@@ -18,7 +18,7 @@ public class Genome {
         genes.put(Gene.ROTATION_SPEED, 0.5);
         genes.put(Gene.ROTATION_CONSTANCY, 0.5);
         genes.put(Gene.COLOR, 3 * Math.PI / 2);
-        genes.put(Gene.CHARITY, 20d);
+        genes.put(Gene.CHARITY, 200d);
         genes.put(Gene.LIBIDO, 1d);
 
         genes.put(Gene.A, 10d); genes.put(Gene.B, 1d);
