@@ -15,8 +15,8 @@ public class Individual extends Entity {
 
     private Genome genome;
     private Point2D velocity;
-    private double tickAge = 0;
-    private double timeAge = System.currentTimeMillis();
+    private int tickAge = 0;
+    private long timeAge = System.currentTimeMillis();
     private int generation = 0;
 
     private static class SendShape {
