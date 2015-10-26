@@ -15,6 +15,9 @@ public class Individual extends Entity {
 
     private Genome genome;
     private Point2D velocity;
+    private double tickAge = 0;
+    private double timeAge = System.currentTimeMillis();
+    private int generation = 0;
 
     private static class SendShape {
 
@@ -103,7 +106,7 @@ public class Individual extends Entity {
             double diff = Math.abs(a - b);
             double mix = Math.min(a, b) + diff * random.nextDouble();
             if (random.nextInt(Util.RARITY_OF_IMMUTABILITY) == 0) {
-                mix = mix + 2 * random.nextDouble() * Math.pow(-1, random.nextInt(1));
+                mix = mix + random.nextDouble() * Math.pow(-1, random.nextInt(1));
             }
             genome.getGenes().put(gene, Math.abs(mix));
         }
@@ -112,6 +115,7 @@ public class Individual extends Entity {
         Bounds bounds = intersection.getBoundsInParent();
         Point2D center = new Point2D((bounds.getMaxX() + bounds.getMinX()) / 2, (bounds.getMaxY() + bounds.getMinY()) / 2);
         Individual child = new Individual(center, initialEnergy, genome);
+        child.generation = Math.max(this.generation, pair.generation) + 1;
         return child;
     }
 
@@ -152,6 +156,7 @@ public class Individual extends Entity {
 
     @Override
     public Food onDeath() {
+        System.out.println("death { tick: " + tickAge + " time: " + (System.currentTimeMillis() - timeAge) + " generation: " + generation + " }");
         return new Food(this);
     }
 
@@ -165,6 +170,7 @@ public class Individual extends Entity {
 
     @Override
     public boolean tick() {
+        tickAge++;
         this.loseEnergy(Util.BASE_LIFE_ENERGY_COST * this.getArea());
         if (this.getEnergy() < 0) {
             return false;
@@ -176,7 +182,9 @@ public class Individual extends Entity {
 
     private void move() {
         int sign = Math.random() > 0.5 ? 1 : -1;
-        velocity = Util.rotate(this.velocity, sign * Math.random() * 180 / genome.get(Gene.TRANSLATION_CONSTANCY));
+        double angle = sign * Math.random() * 180 / genome.get(Gene.TRANSLATION_CONSTANCY);
+        velocity = Util.rotate(this.velocity, angle);
+        body.rotate(angle);
         body.translate(velocity.getX(), velocity.getY());
     }
 
