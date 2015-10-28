@@ -10,6 +10,7 @@ import javafx.geometry.Point2D;
 import javafx.scene.shape.Shape;
 import xyz.luan.life.EntityManager;
 import xyz.luan.life.model.genetics.Genome;
+import xyz.luan.life.model.genetics.ReproductionGene;
 
 public class Individual extends Entity {
 
@@ -62,9 +63,9 @@ public class Individual extends Entity {
 		return genome;
 	}
 
-	public double sharedEnergy() {
+	public double divide() {
 		double amount = genome.getReproductionGene().careCost(body);
-		this.loseEnergy(amount);
+		this.loseEnergy(genome.getReproductionGene().reproductionCost(body));
 		return amount;
 	}
 
@@ -86,11 +87,7 @@ public class Individual extends Entity {
 			genome.getGenes().put(gene, Math.abs(mix));
 		}
 
-		double cost = this.getArea() * Util.BASE_REPRODUCTION_ENERGY_COST;
-		this.loseEnergy(cost);
-		pair.loseEnergy(cost);
-
-		double initialEnergy = this.sharedEnergy() + pair.sharedEnergy();
+		double initialEnergy = this.divide() + pair.divide();
 		Bounds bounds = intersection.getBoundsInParent();
 		Point2D center = new Point2D((bounds.getMaxX() + bounds.getMinX()) / 2, (bounds.getMaxY() + bounds.getMinY()) / 2);
 		Individual child = new Individual(center, initialEnergy, genome);
