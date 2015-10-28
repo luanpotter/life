@@ -57,17 +57,6 @@ public abstract class Entity {
 	}
 
 	public void fixPosition(Dimension2D d) {
-		while (body.getCenter().getX() < 0) {
-			body.translate(d.getWidth(), 0);
-		}
-        while (body.getCenter().getX() > d.getWidth()) {
-			body.translate(-d.getWidth(), 0);
-		}
-        while (body.getCenter().getY() < 0) {
-			body.translate(0, d.getHeight());
-		}
-        while (body.getCenter().getY() > d.getHeight()) {
-			body.translate(0, -d.getHeight());
-		}
+		body.fixPosition(d);
 	}
 }

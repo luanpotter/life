@@ -19,34 +19,34 @@ public class Individual extends Entity {
 	private long timeAge = System.currentTimeMillis();
 	private int generation = 0;
 
-    private static class LazyIntersection {
+	private static class LazyIntersection {
 
-        private Entity e1, e2;
-        private Shape shape;
+		private Entity e1, e2;
+		private Shape shape;
 
-        public LazyIntersection(Entity e1, Entity e2) {
-            this.e1 = e1;
-            this.e2 = e2;
-        }
+		public LazyIntersection(Entity e1, Entity e2) {
+			this.e1 = e1;
+			this.e2 = e2;
+		}
 
-        public Shape getShape() {
-            if (shape == null) {
-                shape = e1.intersects(e2);
-            }
-            return shape;
-        }
-    }
+		public Shape getShape() {
+			if (shape == null) {
+				shape = e1.intersects(e2);
+			}
+			return shape;
+		}
+	}
 
 	private static EntityShape generateBody(Point2D position, Genome genome, int precision) {
 		Color color = Color.hsb(Math.toDegrees(genome.get(Gene2.COLOR)), Util.DEFAULT_INDIVIDUAL_COLOR_SATURATION, Util.DEFAULT_INDIVIDUAL_COLOR_VALUE);
 
-		List<Gene2> morfologicalGenes = Arrays.asList(Gene2.A, Gene2.B, Gene2.C, Gene2.D, Gene2.E, Gene2.F, Gene2.G, Gene2.H, Gene2.I, Gene2.J, Gene2.K, Gene2.L, Gene2.M,
-		        Gene2.N);
+		List<Gene2> morfologicalGenes = Arrays.asList(Gene2.A, Gene2.B, Gene2.C, Gene2.D, Gene2.E, Gene2.F, Gene2.G, Gene2.H, Gene2.I, Gene2.J, Gene2.K,
+		        Gene2.L, Gene2.M, Gene2.N);
 		double[] characteristics = morfologicalGenes.stream().map(g -> genome.getGenes().get(g)).mapToDouble(Double::doubleValue).toArray();
-        EntityShape body = new EntityShape(position, characteristics, color, precision);
-        genome.getTranslationGene().initialSpeed(body);
-        return body;
-    }
+		EntityShape body = new EntityShape(position, characteristics, color, precision);
+		genome.getTranslation().initialSpeed(body);
+		return body;
+	}
 
 	public static Individual abiogenesis(Dimension2D dimension) {
 		Random r = new Random();
@@ -56,7 +56,7 @@ public class Individual extends Entity {
 	private Individual(Point2D position, double energy, Genome genome) {
 		super(Individual.generateBody(position, genome, 100), energy);
 
-        this.body.toFront();
+		this.body.toFront();
 		this.genome = genome;
 	}
 
@@ -72,11 +72,11 @@ public class Individual extends Entity {
 
 	public boolean isAvailableToReproduce() {
 		double cost = this.getArea() * Util.BASE_REPRODUCTION_ENERGY_COST;
-        cost += this.getArea() * genome.get(Gene2.CHARITY);
-        if (genome.get(Gene2.LIBIDO) <= (this.getEnergy() / cost)) {
-            return true;
-        }
-        return false;
+		cost += this.getArea() * genome.get(Gene2.CHARITY);
+		if (genome.get(Gene2.LIBIDO) <= (this.getEnergy() / cost)) {
+			return true;
+		}
+		return false;
 	}
 
 	private Individual reproduce(Individual pair, Shape intersection) {
@@ -140,8 +140,8 @@ public class Individual extends Entity {
 	@Override
 	public void onCollide(Entity entity, EntityManager em) {
 		LazyIntersection intersection = new LazyIntersection(this, entity);
-        tryToReproduce(entity, em, intersection);
-        tryToEat(entity, em, intersection);
+		tryToReproduce(entity, em, intersection);
+		tryToEat(entity, em, intersection);
 	}
 
 	@Override
@@ -155,7 +155,13 @@ public class Individual extends Entity {
 			return;
 		}
 
-        genome.getTranslationGene().translate(body);
+		move();
+	}
+
+	private void move() {
+		genome.getRotation().rotate(body);
+		genome.getTranslation().translate(body);
+		body.move();
 	}
 
 }
