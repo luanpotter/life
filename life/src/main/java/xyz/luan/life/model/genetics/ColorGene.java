@@ -2,48 +2,82 @@ package xyz.luan.life.model.genetics;
 
 import javafx.scene.paint.Color;
 import xyz.luan.life.model.EntityShape;
-import xyz.luan.life.model.Util;
 
+/**
+ * Created by lucas-cleto on 10/27/15.
+ */
 public class ColorGene implements Gene<ColorGene> {
 
-	private static final double MAX = 2 * Math.PI, MIN = 0, VARIANCE = 0.1;
+    private static final double HUE_MAX = 2 * Math.PI, HUE_MIN = 0d, HUE_VARIANCE = Math.PI / 10d;
+    private static final double SATURATION_MAX = 1d, SATURATION_MIN = 0d, SATURATION_VARIANCE = 0.001d;
+    private static final double BRIGHTNESS_MAX = 1d, BRIGHTNESS_MIN = 0d, BRIGHTNESS_VARIANCE = 0.001d;
 
-	private double theta;
+    private Color color;
+    private double hue;
+    private double saturation;
+    private double brightness;
 
-	public ColorGene() {
-		this(Math.random() * MAX);
-	}
+    private ColorGene(double hue, double saturation, double brightness) {
+        this.hue = hue;
+        this.saturation = saturation;
+        this.brightness = brightness;
+        this.color = Color.hsb(hue, saturation, brightness);
+    }
 
-	private ColorGene(double theta) {
-		this.theta = theta;
-	}
+    public ColorGene() {
+        this.hue = 0d;
+        this.saturation = 1d;
+        this.brightness = 1d;
+        this.color = Color.hsb(hue, saturation, brightness);
+    }
 
-	public void set(EntityShape body) {
-		body.setColor(getColor());
-	}
+    public void dye(EntityShape body) {
+        body.setColor(this.color);
+    }
 
-	private Color getColor() {
-		return Color.hsb(Math.toDegrees(theta), Util.DEFAULT_INDIVIDUAL_COLOR_SATURATION, Util.DEFAULT_INDIVIDUAL_COLOR_VALUE);
-	}
+    @Override
+    public void mutation() {
+        this.hue += Math.random() * ColorGene.HUE_VARIANCE * (Math.random() > 5 ? 1 : -1);
+        this.saturation += Math.random() * ColorGene.SATURATION_VARIANCE * (Math.random() > 5 ? 1 : -1);
+        this.brightness += Math.random() * ColorGene.BRIGHTNESS_VARIANCE * (Math.random() > 5 ? 1 : -1);
 
-	public void mutation() {
-		this.theta += Math.random() * VARIANCE * (Math.random() > .5 ? 1 : -1);
-		if (this.theta < MIN) {
-			this.theta = 2 * MIN - this.theta;
-		}
-		if (this.theta > MAX) {
-			this.theta = 2 * MAX - this.theta;
-		}
-	}
+        if (this.hue < ColorGene.HUE_MIN) {
+            this.hue = 2 * ColorGene.HUE_MIN - this.hue;
+        }
+        if (this.hue > ColorGene.HUE_MAX) {
+            this.hue = 2 * ColorGene.HUE_MAX - this.hue;
+        }
+        if (this.saturation < ColorGene.SATURATION_MIN) {
+            this.saturation = 2 * ColorGene.SATURATION_MIN - this.saturation;
+        }
+        if (this.saturation > ColorGene.SATURATION_MAX) {
+            this.saturation = 2 * ColorGene.SATURATION_MAX - this.saturation;
+        }
+        if (this.brightness < ColorGene.BRIGHTNESS_MIN) {
+            this.brightness = 2 * ColorGene.BRIGHTNESS_MIN - this.brightness;
+        }
+        if (this.brightness > ColorGene.BRIGHTNESS_MAX) {
+            this.brightness = 2 * ColorGene.BRIGHTNESS_MAX - this.brightness;
+        }
+    }
 
-	@Override
-	public ColorGene meiosis(ColorGene gene) {
-		double theta = (this.theta + gene.theta) / 2;
-		ColorGene childGene = new ColorGene(theta);
-		if (Math.random() < Gene.MUTATION_PROBABILITY) {
-			childGene.mutation();
-		}
-		return childGene;
-	}
+    @Override
+    public ColorGene meiosis(ColorGene gene) {
+        double hue = (this.hue + gene.hue) / 2;
+        double saturation = (this.saturation + gene.saturation) / 2;
+        double brightness = (this.brightness + gene.brightness) / 2;
+        ColorGene childGene = new ColorGene(hue, saturation, brightness);
+        if (Math.random() < Gene.MUTATION_PROBABILITY) {
+            childGene.mutation();
+        }
+        return childGene;
+    }
 
+    @Override
+    public double distance(ColorGene gene) {
+        double fh = ColorGene.HUE_MAX - ColorGene.HUE_MIN;
+        double fs = ColorGene.SATURATION_MAX - ColorGene.SATURATION_MIN;
+        double fb = ColorGene.BRIGHTNESS_MAX - ColorGene.BRIGHTNESS_MIN;
+        return Math.abs(this.hue - gene.hue) / fh + Math.abs(this.saturation - gene.saturation) / fs + Math.abs(this.brightness - gene.brightness) / fb;
+    }
 }

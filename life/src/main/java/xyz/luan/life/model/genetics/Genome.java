@@ -25,14 +25,6 @@ public class Genome {
     }
 
     private void randomGenes() {
-        genes2.put(Gene2.TRANSLATION_SPEED, 0.5);
-        genes2.put(Gene2.TRANSLATION_CONSTANCY, 0.5);
-        genes2.put(Gene2.ROTATION_SPEED, 0.5);
-        genes2.put(Gene2.ROTATION_CONSTANCY, 0.5);
-        genes2.put(Gene2.COLOR, 3 * Math.PI / 2);
-        genes2.put(Gene2.CHARITY, 100d);
-        genes2.put(Gene2.LIBIDO, 1d);
-
         genes2.put(Gene2.A, 10d);
         genes2.put(Gene2.B, 1d);
         genes2.put(Gene2.C, 0d);
@@ -51,6 +43,8 @@ public class Genome {
         genes.put(TranslationGene.class, new TranslationGene());
         genes.put(RotationGene.class, new RotationGene());
         genes.put(ColorGene.class, new ColorGene());
+        genes.put(ReproductionGene.class, new ReproductionGene());
+        genes.put(MorfologicGene.class, new MorfologicGene());
     }
 
     public double get(Gene2 gene) {
@@ -88,6 +82,14 @@ public class Genome {
 
     public ColorGene getColor() {
         return get(ColorGene.class);
+    }
+
+    public ReproductionGene getReproduction() {
+        return get(ReproductionGene.class);
+    }
+
+    public MorfologicGene getMorfological() {
+        return get(MorfologicGene.class);
     }
 
     public Genome meiosis(Genome genome) {

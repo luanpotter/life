@@ -5,7 +5,11 @@ package xyz.luan.life.model.genetics;
  */
 public interface Gene<T extends Gene<T>> {
 
-	public static final double MUTATION_PROBABILITY = 0.1;
+    public static final double MUTATION_PROBABILITY = 0.1;
 
-	public T meiosis(T gene);
+    public void mutation();
+
+    public T meiosis(T gene);
+
+    public double distance(T gene);
 }

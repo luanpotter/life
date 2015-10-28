@@ -2,7 +2,7 @@ package xyz.luan.life.model;
 
 public enum Gene2 {
     A, B, C, D, E, F, G, H, I, J, K, L, M, N,
-    COLOR, TRANSLATION_SPEED(1), TRANSLATION_CONSTANCY(50), ROTATION_SPEED(180.0), ROTATION_CONSTANCY(10.0), LIBIDO, CHARITY;
+    ROTATION_SPEED(180.0), ROTATION_CONSTANCY(10.0);
 
     private double coefficient;
 
