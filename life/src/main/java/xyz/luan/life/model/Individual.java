@@ -63,18 +63,13 @@ public class Individual extends Entity {
 	}
 
 	public double sharedEnergy() {
-		double amount = this.getArea() * genome.get(Gene2.CHARITY);
+		double amount = genome.getReproductionGene().careCost(body);
 		this.loseEnergy(amount);
 		return amount;
 	}
 
 	public boolean isAvailableToReproduce() {
-		double cost = this.getArea() * Util.BASE_REPRODUCTION_ENERGY_COST;
-        cost += this.getArea() * genome.get(Gene2.CHARITY);
-        if (genome.get(Gene2.LIBIDO) <= (this.getEnergy() / cost)) {
-            return true;
-        }
-        return false;
+		return genome.getReproductionGene().isAvailableToReproduce(body, energy);
 	}
 
 	private Individual reproduce(Individual pair, Shape intersection) {

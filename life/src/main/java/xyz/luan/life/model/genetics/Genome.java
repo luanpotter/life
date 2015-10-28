@@ -11,6 +11,7 @@ public class Genome {
     private Map<Gene2, Double> genes;
     private TranslationGene translationGene;
     private ColorGene colorGene;
+    private ReproductionGene reproductionGene;
 
     public Genome() {
         genes = new HashMap<>();
@@ -20,8 +21,6 @@ public class Genome {
     private void randomGenes() {
         genes.put(Gene2.ROTATION_SPEED, 0.5);
         genes.put(Gene2.ROTATION_CONSTANCY, 0.5);
-        genes.put(Gene2.CHARITY, 100d);
-        genes.put(Gene2.LIBIDO, 1d);
 
         genes.put(Gene2.A, 10d); genes.put(Gene2.B, 1d);
         genes.put(Gene2.C, 0d); genes.put(Gene2.D, 0d); genes.put(Gene2.E, 0d);
@@ -32,6 +31,7 @@ public class Genome {
 
         this.translationGene = new TranslationGene();
         this.colorGene = new ColorGene();
+        this.reproductionGene = new ReproductionGene();
     }
 
     public double get(Gene2 gene) {
@@ -66,5 +66,9 @@ public class Genome {
 
     public ColorGene getColorGene() {
         return this.colorGene;
+    }
+
+    public ReproductionGene getReproductionGene() {
+        return this.reproductionGene;
     }
 }

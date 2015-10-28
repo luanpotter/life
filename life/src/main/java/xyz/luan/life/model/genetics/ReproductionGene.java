@@ -23,8 +23,16 @@ public class ReproductionGene implements Gene<ReproductionGene> {
         this.charity = 2d;
     }
 
+    public static double meiosisCost(EntityShape body) {
+        return body.estimateArea() * ReproductionGene.BASE_REPRODUCTION_ENERGY_COST;
+    }
+
+    public double careCost(EntityShape body) {
+        return body.estimateArea() * this.charity;
+    }
+
     public double reproductionCost(EntityShape body) {
-        return body.estimateArea() * (ReproductionGene.BASE_REPRODUCTION_ENERGY_COST + this.charity);
+        return meiosisCost(body) + careCost(body);
     }
 
     public boolean isAvailableToReproduce(EntityShape body, double energy) {
@@ -54,7 +62,13 @@ public class ReproductionGene implements Gene<ReproductionGene> {
 
     @Override
     public ReproductionGene meiosis(ReproductionGene gene) {
-        return null;
+        double libido = (this.libido + gene.libido) / 2;
+        double charity = (this.charity + gene.charity) / 2;
+        ReproductionGene childGene = new ReproductionGene(libido, charity);
+        if (Math.random() < Gene.MUTATION_PROBABILITY) {
+            childGene.mutation();
+        }
+        return childGene;
     }
 
     @Override
