@@ -7,7 +7,6 @@ import java.util.Random;
 import javafx.geometry.Bounds;
 import javafx.geometry.Dimension2D;
 import javafx.geometry.Point2D;
-import javafx.scene.paint.Color;
 import javafx.scene.shape.Shape;
 import xyz.luan.life.EntityManager;
 import xyz.luan.life.model.genetics.Genome;
@@ -38,13 +37,12 @@ public class Individual extends Entity {
 	}
 
 	private static EntityShape generateBody(Point2D position, Genome genome, int precision) {
-		Color color = Color.hsb(Math.toDegrees(genome.get(Gene2.COLOR)), Util.DEFAULT_INDIVIDUAL_COLOR_SATURATION, Util.DEFAULT_INDIVIDUAL_COLOR_VALUE);
-
 		List<Gene2> morfologicalGenes = Arrays.asList(Gene2.A, Gene2.B, Gene2.C, Gene2.D, Gene2.E, Gene2.F, Gene2.G, Gene2.H, Gene2.I, Gene2.J, Gene2.K,
 		        Gene2.L, Gene2.M, Gene2.N);
 		double[] characteristics = morfologicalGenes.stream().map(g -> genome.getGenes().get(g)).mapToDouble(Double::doubleValue).toArray();
-		EntityShape body = new EntityShape(position, characteristics, color, precision);
+		EntityShape body = new EntityShape(position, characteristics, precision);
 		genome.getTranslation().initialSpeed(body);
+		genome.getColor().set(body);
 		return body;
 	}
 
@@ -155,6 +153,8 @@ public class Individual extends Entity {
 			return;
 		}
 
+		// never changes...
+		// genome.getColor().set(body);
 		move();
 	}
 

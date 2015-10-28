@@ -18,7 +18,9 @@ public class Food extends Entity {
 		        0, 0, // a * sin(b)
 		        SIZE / 8d, 2, 2, // a * sin(b) * cos(c)
 		        0, 0 }; // a * cos(b)
-		return new EntityShape(position, chars, Util.FOOD_COLOR, 10);
+		EntityShape food = new EntityShape(position, chars, 10);
+		food.setColor(Util.FOOD_COLOR);
+		return food;
 	}
 
 	public static Food randomFood(Dimension2D dimension) {

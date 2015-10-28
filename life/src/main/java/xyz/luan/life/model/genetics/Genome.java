@@ -11,6 +11,7 @@ public class Genome {
 	private Map<Gene2, Double> genes;
 	private TranslationGene translationGene;
 	private RotationGene rotationGene;
+	private ColorGene colorGene;
 
 	public Genome() {
 		genes = new HashMap<>();
@@ -43,6 +44,7 @@ public class Genome {
 
 		translationGene = new TranslationGene();
 		rotationGene = new RotationGene();
+		colorGene = new ColorGene();
 	}
 
 	public double get(Gene2 gene) {
@@ -77,5 +79,9 @@ public class Genome {
 
 	public RotationGene getRotation() {
 		return rotationGene;
+	}
+
+	public ColorGene getColor() {
+		return colorGene;
 	}
 }

@@ -14,20 +14,17 @@ public class EntityShape extends Polygon {
 	private Point2D center;
 	private double angle;
 	private double[] characteristics;
-	private Color color;
 	private Point2D[] points;
 	private Point2D velocity;
 
-	public EntityShape(Point2D center, double[] characteristics, Color color, int precision) {
+	public EntityShape(Point2D center, double[] characteristics, int precision) {
 		this.center = center;
 		this.characteristics = characteristics;
-		this.color = color;
 		this.angle = 0;
 		this.precision = precision;
 		this.arc = 2 * Math.PI / (double) precision;
 
 		generatePoints();
-		this.setFill(color);
 		this.setTranslateX(center.getX());
 		this.setTranslateY(center.getY());
 		this.setRotate(angle);
@@ -97,12 +94,7 @@ public class EntityShape extends Polygon {
 		return characteristics;
 	}
 
-	public Color getColor() {
-		return color;
-	}
-
 	public void setColor(Color color) {
-		this.color = color;
 		this.setFill(color);
 	}
 

@@ -27,12 +27,12 @@ public class RotationGene implements Gene<RotationGene> {
 	}
 
 	public void mutation() {
-		this.speed += Math.random() * RotationGene.VARIANCE * (Math.random() > 5 ? 1 : -1);
-		if (this.speed < RotationGene.MIN) {
-			this.speed = 2 * RotationGene.MIN - this.speed;
+		this.speed += Math.random() * VARIANCE * (Math.random() > .5 ? 1 : -1);
+		if (this.speed < MIN) {
+			this.speed = 2 * MIN - this.speed;
 		}
-		if (this.speed > RotationGene.MAX) {
-			this.speed = 2 * RotationGene.MAX - this.speed;
+		if (this.speed > MAX) {
+			this.speed = 2 * MAX - this.speed;
 		}
 	}
 
