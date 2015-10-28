@@ -21,7 +21,7 @@ public class EntityShape extends Polygon {
     private Point2D[] points;
     private Point2D velocity;
 
-    public EntityShape(Point2D center, double[] characteristics, Color color, int precision) {
+    private void init(Point2D center, double[] characteristics, Color color, int precision) {
         this.center = center;
         this.characteristics = characteristics;
         this.color = color;
@@ -44,6 +44,14 @@ public class EntityShape extends Polygon {
                 System.out.println();
             }
         });
+    }
+
+    public EntityShape(Point2D center, double[] characteristics, int precision) {
+        init(center, characteristics, Color.WHITE, precision);
+    }
+
+    public EntityShape(Point2D center, double[] characteristics, Color color, int precision) {
+        init(center, characteristics, color, precision);
     }
 
     private Point2D getPoint(double t) {

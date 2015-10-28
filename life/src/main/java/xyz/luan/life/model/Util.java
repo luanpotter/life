@@ -10,9 +10,6 @@ public class Util {
 
 	public static final Color FOOD_COLOR = Color.GRAY;
 
-    public static double DEFAULT_INDIVIDUAL_COLOR_SATURATION = 1;
-    public static double DEFAULT_INDIVIDUAL_COLOR_VALUE = 1;
-
     public static final double BASE_LIFE_ENERGY_COST = 0.2d;
 	public static final double BASE_REPRODUCTION_ENERGY_COST = 200d;
 	public static final double BASE_METABOLIZATION_ENERGY_COST = 0.1d;

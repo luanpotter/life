@@ -10,6 +10,7 @@ public class Genome {
 
     private Map<Gene2, Double> genes;
     private TranslationGene translationGene;
+    private ColorGene colorGene;
 
     public Genome() {
         genes = new HashMap<>();
@@ -32,7 +33,8 @@ public class Genome {
         genes.put(Gene2.J, 0d); genes.put(Gene2.K, 0d); genes.put(Gene2.L, 0d);
         genes.put(Gene2.M, 1d); genes.put(Gene2.N, 40d);
 
-        translationGene = new TranslationGene();
+        this.translationGene = new TranslationGene();
+        this.colorGene = new ColorGene();
     }
 
     public double get(Gene2 gene) {
@@ -62,6 +64,10 @@ public class Genome {
     }
 
     public TranslationGene getTranslationGene() {
-        return translationGene;
+        return this.translationGene;
+    }
+
+    public ColorGene getColorGene() {
+        return this.colorGene;
     }
 }
