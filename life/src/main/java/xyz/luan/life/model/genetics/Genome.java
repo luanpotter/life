@@ -1,87 +1,96 @@
 package xyz.luan.life.model.genetics;
 
-import xyz.luan.life.model.Gene2;
-import xyz.luan.life.model.Util;
-
 import java.util.HashMap;
 import java.util.Map;
 
+import xyz.luan.life.model.Gene2;
+
 public class Genome {
 
-	private Map<Gene2, Double> genes;
-	private TranslationGene translationGene;
-	private RotationGene rotationGene;
-	private ColorGene colorGene;
+    private Map<Gene2, Double> genes2;
 
-	public Genome() {
-		genes = new HashMap<>();
-		randomGenes();
-	}
+    private Map<Class<? extends Gene<?>>, Gene<?>> genes;
 
-	private void randomGenes() {
-		genes.put(Gene2.TRANSLATION_SPEED, 0.5);
-		genes.put(Gene2.TRANSLATION_CONSTANCY, 0.5);
-		genes.put(Gene2.ROTATION_SPEED, 0.5);
-		genes.put(Gene2.ROTATION_CONSTANCY, 0.5);
-		genes.put(Gene2.COLOR, 3 * Math.PI / 2);
-		genes.put(Gene2.CHARITY, 100d);
-		genes.put(Gene2.LIBIDO, 1d);
+    public Genome() {
+        genes = new HashMap<>();
+        genes2 = new HashMap<>();
+        randomGenes();
+    }
 
-		genes.put(Gene2.A, 10d);
-		genes.put(Gene2.B, 1d);
-		genes.put(Gene2.C, 0d);
-		genes.put(Gene2.D, 0d);
-		genes.put(Gene2.E, 0d);
-		genes.put(Gene2.F, 10d);
-		genes.put(Gene2.G, 1d);
-		genes.put(Gene2.H, 3d);
-		genes.put(Gene2.I, 10d);
-		genes.put(Gene2.J, 0d);
-		genes.put(Gene2.K, 0d);
-		genes.put(Gene2.L, 0d);
-		genes.put(Gene2.M, 1d);
-		genes.put(Gene2.N, 40d);
+    public Genome(Genome genome1, Genome genome2) {
+        genes = new HashMap<>();
+        for (Class<? extends Gene<?>> gene : genome1.genes.keySet()) {
+            // genes.put(gene, genome1.get(gene).meiosis(genome2.get(gene)));
+        }
+    }
 
-		translationGene = new TranslationGene();
-		rotationGene = new RotationGene();
-		colorGene = new ColorGene();
-	}
+    private void randomGenes() {
+        genes2.put(Gene2.TRANSLATION_SPEED, 0.5);
+        genes2.put(Gene2.TRANSLATION_CONSTANCY, 0.5);
+        genes2.put(Gene2.ROTATION_SPEED, 0.5);
+        genes2.put(Gene2.ROTATION_CONSTANCY, 0.5);
+        genes2.put(Gene2.COLOR, 3 * Math.PI / 2);
+        genes2.put(Gene2.CHARITY, 100d);
+        genes2.put(Gene2.LIBIDO, 1d);
 
-	public double get(Gene2 gene) {
-		return gene.getCoefficient() * genes.get(gene);
-	}
+        genes2.put(Gene2.A, 10d);
+        genes2.put(Gene2.B, 1d);
+        genes2.put(Gene2.C, 0d);
+        genes2.put(Gene2.D, 0d);
+        genes2.put(Gene2.E, 0d);
+        genes2.put(Gene2.F, 10d);
+        genes2.put(Gene2.G, 1d);
+        genes2.put(Gene2.H, 3d);
+        genes2.put(Gene2.I, 10d);
+        genes2.put(Gene2.J, 0d);
+        genes2.put(Gene2.K, 0d);
+        genes2.put(Gene2.L, 0d);
+        genes2.put(Gene2.M, 1d);
+        genes2.put(Gene2.N, 40d);
 
-	public int numberOfGenes() {
-		return genes.size();
-	}
+        genes.put(TranslationGene.class, new TranslationGene());
+        genes.put(RotationGene.class, new RotationGene());
+        genes.put(ColorGene.class, new ColorGene());
+    }
 
-	public Map<Gene2, Double> getGenes() {
-		return genes;
-	}
+    public double get(Gene2 gene) {
+        return gene.getCoefficient() * genes2.get(gene);
+    }
 
-	public double geneticDistance(Genome genome) {
-		// boolean sameGeneTypes = this.getGenes().keySet().equals(genome.getGenes());
-		boolean sameGeneTypes = true;
-		if (sameGeneTypes) {
-			double sum = 0;
-			for (Gene2 gene : this.getGenes().keySet()) {
-				sum += Math.abs(Math.pow(this.get(gene) - genome.get(gene), 2));
-			}
-			return sum;
-		} else {
-			return Util.INFINITY;
-		}
-	}
+    public int numberOfGenes() {
+        return genes2.size();
+    }
 
-	public TranslationGene getTranslation() {
-		return translationGene;
-	}
+    public Map<Gene2, Double> getGenes() {
+        return genes2;
+    }
 
-	public RotationGene getRotation() {
-		return rotationGene;
-	}
+    public double geneticDistance(Genome genome) {
+        double sum = 0;
+        for (Gene2 gene : this.getGenes().keySet()) {
+            sum += Math.abs(Math.pow(this.get(gene) - genome.get(gene), 2));
+        }
+        return sum;
+    }
 
-	public ColorGene getColor() {
-		return colorGene;
-	}
+    @SuppressWarnings("unchecked")
+    public <T extends Gene<?>> T get(Class<T> clazz) {
+        return (T) genes.get(clazz);
+    }
+
+    public TranslationGene getTranslation() {
+        return get(TranslationGene.class);
+    }
+
+    public RotationGene getRotation() {
+        return get(RotationGene.class);
+    }
+
+    public ColorGene getColor() {
+        return get(ColorGene.class);
+    }
+
+    public Genome meiosis(Genome genome) {
+        return new Genome(this, genome);
+    }
 }
