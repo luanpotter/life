@@ -6,6 +6,10 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.*;
 import javafx.scene.shape.Polygon;
 
+import java.util.Arrays;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
+
 public class EntityShape extends Polygon {
 
     private double arc;
@@ -15,6 +19,7 @@ public class EntityShape extends Polygon {
     private double[] characteristics;
     private Color color;
     private Point2D[] points;
+    private Point2D velocity;
 
     public EntityShape(Point2D center, double[] characteristics, Color color, int precision) {
         this.center = center;
@@ -106,5 +111,13 @@ public class EntityShape extends Polygon {
 
     public Point2D[] getPoints2D() {
         return points;
+    }
+
+    public Point2D getVelocity() {
+        return velocity;
+    }
+
+    public void setVelocity(Point2D velocity) {
+        this.velocity = velocity;
     }
 }
