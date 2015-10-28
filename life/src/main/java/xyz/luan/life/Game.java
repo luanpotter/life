@@ -26,7 +26,7 @@ public class Game {
 	}
 
 	private void randomStart(Dimension2D dimension) {
-        for (int i = 0; i < 100; i++) {
+        for (int i = 0; i < 10; i++) {
             add(Individual.abiogenesis(dimension));
             add(Food.randomFood(dimension));
 		}
