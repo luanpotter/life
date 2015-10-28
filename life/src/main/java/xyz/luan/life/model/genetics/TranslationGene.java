@@ -43,6 +43,7 @@ public class TranslationGene implements Gene<TranslationGene> {
     public void mutation() {
         this.speed += Math.random() * TranslationGene.SPEED_VARIANCE * (Math.random() > 5 ? 1 : -1);
         this.inconstancy += Math.random() * TranslationGene.INCONSTANCY_VARIANCE * (Math.random() > 5 ? 1 : -1);
+
         if (this.speed < TranslationGene.SPEED_MIN) {
             this.speed = 2 * TranslationGene.SPEED_MIN - this.speed;
         }

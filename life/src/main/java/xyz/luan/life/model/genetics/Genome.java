@@ -18,11 +18,8 @@ public class Genome {
     }
 
     private void randomGenes() {
-        genes.put(Gene2.TRANSLATION_SPEED, 0.5);
-        genes.put(Gene2.TRANSLATION_CONSTANCY, 0.5);
         genes.put(Gene2.ROTATION_SPEED, 0.5);
         genes.put(Gene2.ROTATION_CONSTANCY, 0.5);
-        genes.put(Gene2.COLOR, 3 * Math.PI / 2);
         genes.put(Gene2.CHARITY, 100d);
         genes.put(Gene2.LIBIDO, 1d);
 
