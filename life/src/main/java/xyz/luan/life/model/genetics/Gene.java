@@ -7,5 +7,7 @@ public interface Gene<T extends Gene> {
 
     public static final double MUTATION_PROBABILITY = 0.1;
 
+    public void mutation();
     public T meiosis(T gene);
+    public double distance(T gene);
 }

@@ -32,7 +32,6 @@ public class TranslationGene implements Gene<TranslationGene> {
         Point2D velocity = body.getVelocity();
         velocity = velocity.multiply(acceleration(velocity));
         body.setVelocity(velocity);
-        System.out.println(velocity);
         body.translate(body.getVelocity().getX(), body.getVelocity().getY());
     }
 
@@ -40,6 +39,7 @@ public class TranslationGene implements Gene<TranslationGene> {
         return (speed / velocity.magnitude()) + (2*Math.random() - 1) * inconstancy;
     }
 
+    @Override
     public void mutation() {
         this.speed += Math.random() * TranslationGene.SPEED_VARIANCE * (Math.random() > 5 ? 1 : -1);
         this.inconstancy += Math.random() * TranslationGene.INCONSTANCY_VARIANCE * (Math.random() > 5 ? 1 : -1);
@@ -66,5 +66,12 @@ public class TranslationGene implements Gene<TranslationGene> {
             childGene.mutation();
         }
         return childGene;
+    }
+
+    @Override
+    public double distance(TranslationGene gene) {
+        double fs = TranslationGene.SPEED_MAX - TranslationGene.SPEED_MIN;
+        double fi = TranslationGene.INCONSTANCY_MAX - TranslationGene.INCONSTANCY_MIN;
+        return Math.abs(this.speed - gene.speed) / fs + Math.abs(this.inconstancy - gene.inconstancy) / fi;
     }
 }
