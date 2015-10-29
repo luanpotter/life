@@ -15,10 +15,12 @@ public class EntityShape extends Polygon {
     private Color color;
     private Point2D[] points;
     private Point2D velocity;
+    private double area;
 
     public EntityShape(Point2D center) {
         this.center = center;
         this.angle = 0;
+        this.area = 0;
 
         this.setTranslateX(center.getX());
         this.setTranslateY(center.getY());
@@ -32,7 +34,11 @@ public class EntityShape extends Polygon {
         return foodShape;
     }
 
-    public double estimateArea() {
+    public double getArea() {
+        return this.area;
+    }
+
+    private double calculateArea() {
         double sum = 0;
         for (int i = 0; i < (this.points.length - 1); i++) {
             sum += this.points[i].getX() * this.points[i + 1].getY() -
@@ -51,6 +57,7 @@ public class EntityShape extends Polygon {
         for (int i = 0; i < this.points.length; i++) {
             this.getPoints().addAll(this.points[i].getX(), this.points[i].getY());
         }
+        this.area = calculateArea();
     }
 
     public Point2D getCenter() {

@@ -17,7 +17,7 @@ public abstract class Entity {
 	public Entity(EntityShape body, double energy) {
 		this.body = body;
 		this.energy = energy;
-		this.area = body.estimateArea();
+		this.area = body.getArea();
 	}
 
 	public boolean estimatedIntersects(Entity entity) {

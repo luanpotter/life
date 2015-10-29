@@ -23,11 +23,11 @@ public class ReproductionGene implements Gene<ReproductionGene> {
     }
 
     public static double meiosisCost(EntityShape body) {
-        return body.estimateArea() * ReproductionGene.BASE_REPRODUCTION_ENERGY_COST;
+        return body.getArea() * ReproductionGene.BASE_REPRODUCTION_ENERGY_COST;
     }
 
     public double careCost(EntityShape body) {
-        return body.estimateArea() * this.charity;
+        return body.getArea() * this.charity;
     }
 
     public double reproductionCost(EntityShape body) {
