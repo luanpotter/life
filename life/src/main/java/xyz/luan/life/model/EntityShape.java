@@ -23,14 +23,18 @@ public class EntityShape extends Polygon {
 
         this.setTranslateX(center.getX());
         this.setTranslateY(center.getY());
-        this.setRotate(angle);    }
+        this.setRotate(angle);
+    }
 
     public double estimateArea() {
         double sum = 0;
-        for (int i = 0; i < (points.length - 1); i++) {
-            sum += points[i].getX() * points[i + 1].getY() - points[i].getY() * points[i + 1].getX();
+        for (int i = 0; i < (this.points.length - 1); i++) {
+            sum += this.points[i].getX() * this.points[i + 1].getY() -
+                    this.points[i].getY() * this.points[i + 1].getX();
         }
-        sum += points[points.length - 1].getX() * points[0].getY() - points[points.length - 1].getY() * points[0].getX();
+        sum += this.points[this.points.length - 1].getX() *
+                this.points[0].getY() - this.points[this.points.length - 1].getY() *
+                this.points[0].getX();
 
         return (double) Math.abs(sum) / 2d;
     }
@@ -44,11 +48,11 @@ public class EntityShape extends Polygon {
     }
 
     public Point2D getCenter() {
-        return center;
+        return this.center;
     }
 
     public double getAngle() {
-        return angle;
+        return this.angle;
     }
 
     public void rotate(double angle) {
@@ -57,25 +61,26 @@ public class EntityShape extends Polygon {
     }
 
     public void translate(double x, double y) {
-        center = new Point2D(center.getX() + x, center.getY() + y);
-        this.setTranslateX(center.getX());
-        this.setTranslateY(center.getY());
+        this.center = new Point2D(this.center.getX() + x, this.center.getY() + y);
+        this.setTranslateX(this.center.getX());
+        this.setTranslateY(this.center.getY());
     }
-    
+
     public Color getColor() {
-        return color;
+        return this.color;
     }
 
     public void setColor(Color color) {
+        this.color = color;
         this.setFill(color);
     }
 
     public Point2D[] getPoints2D() {
-        return points;
+        return this.points;
     }
 
     public Point2D getVelocity() {
-        return velocity;
+        return this.velocity;
     }
 
     public void setVelocity(Point2D velocity) {
