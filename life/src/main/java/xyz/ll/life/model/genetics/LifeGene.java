@@ -31,12 +31,14 @@ public class LifeGene implements Gene<LifeGene> {
 
     @Override
     public void mutation() {
-        this.health += Math.random() * LifeGene.HEALTH_VARIANCE * (Math.random() > .5 ? 1 : -1);
-        if (this.health < LifeGene.HEALTH_MIN) {
-            this.health = 2 * LifeGene.HEALTH_MIN - this.health;
-        }
-        if (this.health > LifeGene.HEALTH_MAX) {
-            this.health = 2 * LifeGene.HEALTH_MAX - this.health;
+        if (Math.random() < MUTATION_PROBABILITY) {
+            this.health += Math.random() * LifeGene.HEALTH_VARIANCE * (Math.random() > .5 ? 1 : -1);
+            if (this.health < LifeGene.HEALTH_MIN) {
+                this.health = 2 * LifeGene.HEALTH_MIN - this.health;
+            }
+            if (this.health > LifeGene.HEALTH_MAX) {
+                this.health = 2 * LifeGene.HEALTH_MAX - this.health;
+            }
         }
     }
 
@@ -44,9 +46,8 @@ public class LifeGene implements Gene<LifeGene> {
     public LifeGene meiosis(LifeGene gene) {
         double health = Util.random(this.health, gene.health);
         LifeGene childGene = new LifeGene(health);
-        if (Math.random() < MUTATION_PROBABILITY) {
-            childGene.mutation();
-        }
+        childGene.mutation();
+
         return childGene;
     }
 

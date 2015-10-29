@@ -44,25 +44,31 @@ public class MetabolizationGene implements Gene<MetabolizationGene> {
 
     @Override
     public void mutation() {
-        this.efficiency += Math.random() * MetabolizationGene.EFFICIENCY_VARIANCE * (Math.random() > .5 ? 1 : -1);
-        if (this.efficiency < MetabolizationGene.EFFICIENCY_MIN) {
-            this.efficiency = 2 * MetabolizationGene.EFFICIENCY_MIN - this.efficiency;
-        }
-        if (this.efficiency > MetabolizationGene.EFFICIENCY_MAX) {
-            this.efficiency = 2 * MetabolizationGene.EFFICIENCY_MAX - this.efficiency;
-        }
-
-        this.areaProportion += Math.random() * MetabolizationGene.AREA_PROPORTION_VARIANCE * (Math.random() > .5 ? 1 : -1);
-        if (this.areaProportion < MetabolizationGene.AREA_PROPORTION_MIN) {
-            this.areaProportion = 2 * MetabolizationGene.AREA_PROPORTION_MIN - this.areaProportion;
-        }
-        if (this.areaProportion > MetabolizationGene.AREA_PROPORTION_MAX) {
-            this.areaProportion = 2 * MetabolizationGene.AREA_PROPORTION_MAX - this.areaProportion;
+        if (Math.random() < MUTATION_PROBABILITY) {
+            this.efficiency += Math.random() * MetabolizationGene.EFFICIENCY_VARIANCE * (Math.random() > .5 ? 1 : -1);
+            if (this.efficiency < MetabolizationGene.EFFICIENCY_MIN) {
+                this.efficiency = 2 * MetabolizationGene.EFFICIENCY_MIN - this.efficiency;
+            }
+            if (this.efficiency > MetabolizationGene.EFFICIENCY_MAX) {
+                this.efficiency = 2 * MetabolizationGene.EFFICIENCY_MAX - this.efficiency;
+            }
         }
 
-        this.cost += Math.random() * MetabolizationGene.COST_VARIANCE * (Math.random() > .5 ? 1 : -1);
-        if (this.cost < MetabolizationGene.COST_MIN) {
-            this.cost = 2 * MetabolizationGene.COST_MIN - this.cost;
+        if (Math.random() < MUTATION_PROBABILITY) {
+            this.areaProportion += Math.random() * MetabolizationGene.AREA_PROPORTION_VARIANCE * (Math.random() > .5 ? 1 : -1);
+            if (this.areaProportion < MetabolizationGene.AREA_PROPORTION_MIN) {
+                this.areaProportion = 2 * MetabolizationGene.AREA_PROPORTION_MIN - this.areaProportion;
+            }
+            if (this.areaProportion > MetabolizationGene.AREA_PROPORTION_MAX) {
+                this.areaProportion = 2 * MetabolizationGene.AREA_PROPORTION_MAX - this.areaProportion;
+            }
+        }
+
+        if (Math.random() < MUTATION_PROBABILITY) {
+            this.cost += Math.random() * MetabolizationGene.COST_VARIANCE * (Math.random() > .5 ? 1 : -1);
+            if (this.cost < MetabolizationGene.COST_MIN) {
+                this.cost = 2 * MetabolizationGene.COST_MIN - this.cost;
+            }
         }
     }
 
@@ -72,9 +78,8 @@ public class MetabolizationGene implements Gene<MetabolizationGene> {
         double areaProportion = Util.random(this.areaProportion, gene.areaProportion);
         double cost = Util.random(this.cost, gene.cost);
         MetabolizationGene childGene = new MetabolizationGene(efficiency, areaProportion, cost);
-        if (Math.random() < MUTATION_PROBABILITY) {
-            childGene.mutation();
-        }
+        childGene.mutation();
+
         return childGene;
     }
 

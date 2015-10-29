@@ -60,7 +60,9 @@ public class MorfologicGene implements Gene<MorfologicGene> {
     @Override
     public void mutation() {
         for (int i = 0; i < MorfologicGene.NUMBER_OF_CHARACTERISTICS; i++) {
-            this.characteristics[i] += Math.random() * MorfologicGene.CHARACTERISTIC_VARIANCE * (Math.random() > 5 ? 1 : -1);
+            if (Math.random() < MUTATION_PROBABILITY) {
+                this.characteristics[i] += Math.random() * MorfologicGene.CHARACTERISTIC_VARIANCE * (Math.random() > 5 ? 1 : -1);
+            }
         }
     }
 
@@ -70,11 +72,9 @@ public class MorfologicGene implements Gene<MorfologicGene> {
         for (int i = 0; i < MorfologicGene.NUMBER_OF_CHARACTERISTICS; i++) {
             characteristics[i] = Util.random(this.characteristics[i], gene.characteristics[i]);
         }
-
         MorfologicGene childGene = new MorfologicGene(characteristics);
-        if (Math.random() < MUTATION_PROBABILITY) {
-            childGene.mutation();
-        }
+        childGene.mutation();
+
         return childGene;
     }
 

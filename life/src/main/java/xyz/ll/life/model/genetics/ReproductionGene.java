@@ -45,17 +45,21 @@ public class ReproductionGene implements Gene<ReproductionGene> {
 
     @Override
     public void mutation() {
-        this.libido += Math.random() * ReproductionGene.LIBIDO_VARIANCE * (Math.random() > 5 ? 1 : -1);
-        this.charity += Math.random() * ReproductionGene.CHARITY_VARIANCE * (Math.random() > 5 ? 1 : -1);
+        if (Math.random() < MUTATION_PROBABILITY) {
+            this.libido += Math.random() * ReproductionGene.LIBIDO_VARIANCE * (Math.random() > 5 ? 1 : -1);
+            if (this.libido < ReproductionGene.LIBIDO_MIN) {
+                this.libido = 2 * ReproductionGene.LIBIDO_MIN - this.libido;
+            }
+            if (this.libido > ReproductionGene.LIBIDO_MAX) {
+                this.libido = 2 * ReproductionGene.LIBIDO_MAX - this.libido;
+            }
+        }
 
-        if (this.libido < ReproductionGene.LIBIDO_MIN) {
-            this.libido = 2 * ReproductionGene.LIBIDO_MIN - this.libido;
-        }
-        if (this.libido > ReproductionGene.LIBIDO_MAX) {
-            this.libido = 2 * ReproductionGene.LIBIDO_MAX - this.libido;
-        }
-        if (this.charity < ReproductionGene.CHARITY_MIN) {
-            this.charity = 2 * ReproductionGene.CHARITY_MIN - this.charity;
+        if (Math.random() < MUTATION_PROBABILITY) {
+            this.charity += Math.random() * ReproductionGene.CHARITY_VARIANCE * (Math.random() > 5 ? 1 : -1);
+            if (this.charity < ReproductionGene.CHARITY_MIN) {
+                this.charity = 2 * ReproductionGene.CHARITY_MIN - this.charity;
+            }
         }
     }
 
@@ -64,9 +68,8 @@ public class ReproductionGene implements Gene<ReproductionGene> {
         double libido = Util.random(this.libido, gene.libido);
         double charity = Util.random(this.charity, gene.charity);
         ReproductionGene childGene = new ReproductionGene(libido, charity);
-        if (Math.random() < MUTATION_PROBABILITY) {
-            childGene.mutation();
-        }
+        childGene.mutation();
+
         return childGene;
     }
 

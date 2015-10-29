@@ -40,19 +40,24 @@ public class TranslationGene implements Gene<TranslationGene> {
 
     @Override
     public void mutation() {
-        this.speed += Math.random() * TranslationGene.SPEED_VARIANCE * (Math.random() > .5 ? 1 : -1);
-        this.inconstancy += Math.random() * TranslationGene.INCONSTANCY_VARIANCE * (Math.random() > .5 ? 1 : -1);
-        if (this.speed < TranslationGene.SPEED_MIN) {
-            this.speed = 2 * TranslationGene.SPEED_MIN - this.speed;
+        if (Math.random() < MUTATION_PROBABILITY) {
+            this.speed += Math.random() * TranslationGene.SPEED_VARIANCE * (Math.random() > .5 ? 1 : -1);
+            if (this.speed < TranslationGene.SPEED_MIN) {
+                this.speed = 2 * TranslationGene.SPEED_MIN - this.speed;
+            }
+            if (this.speed > TranslationGene.SPEED_MAX) {
+                this.speed = 2 * TranslationGene.SPEED_MAX - this.speed;
+            }
         }
-        if (this.speed > TranslationGene.SPEED_MAX) {
-            this.speed = 2 * TranslationGene.SPEED_MAX - this.speed;
-        }
-        if (this.inconstancy < TranslationGene.INCONSTANCY_MIN) {
-            this.inconstancy = 2 * TranslationGene.INCONSTANCY_MIN - this.inconstancy;
-        }
-        if (this.inconstancy > TranslationGene.INCONSTANCY_MAX) {
-            this.inconstancy = 2 * TranslationGene.INCONSTANCY_MAX - this.inconstancy;
+
+        if (Math.random() < MUTATION_PROBABILITY) {
+            this.inconstancy += Math.random() * TranslationGene.INCONSTANCY_VARIANCE * (Math.random() > .5 ? 1 : -1);
+            if (this.inconstancy < TranslationGene.INCONSTANCY_MIN) {
+                this.inconstancy = 2 * TranslationGene.INCONSTANCY_MIN - this.inconstancy;
+            }
+            if (this.inconstancy > TranslationGene.INCONSTANCY_MAX) {
+                this.inconstancy = 2 * TranslationGene.INCONSTANCY_MAX - this.inconstancy;
+            }
         }
     }
 
@@ -61,9 +66,8 @@ public class TranslationGene implements Gene<TranslationGene> {
         double speed = Util.random(this.speed, gene.speed);
         double constancy = Util.random(this.inconstancy, gene.inconstancy);
         TranslationGene childGene = new TranslationGene(speed, constancy);
-        if (Math.random() < Gene.MUTATION_PROBABILITY) {
-            childGene.mutation();
-        }
+        childGene.mutation();
+
         return childGene;
     }
 

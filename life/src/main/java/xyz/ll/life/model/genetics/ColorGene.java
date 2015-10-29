@@ -38,39 +38,45 @@ public class ColorGene implements Gene<ColorGene> {
 
     @Override
     public void mutation() {
-        this.hue += Math.random() * ColorGene.HUE_VARIANCE * (Math.random() > .5 ? 1 : -1);
-        this.saturation += Math.random() * ColorGene.SATURATION_VARIANCE * (Math.random() > .5 ? 1 : -1);
-        this.brightness += Math.random() * ColorGene.BRIGHTNESS_VARIANCE * (Math.random() > .5 ? 1 : -1);
+        if (Math.random() < MUTATION_PROBABILITY) {
+            this.hue += Math.random() * ColorGene.HUE_VARIANCE * (Math.random() > .5 ? 1 : -1);
+            if (this.hue < ColorGene.HUE_MIN) {
+                this.hue = 2 * ColorGene.HUE_MIN - this.hue;
+            }
+            if (this.hue > ColorGene.HUE_MAX) {
+                this.hue = 2 * ColorGene.HUE_MAX - this.hue;
+            }
+        }
 
-        if (this.hue < ColorGene.HUE_MIN) {
-            this.hue = 2 * ColorGene.HUE_MIN - this.hue;
+        if (Math.random() < MUTATION_PROBABILITY) {
+            this.saturation += Math.random() * ColorGene.SATURATION_VARIANCE * (Math.random() > .5 ? 1 : -1);
+            if (this.saturation < ColorGene.SATURATION_MIN) {
+                this.saturation = 2 * ColorGene.SATURATION_MIN - this.saturation;
+            }
+            if (this.saturation > ColorGene.SATURATION_MAX) {
+                this.saturation = 2 * ColorGene.SATURATION_MAX - this.saturation;
+            }
         }
-        if (this.hue > ColorGene.HUE_MAX) {
-            this.hue = 2 * ColorGene.HUE_MAX - this.hue;
-        }
-        if (this.saturation < ColorGene.SATURATION_MIN) {
-            this.saturation = 2 * ColorGene.SATURATION_MIN - this.saturation;
-        }
-        if (this.saturation > ColorGene.SATURATION_MAX) {
-            this.saturation = 2 * ColorGene.SATURATION_MAX - this.saturation;
-        }
-        if (this.brightness < ColorGene.BRIGHTNESS_MIN) {
-            this.brightness = 2 * ColorGene.BRIGHTNESS_MIN - this.brightness;
-        }
-        if (this.brightness > ColorGene.BRIGHTNESS_MAX) {
-            this.brightness = 2 * ColorGene.BRIGHTNESS_MAX - this.brightness;
+
+        if (Math.random() < MUTATION_PROBABILITY) {
+            this.brightness += Math.random() * ColorGene.BRIGHTNESS_VARIANCE * (Math.random() > .5 ? 1 : -1);
+            if (this.brightness < ColorGene.BRIGHTNESS_MIN) {
+                this.brightness = 2 * ColorGene.BRIGHTNESS_MIN - this.brightness;
+            }
+            if (this.brightness > ColorGene.BRIGHTNESS_MAX) {
+                this.brightness = 2 * ColorGene.BRIGHTNESS_MAX - this.brightness;
+            }
         }
     }
 
     @Override
     public ColorGene meiosis(ColorGene gene) {
-        double hue = (this.hue + gene.hue) / 2;
-        double saturation = (this.saturation + gene.saturation) / 2;
-        double brightness = (this.brightness + gene.brightness) / 2;
+        double hue = Util.random(this.hue, gene.hue);
+        double saturation = Util.random(this.saturation, gene.saturation);
+        double brightness = Util.random(this.brightness, gene.brightness);
         ColorGene childGene = new ColorGene(hue, saturation, brightness);
-        if (Math.random() < MUTATION_PROBABILITY) {
-            childGene.mutation();
-        }
+        childGene.mutation();
+
         return childGene;
     }
 

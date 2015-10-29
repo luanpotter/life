@@ -26,12 +26,14 @@ public class RotationGene implements Gene<RotationGene> {
     }
 
     public void mutation() {
-        this.speed += Math.random() * SPEED_VARIANCE * (Math.random() > .5 ? 1 : -1);
-        if (this.speed < SPEED_MIN) {
-            this.speed = 2 * SPEED_MIN - this.speed;
-        }
-        if (this.speed > SPEED_MAX) {
-            this.speed = 2 * SPEED_MAX - this.speed;
+        if (Math.random() < MUTATION_PROBABILITY) {
+            this.speed += Math.random() * SPEED_VARIANCE * (Math.random() > .5 ? 1 : -1);
+            if (this.speed < SPEED_MIN) {
+                this.speed = 2 * SPEED_MIN - this.speed;
+            }
+            if (this.speed > SPEED_MAX) {
+                this.speed = 2 * SPEED_MAX - this.speed;
+            }
         }
     }
 
@@ -39,9 +41,8 @@ public class RotationGene implements Gene<RotationGene> {
     public RotationGene meiosis(RotationGene gene) {
         double speed = Util.random(this.speed, gene.speed);
         RotationGene childGene = new RotationGene(speed);
-        if (Math.random() < MUTATION_PROBABILITY) {
-            childGene.mutation();
-        }
+        childGene.mutation();
+
         return childGene;
     }
 
