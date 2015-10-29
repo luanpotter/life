@@ -94,6 +94,16 @@ public class Individual extends Entity {
         }
     }
 
+    private void move() {
+        genome.getRotation().rotate(body);
+        genome.getTranslation().translate(body);
+        body.move();
+    }
+
+    private boolean disease() {
+        return this.genome.getLife().disease();
+    }
+
     @Override
     public void onCollide(Entity entity, EntityManager em) {
         LazyIntersection intersection = new LazyIntersection(this, entity);
@@ -103,10 +113,11 @@ public class Individual extends Entity {
 
     @Override
     public void tick(EntityManager em) {
-        tickAge++;
+        this.tickAge++;
         this.loseEnergy(Util.BASE_LIFE_ENERGY_COST * this.getArea());
 
-        if (this.getEnergy() < 0) {
+        boolean die = disease();
+        if (die || this.getEnergy() < 0) {
             em.remove(this);
             em.add(onDeath());
             return;
@@ -114,11 +125,4 @@ public class Individual extends Entity {
 
         move();
     }
-
-    private void move() {
-        genome.getRotation().rotate(body);
-        genome.getTranslation().translate(body);
-        body.move();
-    }
-
 }
