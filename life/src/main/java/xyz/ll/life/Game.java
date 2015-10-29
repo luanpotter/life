@@ -35,7 +35,7 @@ public class Game {
 	}
 
 	public void tick(Group group) throws Exception {
-		//generateRandomFood();
+		generateRandomFood();
 
 		EntityManager em = new EntityManager();
 		for (Entity e : entities) {

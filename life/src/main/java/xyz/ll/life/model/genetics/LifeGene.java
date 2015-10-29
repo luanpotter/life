@@ -8,8 +8,9 @@ import xyz.ll.life.model.EntityShape;
 public class LifeGene implements Gene<LifeGene> {
 
     private static double BASE_COST_OF_LIVING  = 0.1d;
+    private static double OLDNESS_IMPACT  = 0.01d;
 
-    private static final double HEALTH_MAX = 1, HEALTH_MIN = 0, HEALTH_VARIANCE = 0.00005;
+    private static final double HEALTH_MAX = 1, HEALTH_MIN = 0, HEALTH_VARIANCE = 0.0000005;
 
     private double health;
 
@@ -18,11 +19,11 @@ public class LifeGene implements Gene<LifeGene> {
     }
 
     public LifeGene() {
-        this.health = 0.999;
+        this.health = 0.99999;
     }
 
-    public boolean disease() {
-        return Math.random() > this.health;
+    public boolean disease(int age) {
+        return Math.random() > this.health / Math.pow(age, LifeGene.OLDNESS_IMPACT);
     }
 
     public double lifeCost(EntityShape body) {
