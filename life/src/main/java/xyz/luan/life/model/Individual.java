@@ -46,7 +46,7 @@ public class Individual extends Entity {
         double initialEnergy = this.divide() + pair.divide();
         Bounds bounds = intersection.getBoundsInParent();
         Point2D center = new Point2D((bounds.getMaxX() + bounds.getMinX()) / 2, (bounds.getMaxY() + bounds.getMinY()) / 2);
-        Individual child = new Individual(center, initialEnergy, genome.meiosis(pair.genome));
+        Individual child = new Individual(center, initialEnergy, this.genome.meiosis(pair.genome));
         child.generation = Math.max(this.generation, pair.generation) + 1;
         return child;
     }
