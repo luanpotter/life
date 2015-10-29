@@ -34,7 +34,7 @@ public class ReproductionGene implements Gene<ReproductionGene> {
         return meiosisCost(body) + careCost(body);
     }
 
-    public boolean isAvailableToReproduce(EntityShape body, double energy) {
+    public boolean available(EntityShape body, double energy) {
         double amount = energy * this.libido;
         if (amount >= reproductionCost(body)) {
             return true;

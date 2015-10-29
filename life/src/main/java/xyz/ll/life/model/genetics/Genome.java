@@ -36,7 +36,7 @@ public class Genome {
         this.metabolizationGene = new MetabolizationGene();
     }
 
-    public double geneticDistance(Genome genome) {
+    private double geneticDistance(Genome genome) {
         return this.translationGene.distance(genome.translationGene) +
                 this.rotationGene.distance(genome.rotationGene) +
                 this.colorGene.distance(genome.colorGene) +
@@ -44,6 +44,10 @@ public class Genome {
                 this.morfologicGene.distance(genome.morfologicGene) +
                 this.lifeGene.distance(genome.lifeGene) +
                 this.metabolizationGene.distance(genome.metabolizationGene);
+    }
+
+    public boolean isCompatible(Genome genome) {
+        return this.geneticDistance(genome) < Genome.ACCEPTABLE_GENETIC_DISTANCE_TO_REPRODUCE;
     }
 
     public TranslationGene getTranslation() {

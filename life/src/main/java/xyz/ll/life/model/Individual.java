@@ -17,7 +17,7 @@ public class Individual extends Entity {
     private long timeAge = System.currentTimeMillis();
     private int generation = 0;
 
-    private static EntityShape generateBody(Point2D position, Genome genome, int precision) {
+    private static EntityShape generateBody(Point2D position, Genome genome) {
         EntityShape body = new EntityShape(position);
         genome.getTranslation().initialSpeed(body);
         genome.getColor().dye(body);
@@ -31,7 +31,7 @@ public class Individual extends Entity {
     }
 
     private Individual(Point2D position, double energy, Genome genome) {
-        super(Individual.generateBody(position, genome, 100), energy);
+        super(Individual.generateBody(position, genome), energy);
 
         this.body.toFront();
         this.genome = genome;
@@ -39,15 +39,6 @@ public class Individual extends Entity {
 
     public Genome getGenome() {
         return genome;
-    }
-
-    private Individual reproduce(Individual pair, Shape intersection) {
-        double initialEnergy = this.divide() + pair.divide();
-        Bounds bounds = intersection.getBoundsInParent();
-        Point2D center = new Point2D((bounds.getMaxX() + bounds.getMinX()) / 2, (bounds.getMaxY() + bounds.getMinY()) / 2);
-        Individual child = new Individual(center, initialEnergy, this.genome.meiosis(pair.genome));
-        child.generation = Math.max(this.generation, pair.generation) + 1;
-        return child;
     }
 
     private Food onDeath() {
@@ -62,7 +53,7 @@ public class Individual extends Entity {
     }
 
     public boolean isAvailableToReproduce() {
-        return genome.getReproduction().isAvailableToReproduce(body, energy);
+        return genome.getReproduction().available(body, energy);
     }
 
     private void tryToReproduce(Entity entity, EntityManager em, LazyIntersection intersection) {
@@ -73,12 +64,21 @@ public class Individual extends Entity {
 
     private void tryToReproduceIndividual(Individual individual, EntityManager em, LazyIntersection intersection) {
         if (this.isAvailableToReproduce() && individual.isAvailableToReproduce()) {
-            if (genome.geneticDistance(individual.genome) < Genome.ACCEPTABLE_GENETIC_DISTANCE_TO_REPRODUCE) {
+            if (this.genome.isCompatible(individual.genome)) {
                 if (intersection.intersects()) {
                     em.add(reproduce(individual, intersection.getShape()));
                 }
             }
         }
+    }
+
+    private Individual reproduce(Individual pair, Shape intersection) {
+        double initialEnergy = this.divide() + pair.divide();
+        Bounds bounds = intersection.getBoundsInParent();
+        Point2D center = new Point2D((bounds.getMaxX() + bounds.getMinX()) / 2, (bounds.getMaxY() + bounds.getMinY()) / 2);
+        Individual child = new Individual(center, initialEnergy, this.genome.meiosis(pair.genome));
+        child.generation = Math.max(this.generation, pair.generation) + 1;
+        return child;
     }
 
     private void tryToEat(Entity entity, EntityManager em, LazyIntersection intersection) {
