@@ -96,6 +96,10 @@ public class Individual extends Entity {
         body.move();
     }
 
+    private void live() {
+        this.loseEnergy(this.genome.getLife().lifeCost(this.body));
+    }
+
     private boolean disease() {
         return this.genome.getLife().disease();
     }
@@ -111,10 +115,9 @@ public class Individual extends Entity {
     @Override
     public void tick(EntityManager em) {
         this.tickAge++;
-        this.loseEnergy(Util.BASE_LIFE_ENERGY_COST * this.getArea());
+        live();
 
-        boolean die = disease();
-        if (die || this.getEnergy() < 0) {
+        if (disease() || this.getEnergy() < 0) {
             em.remove(this);
             em.add(onDeath());
             return;

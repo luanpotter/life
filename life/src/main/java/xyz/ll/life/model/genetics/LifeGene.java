@@ -1,9 +1,13 @@
 package xyz.ll.life.model.genetics;
 
+import xyz.ll.life.model.EntityShape;
+
 /**
  * Created by lucas-cleto on 10/29/15.
  */
 public class LifeGene implements Gene<LifeGene> {
+
+    private static double BASE_COST_OF_LIVING  = 0.1d;
 
     private static final double HEALTH_MAX = 1, HEALTH_MIN = 0, HEALTH_VARIANCE = 0.00005;
 
@@ -19,6 +23,10 @@ public class LifeGene implements Gene<LifeGene> {
 
     public boolean disease() {
         return Math.random() > this.health;
+    }
+
+    public double lifeCost(EntityShape body) {
+        return body.getArea() * LifeGene.BASE_COST_OF_LIVING * this.health;
     }
 
     @Override
