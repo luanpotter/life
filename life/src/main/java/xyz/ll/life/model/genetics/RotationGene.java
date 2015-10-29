@@ -2,7 +2,6 @@ package xyz.ll.life.model.genetics;
 
 import javafx.geometry.Point2D;
 import xyz.ll.life.model.EntityShape;
-import xyz.ll.life.model.Util;
 
 public class RotationGene implements Gene<RotationGene> {
 
@@ -38,7 +37,7 @@ public class RotationGene implements Gene<RotationGene> {
 
     @Override
     public RotationGene meiosis(RotationGene gene) {
-        double speed = (this.speed + gene.speed) / 2;
+        double speed = Util.random(this.speed, gene.speed);
         RotationGene childGene = new RotationGene(speed);
         if (Math.random() < MUTATION_PROBABILITY) {
             childGene.mutation();

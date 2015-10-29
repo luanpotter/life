@@ -68,9 +68,9 @@ public class MetabolizationGene implements Gene<MetabolizationGene> {
 
     @Override
     public MetabolizationGene meiosis(MetabolizationGene gene) {
-        double efficiency = (this.efficiency + gene.efficiency) / 2;
-        double areaProportion = (this.areaProportion + gene.areaProportion) / 2;
-        double cost = (this.cost + gene.cost) / 2;
+        double efficiency = Util.random(this.efficiency, gene.efficiency);
+        double areaProportion = Util.random(this.areaProportion, gene.areaProportion);
+        double cost = Util.random(this.cost, gene.cost);
         MetabolizationGene childGene = new MetabolizationGene(efficiency, areaProportion, cost);
         if (Math.random() < MUTATION_PROBABILITY) {
             childGene.mutation();

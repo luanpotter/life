@@ -42,7 +42,7 @@ public class LifeGene implements Gene<LifeGene> {
 
     @Override
     public LifeGene meiosis(LifeGene gene) {
-        double health = (this.health + gene.health) / 2;
+        double health = Util.random(this.health, gene.health);
         LifeGene childGene = new LifeGene(health);
         if (Math.random() < MUTATION_PROBABILITY) {
             childGene.mutation();

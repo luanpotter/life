@@ -61,8 +61,8 @@ public class ReproductionGene implements Gene<ReproductionGene> {
 
     @Override
     public ReproductionGene meiosis(ReproductionGene gene) {
-        double libido = (this.libido + gene.libido) / 2;
-        double charity = (this.charity + gene.charity) / 2;
+        double libido = Util.random(this.libido, gene.libido);
+        double charity = Util.random(this.charity, gene.charity);
         ReproductionGene childGene = new ReproductionGene(libido, charity);
         if (Math.random() < MUTATION_PROBABILITY) {
             childGene.mutation();

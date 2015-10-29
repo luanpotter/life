@@ -7,7 +7,4 @@ import javafx.scene.transform.Rotate;
 public class Util {
 
 	public static final double INFINITY = Double.POSITIVE_INFINITY;
-	public static Point2D rotate(Point2D p, double theta) {
-		return new Rotate(Math.toDegrees(theta), 0, 0).transform(p);
-	}
 }

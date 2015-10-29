@@ -68,8 +68,9 @@ public class MorfologicGene implements Gene<MorfologicGene> {
     public MorfologicGene meiosis(MorfologicGene gene) {
         double[] characteristics = new double[MorfologicGene.NUMBER_OF_CHARACTERISTICS];
         for (int i = 0; i < MorfologicGene.NUMBER_OF_CHARACTERISTICS; i++) {
-            characteristics[i] = (this.characteristics[i] + gene.characteristics[i]) / 2;
+            characteristics[i] = Util.random(this.characteristics[i], gene.characteristics[i]);
         }
+
         MorfologicGene childGene = new MorfologicGene(characteristics);
         if (Math.random() < MUTATION_PROBABILITY) {
             childGene.mutation();

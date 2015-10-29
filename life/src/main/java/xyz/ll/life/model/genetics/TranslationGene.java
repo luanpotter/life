@@ -2,7 +2,6 @@ package xyz.ll.life.model.genetics;
 
 import javafx.geometry.Point2D;
 import xyz.ll.life.model.EntityShape;
-import xyz.ll.life.model.Util;
 
 public class TranslationGene implements Gene<TranslationGene> {
 
@@ -59,8 +58,8 @@ public class TranslationGene implements Gene<TranslationGene> {
 
     @Override
     public TranslationGene meiosis(TranslationGene gene) {
-        double speed = (this.speed + gene.speed) / 2;
-        double constancy = (this.inconstancy + gene.inconstancy) / 2;
+        double speed = Util.random(this.speed, gene.speed);
+        double constancy = Util.random(this.inconstancy, gene.inconstancy);
         TranslationGene childGene = new TranslationGene(speed, constancy);
         if (Math.random() < Gene.MUTATION_PROBABILITY) {
             childGene.mutation();
