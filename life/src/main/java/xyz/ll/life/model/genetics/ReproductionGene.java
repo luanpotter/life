@@ -7,7 +7,7 @@ public class ReproductionGene implements Gene<ReproductionGene> {
     private static double LIBIDO_MAX = 1d, LIBIDO_MIN = 0d, LIBIDO_VARIANCE = 0.05d;
     private static double CHARITY_MIN = 0d, CHARITY_WEIGHT = 2d, CHARITY_VARIANCE = 0.2d;
 
-    public static final double BASE_REPRODUCTION_ENERGY_COST = 40d;
+    private static final double BASE_REPRODUCTION_ENERGY_COST = 40d;
 
     private double libido;
     private double charity;

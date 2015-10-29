@@ -7,9 +7,6 @@ import javafx.scene.shape.Polygon;
 
 public class EntityShape extends Polygon {
 
-    private static final Point2D[] FOOD_VERTICES = {new Point2D(0, 1), new Point2D(1, 0),
-            new Point2D(0, - 1), new Point2D(- 1, 0)};
-
     private Point2D center;
     private double angle;
     private Color color;
@@ -25,13 +22,6 @@ public class EntityShape extends Polygon {
         this.setTranslateX(center.getX());
         this.setTranslateY(center.getY());
         this.setRotate(angle);
-    }
-
-    public static EntityShape foodShape(Point2D center) {
-        EntityShape foodShape = new EntityShape(center);
-        foodShape.setColor(Food.FOOD_COLOR);
-        foodShape.setVertices(FOOD_VERTICES);
-        return foodShape;
     }
 
     public double getArea() {
