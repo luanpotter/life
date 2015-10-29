@@ -51,6 +51,21 @@ public class EntityShape extends Polygon {
         return (double) Math.abs(sum) / 2d;
     }
 
+    public void rotate(double angle) {
+        this.angle += angle;
+        this.setRotate(Math.toDegrees(this.angle));
+    }
+
+    public void translate(double x, double y) {
+        this.center = new Point2D(this.center.getX() + x, this.center.getY() + y);
+        this.setTranslateX(this.center.getX());
+        this.setTranslateY(this.center.getY());
+    }
+
+    public Point2D[] getVertices() {
+        return this.points;
+    }
+
     public void setVertices(Point2D[] points) {
         this.points = points;
         this.getPoints().clear();
@@ -68,17 +83,6 @@ public class EntityShape extends Polygon {
         return this.angle;
     }
 
-    public void rotate(double angle) {
-        this.angle += angle;
-        this.setRotate(Math.toDegrees(this.angle));
-    }
-
-    public void translate(double x, double y) {
-        this.center = new Point2D(this.center.getX() + x, this.center.getY() + y);
-        this.setTranslateX(this.center.getX());
-        this.setTranslateY(this.center.getY());
-    }
-
     public Color getColor() {
         return this.color;
     }
@@ -86,10 +90,6 @@ public class EntityShape extends Polygon {
     public void setColor(Color color) {
         this.color = color;
         this.setFill(color);
-    }
-
-    public Point2D[] getVertices() {
-        return this.points;
     }
 
     public Point2D getVelocity() {
