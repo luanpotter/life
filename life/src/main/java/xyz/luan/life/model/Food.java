@@ -4,24 +4,13 @@ import java.util.Random;
 
 import javafx.geometry.Dimension2D;
 import javafx.geometry.Point2D;
+import javafx.scene.paint.Color;
 import xyz.luan.life.EntityManager;
 
 public class Food extends Entity {
 
 	private static final double SIZE = 2d;
-
-	private static EntityShape generateBody(Point2D position) {
-		double[] chars = { //
-		        SIZE, 1, // a * sin^2(b * t)
-		        0, 0, 0, // a * sin^2(b * t) * cos^2(c * t)
-		        SIZE, 1, // a * cos^2(b * t)
-		        0, 0, // a * sin(b)
-		        SIZE / 8d, 2, 2, // a * sin(b) * cos(c)
-		        0, 0 }; // a * cos(b)
-		EntityShape food = new EntityShape(position, chars, 10);
-		food.setColor(Util.FOOD_COLOR);
-		return food;
-	}
+    public static final Color FOOD_COLOR = Color.GRAY;
 
 	public static Food randomFood(Dimension2D dimension) {
 		Random r = new Random();
@@ -35,7 +24,7 @@ public class Food extends Entity {
 	}
 
 	public Food(Point2D position, double energy) {
-		super(Food.generateBody(position), energy);
+		super(EntityShape.foodShape(position), energy);
 		this.body.toBack();
 	}
 

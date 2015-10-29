@@ -53,7 +53,7 @@ public class MorfologicGene implements Gene<MorfologicGene> {
             Point2D point = getPoint(i * MorfologicGene.ARC);
             points[i] = point;
         }
-        body.setPoints(points);
+        body.setVertices(points);
     }
 
     @Override

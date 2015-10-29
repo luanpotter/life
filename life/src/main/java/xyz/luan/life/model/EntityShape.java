@@ -11,6 +11,9 @@ import xyz.luan.life.model.genetics.MorfologicGene;
 
 public class EntityShape extends Polygon {
 
+    private static final Point2D[] FOOD_VERTICES = {new Point2D(0, 1), new Point2D(1, 0),
+            new Point2D(0, - 1), new Point2D(- 1, 0)};
+
     private Point2D center;
     private double angle;
     private Color color;
@@ -26,6 +29,13 @@ public class EntityShape extends Polygon {
         this.setRotate(angle);
     }
 
+    public static EntityShape foodShape(Point2D center) {
+        EntityShape foodShape = new EntityShape(center);
+        foodShape.setColor(Food.FOOD_COLOR);
+        foodShape.setVertices(FOOD_VERTICES);
+        return foodShape;
+    }
+
     public double estimateArea() {
         double sum = 0;
         for (int i = 0; i < (this.points.length - 1); i++) {
@@ -39,7 +49,7 @@ public class EntityShape extends Polygon {
         return (double) Math.abs(sum) / 2d;
     }
 
-    public void setPoints(Point2D[] points) {
+    public void setVertices(Point2D[] points) {
         this.points = points;
         this.getPoints().clear();
         for (int i = 0; i < this.points.length; i++) {
@@ -75,7 +85,7 @@ public class EntityShape extends Polygon {
         this.setFill(color);
     }
 
-    public Point2D[] getPoints2D() {
+    public Point2D[] getVertices() {
         return this.points;
     }
 
