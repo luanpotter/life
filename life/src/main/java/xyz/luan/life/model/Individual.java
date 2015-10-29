@@ -18,28 +18,6 @@ public class Individual extends Entity {
     private long timeAge = System.currentTimeMillis();
     private int generation = 0;
 
-    private static class LazyIntersection {
-
-        private Entity e1, e2;
-        private Shape shape;
-
-        public LazyIntersection(Entity e1, Entity e2) {
-            this.e1 = e1;
-            this.e2 = e2;
-        }
-
-        public Shape getShape() {
-            if (shape == null) {
-                shape = e1.intersects(e2);
-            }
-            return shape;
-        }
-
-        public boolean intersects() {
-            return getShape() != null && getShape().getLayoutBounds().getHeight() > 0 && getShape().getLayoutBounds().getWidth() > 0;
-        }
-    }
-
     private static EntityShape generateBody(Point2D position, Genome genome, int precision) {
         List<Gene2> morfologicalGenes = Arrays.asList(Gene2.A, Gene2.B, Gene2.C, Gene2.D, Gene2.E, Gene2.F, Gene2.G, Gene2.H, Gene2.I, Gene2.J, Gene2.K,
                 Gene2.L, Gene2.M, Gene2.N);
@@ -137,8 +115,6 @@ public class Individual extends Entity {
             return;
         }
 
-        // never changes...
-        // genome.getColor().set(body);
         move();
     }
 
