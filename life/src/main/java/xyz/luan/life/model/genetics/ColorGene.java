@@ -12,7 +12,6 @@ public class ColorGene implements Gene<ColorGene> {
     private static final double SATURATION_MAX = 1d, SATURATION_MIN = 0d, SATURATION_VARIANCE = 0.001d;
     private static final double BRIGHTNESS_MAX = 1d, BRIGHTNESS_MIN = 0d, BRIGHTNESS_VARIANCE = 0.001d;
 
-    private Color color;
     private double hue;
     private double saturation;
     private double brightness;
@@ -21,25 +20,27 @@ public class ColorGene implements Gene<ColorGene> {
         this.hue = hue;
         this.saturation = saturation;
         this.brightness = brightness;
-        this.color = Color.hsb(hue, saturation, brightness);
     }
 
     public ColorGene() {
-        this.hue = 0d;
+        this.hue = Math.PI;
         this.saturation = 1d;
         this.brightness = 1d;
-        this.color = Color.hsb(hue, saturation, brightness);
+    }
+
+    private Color getColor() {
+        return Color.hsb(Math.toDegrees(hue), saturation, brightness);
     }
 
     public void dye(EntityShape body) {
-        body.setColor(this.color);
+        body.setColor(getColor());
     }
 
     @Override
     public void mutation() {
-        this.hue += Math.random() * ColorGene.HUE_VARIANCE * (Math.random() > 5 ? 1 : -1);
-        this.saturation += Math.random() * ColorGene.SATURATION_VARIANCE * (Math.random() > 5 ? 1 : -1);
-        this.brightness += Math.random() * ColorGene.BRIGHTNESS_VARIANCE * (Math.random() > 5 ? 1 : -1);
+        this.hue += Math.random() * ColorGene.HUE_VARIANCE * (Math.random() > .5 ? 1 : -1);
+        this.saturation += Math.random() * ColorGene.SATURATION_VARIANCE * (Math.random() > .5 ? 1 : -1);
+        this.brightness += Math.random() * ColorGene.BRIGHTNESS_VARIANCE * (Math.random() > .5 ? 1 : -1);
 
         if (this.hue < ColorGene.HUE_MIN) {
             this.hue = 2 * ColorGene.HUE_MIN - this.hue;

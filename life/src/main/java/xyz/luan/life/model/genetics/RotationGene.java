@@ -15,7 +15,7 @@ public class RotationGene implements Gene<RotationGene> {
     }
 
     public RotationGene() {
-        this.speed = 0.05;
+        this.speed = 0.1;
     }
 
     public void rotate(EntityShape body) {

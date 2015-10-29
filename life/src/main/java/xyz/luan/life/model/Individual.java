@@ -67,23 +67,10 @@ public class Individual extends Entity {
     }
 
     private Individual reproduce(Individual pair, Shape intersection) {
-        Random random = new Random();
-        Genome genome = new Genome();
-        for (Gene2 gene : this.getGenome().getGenes().keySet()) {
-            double a = this.getGenome().get(gene);
-            double b = pair.getGenome().get(gene);
-            double diff = Math.abs(a - b);
-            double mix = Math.min(a, b) + diff * random.nextDouble();
-            if (random.nextInt(Util.RARITY_OF_IMMUTABILITY) == 0) {
-                mix = mix + random.nextDouble() * Math.pow(-1, random.nextInt(1));
-            }
-            genome.getGenes().put(gene, Math.abs(mix));
-        }
-
         double initialEnergy = this.divide() + pair.divide();
         Bounds bounds = intersection.getBoundsInParent();
         Point2D center = new Point2D((bounds.getMaxX() + bounds.getMinX()) / 2, (bounds.getMaxY() + bounds.getMinY()) / 2);
-        Individual child = new Individual(center, initialEnergy, genome);
+        Individual child = new Individual(center, initialEnergy, genome.meiosis(pair.genome));
         child.generation = Math.max(this.generation, pair.generation) + 1;
         return child;
     }

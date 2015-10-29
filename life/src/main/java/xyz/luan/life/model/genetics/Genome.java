@@ -2,8 +2,10 @@ package xyz.luan.life.model.genetics;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Random;
 
 import xyz.luan.life.model.Gene2;
+import xyz.luan.life.model.Util;
 
 public class Genome {
 
@@ -21,11 +23,28 @@ public class Genome {
     }
 
     private Genome(Genome genome1, Genome genome2) {
+        oldGenesMeiosis(genome1, genome2);
+
         this.translationGene = genome1.translationGene.meiosis(genome2.translationGene);
         this.rotationGene = genome1.rotationGene.meiosis(genome2.rotationGene);
         this.colorGene = genome1.colorGene.meiosis(genome2.colorGene);
         this.reproductionGene = genome1.reproductionGene.meiosis(genome2.reproductionGene);
         this.morfologicGene = genome1.morfologicGene.meiosis(genome2.morfologicGene);
+    }
+
+    private void oldGenesMeiosis(Genome genome1, Genome genome2) {
+        Random random = new Random();
+        genes2 = new HashMap<>();
+        for (Gene2 gene : Gene2.values()) {
+            double a = genome1.get(gene);
+            double b = genome2.get(gene);
+            double diff = Math.abs(a - b);
+            double mix = Math.min(a, b) + diff * random.nextDouble();
+            if (random.nextInt(Util.RARITY_OF_IMMUTABILITY) == 0) {
+                mix = mix + random.nextDouble() * Math.pow(-1, random.nextInt(1));
+            }
+            genes2.put(gene, Math.abs(mix));
+        }
     }
 
     private void randomGenes() {
