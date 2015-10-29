@@ -18,24 +18,6 @@ public class Individual extends Entity {
     private long timeAge = System.currentTimeMillis();
     private int generation = 0;
 
-    private static class LazyIntersection {
-
-        private Entity e1, e2;
-        private Shape shape;
-
-        public LazyIntersection(Entity e1, Entity e2) {
-            this.e1 = e1;
-            this.e2 = e2;
-        }
-
-        public Shape getShape() {
-            if (shape == null) {
-                shape = e1.intersects(e2);
-            }
-            return shape;
-        }
-    }
-
     private static EntityShape generateBody(Point2D position, Genome genome, int precision) {
         EntityShape body = new EntityShape(position);
         genome.getTranslation().initialSpeed(body);
@@ -61,23 +43,10 @@ public class Individual extends Entity {
     }
 
     private Individual reproduce(Individual pair, Shape intersection) {
-        Random random = new Random();
-        Genome genome = new Genome();
-        for (Gene2 gene : this.getGenome().getGenes().keySet()) {
-            double a = this.getGenome().get(gene);
-            double b = pair.getGenome().get(gene);
-            double diff = Math.abs(a - b);
-            double mix = Math.min(a, b) + diff * random.nextDouble();
-            if (random.nextInt(Util.RARITY_OF_IMMUTABILITY) == 0) {
-                mix = mix + random.nextDouble() * Math.pow(-1, random.nextInt(1));
-            }
-            genome.getGenes().put(gene, Math.abs(mix));
-        }
-
         double initialEnergy = this.divide() + pair.divide();
         Bounds bounds = intersection.getBoundsInParent();
         Point2D center = new Point2D((bounds.getMaxX() + bounds.getMinX()) / 2, (bounds.getMaxY() + bounds.getMinY()) / 2);
-        Individual child = new Individual(center, initialEnergy, genome);
+        Individual child = new Individual(center, initialEnergy, genome.meiosis(pair.genome));
         child.generation = Math.max(this.generation, pair.generation) + 1;
         return child;
     }
@@ -97,25 +66,27 @@ public class Individual extends Entity {
         return genome.getReproduction().isAvailableToReproduce(body, energy);
     }
 
-    public void tryToReproduce(Entity entity, EntityManager em, LazyIntersection intersection) {
-        if (this.isAvailableToReproduce() && entity instanceof Individual) {
-            if (((Individual) entity).isAvailableToReproduce()
-                    && genome.geneticDistance(((Individual) entity).genome) < Util.ACCEPTABLE_GENETIC_DISTANCE_TO_REPRODUCE) {
-                if (intersection.getShape() != null && intersection.getShape().getLayoutBounds().getHeight() > 0
-                        && intersection.getShape().getLayoutBounds().getWidth() > 0) {
-                    Individual child = reproduce((Individual) entity, intersection.getShape());
-                    em.add(child);
+    private void tryToReproduce(Entity entity, EntityManager em, LazyIntersection intersection) {
+        if (entity instanceof Individual) {
+            tryToReproduceIndividual((Individual) entity, em, intersection);
+        }
+    }
+
+    private void tryToReproduceIndividual(Individual individual, EntityManager em, LazyIntersection intersection) {
+        if (this.isAvailableToReproduce() && individual.isAvailableToReproduce()) {
+            if (genome.geneticDistance(individual.genome) < Util.ACCEPTABLE_GENETIC_DISTANCE_TO_REPRODUCE) {
+                if (intersection.intersects()) {
+                    em.add(reproduce(individual, intersection.getShape()));
                 }
             }
         }
     }
 
-    public void tryToEat(Entity entity, EntityManager em, LazyIntersection intersection) {
-        if (Util.ACCEPTABLE_AREA_PROPORTION_TO_EAT < this.getArea() / entity.getArea()) {
+    private void tryToEat(Entity entity, EntityManager em, LazyIntersection intersection) {
+        if (this.getArea() / entity.getArea() > Util.ACCEPTABLE_AREA_PROPORTION_TO_EAT) {
             double cost = Util.BASE_METABOLIZATION_ENERGY_COST * entity.getArea();
             if (this.getTotalEnergy() >= cost) {
-                if (intersection.getShape() != null && intersection.getShape().getLayoutBounds().getHeight() > 0
-                        && intersection.getShape().getLayoutBounds().getWidth() > 0) {
+                if (intersection.intersects()) {
                     this.loseEnergy(cost);
                     this.gainEnergy(entity.getTotalEnergy());
                     em.remove(entity);
@@ -142,8 +113,6 @@ public class Individual extends Entity {
             return;
         }
 
-        // never changes...
-        // genome.getColor().set(body);
         move();
     }
 

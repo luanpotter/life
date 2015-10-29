@@ -7,7 +7,7 @@ public class ReproductionGene implements Gene<ReproductionGene> {
     private static double LIBIDO_MAX = 1, LIBIDO_MIN = 0, LIBIDO_VARIANCE = 0.05;
     private static double CHARITY_MIN = 0, CHARITY_VARIANCE = 0.2;
 
-    public static final double BASE_REPRODUCTION_ENERGY_COST = 20d;
+    public static final double BASE_REPRODUCTION_ENERGY_COST = 40d;
 
     private double libido;
     private double charity;
@@ -18,8 +18,8 @@ public class ReproductionGene implements Gene<ReproductionGene> {
     }
 
     public ReproductionGene() {
-        this.libido = 0.5d;
-        this.charity = 2d;
+        this.libido = 0.1;
+        this.charity = 40d;
     }
 
     public static double meiosisCost(EntityShape body) {

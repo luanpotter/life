@@ -61,13 +61,12 @@ public class EntityShape extends Polygon {
         this.setTranslateX(center.getX());
         this.setTranslateY(center.getY());
     }
-
+    
     public Color getColor() {
         return color;
     }
 
     public void setColor(Color color) {
-        this.color = color;
         this.setFill(color);
     }
 
