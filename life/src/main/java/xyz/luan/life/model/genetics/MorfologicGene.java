@@ -20,7 +20,7 @@ public class MorfologicGene implements Gene<MorfologicGene> {
         for (int i = 0; i < MorfologicGene.NUMBER_OF_CHARACTERISTICS; i++) {
             this.characteristics[i] = 0;
         }
-        this.characteristics[0] = 10;
+        this.characteristics[0] = 12;
         this.characteristics[4] = 10;
     }
 
