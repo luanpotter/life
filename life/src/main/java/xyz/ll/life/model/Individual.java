@@ -115,6 +115,7 @@ public class Individual extends Entity {
     @Override
     public void tick(EntityManager em) {
         this.tickAge++;
+        //System.out.println("tick { tick: " + tickAge + " time: " + (System.currentTimeMillis() - timeAge) + " energy: " + energy + " }");
         live();
 
         if (disease() || this.getEnergy() < 0) {
