@@ -1,8 +1,8 @@
-package xyz.luan.life.model;
+package xyz.ll.life.model;
 
 import javafx.geometry.Dimension2D;
 import javafx.scene.shape.Shape;
-import xyz.luan.life.EntityManager;
+import xyz.ll.life.EntityManager;
 
 public abstract class Entity {
 

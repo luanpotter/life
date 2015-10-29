@@ -1,4 +1,4 @@
-package xyz.luan.life;
+package xyz.ll.life;
 
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;

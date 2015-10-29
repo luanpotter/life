@@ -1,4 +1,4 @@
-package xyz.luan.life.model.genetics;
+package xyz.ll.life.model.genetics;
 
 /**
  * Created by lucas-cleto on 10/27/15.

@@ -1,4 +1,4 @@
-package xyz.luan.life;
+package xyz.ll.life;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -6,9 +6,9 @@ import java.util.Random;
 
 import javafx.geometry.Dimension2D;
 import javafx.scene.Group;
-import xyz.luan.life.model.Entity;
-import xyz.luan.life.model.Food;
-import xyz.luan.life.model.Individual;
+import xyz.ll.life.model.Entity;
+import xyz.ll.life.model.Food;
+import xyz.ll.life.model.Individual;
 
 public class Game {
 

@@ -1,4 +1,4 @@
-package xyz.luan.life.model.genetics;
+package xyz.ll.life.model.genetics;
 
 public class Genome {
 

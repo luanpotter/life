@@ -1,7 +1,7 @@
-package xyz.luan.life.model.genetics;
+package xyz.ll.life.model.genetics;
 
 import javafx.scene.paint.Color;
-import xyz.luan.life.model.EntityShape;
+import xyz.ll.life.model.EntityShape;
 
 /**
  * Created by lucas-cleto on 10/27/15.
@@ -68,7 +68,7 @@ public class ColorGene implements Gene<ColorGene> {
         double saturation = (this.saturation + gene.saturation) / 2;
         double brightness = (this.brightness + gene.brightness) / 2;
         ColorGene childGene = new ColorGene(hue, saturation, brightness);
-        if (Math.random() < Gene.MUTATION_PROBABILITY) {
+        if (Math.random() < MUTATION_PROBABILITY) {
             childGene.mutation();
         }
         return childGene;

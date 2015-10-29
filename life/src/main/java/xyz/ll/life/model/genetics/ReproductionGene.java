@@ -1,6 +1,6 @@
-package xyz.luan.life.model.genetics;
+package xyz.ll.life.model.genetics;
 
-import xyz.luan.life.model.EntityShape;
+import xyz.ll.life.model.EntityShape;
 
 public class ReproductionGene implements Gene<ReproductionGene> {
 
@@ -64,7 +64,7 @@ public class ReproductionGene implements Gene<ReproductionGene> {
         double libido = (this.libido + gene.libido) / 2;
         double charity = (this.charity + gene.charity) / 2;
         ReproductionGene childGene = new ReproductionGene(libido, charity);
-        if (Math.random() < Gene.MUTATION_PROBABILITY) {
+        if (Math.random() < MUTATION_PROBABILITY) {
             childGene.mutation();
         }
         return childGene;

@@ -1,4 +1,4 @@
-package xyz.luan.life.model;
+package xyz.ll.life.model;
 
 import javafx.geometry.Point2D;
 import javafx.scene.paint.Color;

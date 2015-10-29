@@ -1,8 +1,8 @@
-package xyz.luan.life.model.genetics;
+package xyz.ll.life.model.genetics;
 
 import javafx.geometry.Point2D;
-import xyz.luan.life.model.EntityShape;
-import xyz.luan.life.model.Util;
+import xyz.ll.life.model.EntityShape;
+import xyz.ll.life.model.Util;
 
 public class RotationGene implements Gene<RotationGene> {
 
@@ -40,7 +40,7 @@ public class RotationGene implements Gene<RotationGene> {
     public RotationGene meiosis(RotationGene gene) {
         double speed = (this.speed + gene.speed) / 2;
         RotationGene childGene = new RotationGene(speed);
-        if (Math.random() < Gene.MUTATION_PROBABILITY) {
+        if (Math.random() < MUTATION_PROBABILITY) {
             childGene.mutation();
         }
         return childGene;

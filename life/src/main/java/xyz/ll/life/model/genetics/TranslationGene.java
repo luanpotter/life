@@ -1,8 +1,8 @@
-package xyz.luan.life.model.genetics;
+package xyz.ll.life.model.genetics;
 
 import javafx.geometry.Point2D;
-import xyz.luan.life.model.EntityShape;
-import xyz.luan.life.model.Util;
+import xyz.ll.life.model.EntityShape;
+import xyz.ll.life.model.Util;
 
 public class TranslationGene implements Gene<TranslationGene> {
 

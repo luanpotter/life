@@ -1,11 +1,11 @@
-package xyz.luan.life.model;
+package xyz.ll.life.model;
 
 import java.util.Random;
 
 import javafx.geometry.Dimension2D;
 import javafx.geometry.Point2D;
 import javafx.scene.paint.Color;
-import xyz.luan.life.EntityManager;
+import xyz.ll.life.EntityManager;
 
 public class Food extends Entity {
 

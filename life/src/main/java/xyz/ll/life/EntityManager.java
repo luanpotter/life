@@ -1,9 +1,9 @@
-package xyz.luan.life;
+package xyz.ll.life;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import xyz.luan.life.model.Entity;
+import xyz.ll.life.model.Entity;
 
 public class EntityManager {
 

@@ -1,15 +1,13 @@
-package xyz.luan.life.model;
+package xyz.ll.life.model;
 
-import java.util.Arrays;
-import java.util.List;
 import java.util.Random;
 
 import javafx.geometry.Bounds;
 import javafx.geometry.Dimension2D;
 import javafx.geometry.Point2D;
 import javafx.scene.shape.Shape;
-import xyz.luan.life.EntityManager;
-import xyz.luan.life.model.genetics.Genome;
+import xyz.ll.life.EntityManager;
+import xyz.ll.life.model.genetics.Genome;
 
 public class Individual extends Entity {
 

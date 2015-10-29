@@ -1,13 +1,9 @@
-package xyz.luan.life.model;
+package xyz.ll.life.model;
 
-import javafx.event.EventHandler;
 import javafx.geometry.Dimension2D;
 import javafx.geometry.Point2D;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Polygon;
-import xyz.luan.life.model.genetics.Genome;
-import xyz.luan.life.model.genetics.MorfologicGene;
 
 public class EntityShape extends Polygon {
 

@@ -1,4 +1,4 @@
-package xyz.luan.life.model;
+package xyz.ll.life.model;
 
 import javafx.scene.shape.Shape;
 

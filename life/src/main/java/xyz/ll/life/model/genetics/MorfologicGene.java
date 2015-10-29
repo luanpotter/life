@@ -1,7 +1,7 @@
-package xyz.luan.life.model.genetics;
+package xyz.ll.life.model.genetics;
 
 import javafx.geometry.Point2D;
-import xyz.luan.life.model.EntityShape;
+import xyz.ll.life.model.EntityShape;
 
 /**
  * Created by lucas-cleto on 10/28/15.
@@ -70,7 +70,7 @@ public class MorfologicGene implements Gene<MorfologicGene> {
             characteristics[i] = (this.characteristics[i] + gene.characteristics[i]) / 2;
         }
         MorfologicGene childGene = new MorfologicGene(characteristics);
-        if (Math.random() < Gene.MUTATION_PROBABILITY) {
+        if (Math.random() < MUTATION_PROBABILITY) {
             childGene.mutation();
         }
         return childGene;
