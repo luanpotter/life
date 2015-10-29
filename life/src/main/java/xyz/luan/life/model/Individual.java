@@ -34,6 +34,10 @@ public class Individual extends Entity {
             }
             return shape;
         }
+
+        public boolean intersects() {
+            return getShape() != null && getShape().getLayoutBounds().getHeight() > 0 && getShape().getLayoutBounds().getWidth() > 0;
+        }
     }
 
     private static EntityShape generateBody(Point2D position, Genome genome, int precision) {
@@ -99,25 +103,27 @@ public class Individual extends Entity {
         return genome.getReproduction().isAvailableToReproduce(body, energy);
     }
 
-    public void tryToReproduce(Entity entity, EntityManager em, LazyIntersection intersection) {
-        if (this.isAvailableToReproduce() && entity instanceof Individual) {
-            if (((Individual) entity).isAvailableToReproduce()
-                    && genome.geneticDistance(((Individual) entity).genome) < Util.ACCEPTABLE_GENETIC_DISTANCE_TO_REPRODUCE) {
-                if (intersection.getShape() != null && intersection.getShape().getLayoutBounds().getHeight() > 0
-                        && intersection.getShape().getLayoutBounds().getWidth() > 0) {
-                    Individual child = reproduce((Individual) entity, intersection.getShape());
-                    em.add(child);
+    private void tryToReproduce(Entity entity, EntityManager em, LazyIntersection intersection) {
+        if (entity instanceof Individual) {
+            tryToReproduceIndividual((Individual) entity, em, intersection);
+        }
+    }
+
+    private void tryToReproduceIndividual(Individual individual, EntityManager em, LazyIntersection intersection) {
+        if (this.isAvailableToReproduce() && individual.isAvailableToReproduce()) {
+            if (genome.geneticDistance(individual.genome) < Util.ACCEPTABLE_GENETIC_DISTANCE_TO_REPRODUCE) {
+                if (intersection.intersects()) {
+                    em.add(reproduce(individual, intersection.getShape()));
                 }
             }
         }
     }
 
-    public void tryToEat(Entity entity, EntityManager em, LazyIntersection intersection) {
-        if (Util.ACCEPTABLE_AREA_PROPORTION_TO_EAT < this.getArea() / entity.getArea()) {
+    private void tryToEat(Entity entity, EntityManager em, LazyIntersection intersection) {
+        if (this.getArea() / entity.getArea() > Util.ACCEPTABLE_AREA_PROPORTION_TO_EAT) {
             double cost = Util.BASE_METABOLIZATION_ENERGY_COST * entity.getArea();
             if (this.getTotalEnergy() >= cost) {
-                if (intersection.getShape() != null && intersection.getShape().getLayoutBounds().getHeight() > 0
-                        && intersection.getShape().getLayoutBounds().getWidth() > 0) {
+                if (intersection.intersects()) {
                     this.loseEnergy(cost);
                     this.gainEnergy(entity.getTotalEnergy());
                     em.remove(entity);

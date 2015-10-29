@@ -9,19 +9,23 @@ public class Genome {
 
     private Map<Gene2, Double> genes2;
 
-    private Map<Class<? extends Gene<?>>, Gene<?>> genes;
+    private TranslationGene translationGene;
+    private RotationGene rotationGene;
+    private ColorGene colorGene;
+    private ReproductionGene reproductionGene;
+    private MorfologicGene morfologicGene;
 
     public Genome() {
-        genes = new HashMap<>();
         genes2 = new HashMap<>();
         randomGenes();
     }
 
-    public Genome(Genome genome1, Genome genome2) {
-        genes = new HashMap<>();
-        for (Class<? extends Gene<?>> gene : genome1.genes.keySet()) {
-            // genes.put(gene, genome1.get(gene).meiosis(genome2.get(gene)));
-        }
+    private Genome(Genome genome1, Genome genome2) {
+        this.translationGene = genome1.translationGene.meiosis(genome2.translationGene);
+        this.rotationGene = genome1.rotationGene.meiosis(genome2.rotationGene);
+        this.colorGene = genome1.colorGene.meiosis(genome2.colorGene);
+        this.reproductionGene = genome1.reproductionGene.meiosis(genome2.reproductionGene);
+        this.morfologicGene = genome1.morfologicGene.meiosis(genome2.morfologicGene);
     }
 
     private void randomGenes() {
@@ -40,15 +44,15 @@ public class Genome {
         genes2.put(Gene2.M, 1d);
         genes2.put(Gene2.N, 40d);
 
-        genes.put(TranslationGene.class, new TranslationGene());
-        genes.put(RotationGene.class, new RotationGene());
-        genes.put(ColorGene.class, new ColorGene());
-        genes.put(ReproductionGene.class, new ReproductionGene());
-        genes.put(MorfologicGene.class, new MorfologicGene());
+        translationGene = new TranslationGene();
+        rotationGene = new RotationGene();
+        colorGene = new ColorGene();
+        reproductionGene = new ReproductionGene();
+        morfologicGene = new MorfologicGene();
     }
 
     public double get(Gene2 gene) {
-        return gene.getCoefficient() * genes2.get(gene);
+        return genes2.get(gene);
     }
 
     public int numberOfGenes() {
@@ -67,29 +71,24 @@ public class Genome {
         return sum;
     }
 
-    @SuppressWarnings("unchecked")
-    public <T extends Gene<?>> T get(Class<T> clazz) {
-        return (T) genes.get(clazz);
-    }
-
     public TranslationGene getTranslation() {
-        return get(TranslationGene.class);
+        return translationGene;
     }
 
     public RotationGene getRotation() {
-        return get(RotationGene.class);
+        return rotationGene;
     }
 
     public ColorGene getColor() {
-        return get(ColorGene.class);
+        return colorGene;
     }
 
     public ReproductionGene getReproduction() {
-        return get(ReproductionGene.class);
+        return reproductionGene;
     }
 
     public MorfologicGene getMorfological() {
-        return get(MorfologicGene.class);
+        return morfologicGene;
     }
 
     public Genome meiosis(Genome genome) {
