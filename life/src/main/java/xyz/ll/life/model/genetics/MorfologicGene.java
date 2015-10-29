@@ -21,13 +21,19 @@ public class MorfologicGene implements Gene<MorfologicGene> {
         for (int i = 0; i < MorfologicGene.NUMBER_OF_CHARACTERISTICS; i++) {
             this.characteristics[i] = 0d;
         }
-        this.characteristics[0] = 10d;
+
+        this.characteristics[0] = 8d;
         this.characteristics[1] = 1d;
-        this.characteristics[4] = 10d;
+        this.characteristics[2] = 0d;
+        this.characteristics[3] = 0d;
+        this.characteristics[4] = 8d;
         this.characteristics[5] = 1d;
+        this.characteristics[6] = 0d;
         this.characteristics[7] = 1d;
-        this.characteristics[10] = 1d;
-        this.characteristics[11] = 16d;
+        this.characteristics[8] = 0d;
+        this.characteristics[9] = 0d;
+        this.characteristics[10] = 3d;
+        this.characteristics[11] = 2d;
     }
 
     private MorfologicGene(double[] characteristics) {
@@ -46,9 +52,9 @@ public class MorfologicGene implements Gene<MorfologicGene> {
         double a = characteristics[0] * Math.pow(Math.sin(t), 2);
         double b = characteristics[1] * Math.pow(Math.sin(characteristics[2] * t), 2) * Math.pow(Math.cos(characteristics[3] * t), 2);
         double c = characteristics[4] * Math.pow(Math.cos(t), 2);
-        double d = characteristics[5] * Math.sin(characteristics[6] * t);
+        double d = characteristics[5] * Math.sin(characteristics[6] * 3 * t);
         double e = characteristics[7] * Math.sin(characteristics[8] * t) * Math.cos(characteristics[9] * t);
-        double f = characteristics[10] * Math.cos(characteristics[11] * t);
+        double f = characteristics[10] * Math.cos(characteristics[11] * 3 * t);
         double radius = a + b + c + d + e + f;
         return new Point2D(radius * Math.cos(t), radius * Math.sin(t));
     }

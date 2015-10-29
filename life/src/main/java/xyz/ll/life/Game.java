@@ -82,6 +82,11 @@ public class Game {
 	private void add(Entity e) {
 		entities.add(e);
 		root.getChildren().add(e.getBody());
+        if (e instanceof Individual) {
+            e.getBody().toFront();
+        } else {
+            e.getBody().toBack();
+        }
 	}
 
 	public List<Entity> getEntities() {

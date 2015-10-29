@@ -14,19 +14,17 @@ public class Food extends Entity {
     private static final Point2D[] FOOD_VERTICES = {new Point2D(0, 1), new Point2D(1, 0),
             new Point2D(0, - 1), new Point2D(- 1, 0)};
 
-	public static Food randomFood(Dimension2D dimension) {
-		Random r = new Random();
-		return new Food(new Point2D(r.nextInt((int) dimension.getWidth()), r.nextInt((int) dimension.getHeight())), Food.ENERGY);
-	}
-
     public Food(Point2D position, double energy) {
         super(Food.foodShape(position), energy);
-        this.body.toBack();
     }
 
     public Food(Individual individual) {
         super(Food.convertBody(individual), 0);
-        this.body.toBack();
+    }
+
+    public static Food randomFood(Dimension2D dimension) {
+        Random r = new Random();
+        return new Food(new Point2D(r.nextInt((int) dimension.getWidth()), r.nextInt((int) dimension.getHeight())), Food.ENERGY);
     }
 
 	private static EntityShape convertBody(Individual individual) {

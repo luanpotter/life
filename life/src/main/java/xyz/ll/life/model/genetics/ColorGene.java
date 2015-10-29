@@ -8,9 +8,9 @@ import xyz.ll.life.model.EntityShape;
  */
 public class ColorGene implements Gene<ColorGene> {
 
-    private static final double HUE_MAX = 2 * Math.PI, HUE_MIN = 0d, HUE_VARIANCE = Math.PI / 10d;
-    private static final double SATURATION_MAX = 1d, SATURATION_MIN = 0d, SATURATION_VARIANCE = 0.001d;
-    private static final double BRIGHTNESS_MAX = 1d, BRIGHTNESS_MIN = 0d, BRIGHTNESS_VARIANCE = 0.001d;
+    private static final double HUE_MAX = 2 * Math.PI, HUE_MIN = 0d, HUE_VARIANCE = Math.PI / 20d;
+    private static final double SATURATION_MAX = 1d, SATURATION_MIN = 0d, SATURATION_VARIANCE = 0.00001d;
+    private static final double BRIGHTNESS_MAX = 1d, BRIGHTNESS_MIN = 0d, BRIGHTNESS_VARIANCE = 0.00001d;
 
     private double hue;
     private double saturation;

@@ -17,12 +17,10 @@ public class Individual extends Entity {
     private long timeAge = System.currentTimeMillis();
     private int generation = 0;
 
-    private static EntityShape generateBody(Point2D position, Genome genome) {
-        EntityShape body = new EntityShape(position);
-        genome.getTranslation().initialSpeed(body);
-        genome.getColor().dye(body);
-        genome.getMorfological().generateShape(body);
-        return body;
+    private Individual(Point2D position, double energy, Genome genome) {
+        super(Individual.generateBody(position, genome), energy);
+
+        this.genome = genome;
     }
 
     public static Individual abiogenesis(Dimension2D dimension) {
@@ -30,20 +28,12 @@ public class Individual extends Entity {
         return new Individual(new Point2D(r.nextInt((int) dimension.getWidth()), r.nextInt((int) dimension.getHeight())), 50000, new Genome());
     }
 
-    private Individual(Point2D position, double energy, Genome genome) {
-        super(Individual.generateBody(position, genome), energy);
-
-        this.body.toFront();
-        this.genome = genome;
-    }
-
-    public Genome getGenome() {
-        return genome;
-    }
-
-    private Food onDeath() {
-        System.out.println("death { tick: " + tickAge + " time: " + (System.currentTimeMillis() - timeAge) + " generation: " + generation + " }");
-        return new Food(this);
+    private static EntityShape generateBody(Point2D position, Genome genome) {
+        EntityShape body = new EntityShape(position);
+        genome.getTranslation().initialSpeed(body);
+        genome.getColor().dye(body);
+        genome.getMorfological().generateShape(body);
+        return body;
     }
 
     public double divide() {
@@ -102,6 +92,11 @@ public class Individual extends Entity {
 
     private boolean disease() {
         return this.genome.getLife().disease(this.tickAge);
+    }
+
+    private Food onDeath() {
+        System.out.println("death { tick: " + tickAge + " time: " + (System.currentTimeMillis() - timeAge) + " generation: " + generation + " }");
+        return new Food(this);
     }
 
     @Override

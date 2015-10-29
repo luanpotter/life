@@ -27,7 +27,7 @@ public class RotationGene implements Gene<RotationGene> {
 
     public void mutation() {
         if (Math.random() < MUTATION_PROBABILITY) {
-            this.speed += Math.random() * SPEED_VARIANCE * (Math.random() > .5 ? 1 : -1);
+            this.speed += Math.random() * SPEED_VARIANCE * (Math.random() > 0.5 ? 1 : -1);
             if (this.speed < SPEED_MIN) {
                 this.speed = 2 * SPEED_MIN - this.speed;
             }
