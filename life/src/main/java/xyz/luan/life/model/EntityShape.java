@@ -6,80 +6,41 @@ import javafx.geometry.Point2D;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Polygon;
+import xyz.luan.life.model.genetics.Genome;
+import xyz.luan.life.model.genetics.MorfologicGene;
 
 public class EntityShape extends Polygon {
 
-    private double arc;
-    private int precision;
     private Point2D center;
     private double angle;
-    private double[] characteristics;
     private Color color;
     private Point2D[] points;
     private Point2D velocity;
 
-    private void init(Point2D center, double[] characteristics, Color color, int precision) {
+    public EntityShape(Point2D center) {
         this.center = center;
-        this.characteristics = characteristics;
-        this.color = color;
         this.angle = 0;
-        this.precision = precision;
-        this.arc = 2 * Math.PI / (double) precision;
 
-        generatePoints();
-        this.setFill(color);
         this.setTranslateX(center.getX());
         this.setTranslateY(center.getY());
-        this.setRotate(angle);
-
-        this.setOnMouseClicked(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent t) {
-                for (double d : characteristics) {
-                    System.out.printf("%06.3f ", d);
-                }
-                System.out.println();
-            }
-        });
-    }
-
-    public EntityShape(Point2D center, double[] characteristics, int precision) {
-        init(center, characteristics, Color.WHITE, precision);
-    }
-
-    public EntityShape(Point2D center, double[] characteristics, Color color, int precision) {
-        init(center, characteristics, color, precision);
-    }
-
-    private Point2D getPoint(double t) {
-        int i = 0;
-        double a = characteristics[i++] * Math.pow(Math.sin(characteristics[i++] * 0 + t), 2);
-        double b = characteristics[i++] * Math.pow(Math.sin(characteristics[i++] * t), 2) * Math.pow(Math.cos(characteristics[i++] * t), 2);
-        double c = characteristics[i++] * Math.pow(Math.cos(characteristics[i++] * 0 + t), 2);
-        double d = characteristics[i++] * Math.sin(characteristics[i++] * t);
-        double e = characteristics[i++] * Math.sin(characteristics[i++] * t) * Math.cos(characteristics[i++] * t);
-        double f = characteristics[i++] * Math.cos(characteristics[i++] * t);
-        double radius = a + b + c + d + e + f;
-        return new Point2D(radius * Math.cos(t), radius * Math.sin(t));
-    }
-
-    private void generatePoints() {
-        points = new Point2D[precision];
-        for (int i = 0; i < precision; i++) {
-            Point2D point = getPoint(i * arc);
-            points[i] = point;
-            this.getPoints().addAll(point.getX(), point.getY());
-        }
-    }
+        this.setRotate(angle);    }
 
     public double estimateArea() {
         double sum = 0;
-        for (int i = 0; i < (precision - 1); i++) {
+        for (int i = 0; i < (points.length - 1); i++) {
             sum += points[i].getX() * points[i + 1].getY() - points[i].getY() * points[i + 1].getX();
         }
-        sum += points[precision - 1].getX() * points[0].getY() - points[precision - 1].getY() * points[0].getX();
+        sum += points[points.length - 1].getX() * points[0].getY() - points[points.length - 1].getY() * points[0].getX();
 
         return (double) Math.abs(sum) / 2d;
+    }
+
+    public void setPoints(Point2D[] points) {
+        this.points = points;
+        this.getPoints().clear();
+        for (int i = 0; i < this.points.length; i++) {
+            this.getPoints().addAll(this.points[i].getX(), this.points[i].getY());
+        }
     }
 
     public Point2D getCenter() {
@@ -99,10 +60,6 @@ public class EntityShape extends Polygon {
         center = new Point2D(center.getX() + x, center.getY() + y);
         this.setTranslateX(center.getX());
         this.setTranslateY(center.getY());
-    }
-
-    public double[] getCharacteristics() {
-        return characteristics;
     }
 
     public Color getColor() {

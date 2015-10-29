@@ -37,12 +37,10 @@ public class Individual extends Entity {
     }
 
     private static EntityShape generateBody(Point2D position, Genome genome, int precision) {
-        List<Gene2> morfologicalGenes = Arrays.asList(Gene2.A, Gene2.B, Gene2.C, Gene2.D, Gene2.E, Gene2.F, Gene2.G, Gene2.H, Gene2.I, Gene2.J, Gene2.K,
-                Gene2.L, Gene2.M, Gene2.N);
-        double[] characteristics = morfologicalGenes.stream().map(g -> genome.getGenes().get(g)).mapToDouble(Double::doubleValue).toArray();
-        EntityShape body = new EntityShape(position, characteristics, precision);
+        EntityShape body = new EntityShape(position);
         genome.getTranslation().initialSpeed(body);
         genome.getColor().dye(body);
+        genome.getMorfological().generateShape(body);
         return body;
     }
 
