@@ -9,6 +9,7 @@ public class Genome {
     private ColorGene colorGene;
     private ReproductionGene reproductionGene;
     private MorfologicGene morfologicGene;
+    private LifeGene lifeGene;
 
     public Genome() {
         initialGenes();
@@ -20,14 +21,16 @@ public class Genome {
         this.colorGene = genome1.colorGene.meiosis(genome2.colorGene);
         this.reproductionGene = genome1.reproductionGene.meiosis(genome2.reproductionGene);
         this.morfologicGene = genome1.morfologicGene.meiosis(genome2.morfologicGene);
+        this.lifeGene = genome1.lifeGene.meiosis(genome2.lifeGene);
     }
 
     private void initialGenes() {
-        translationGene = new TranslationGene();
-        rotationGene = new RotationGene();
-        colorGene = new ColorGene();
-        reproductionGene = new ReproductionGene();
-        morfologicGene = new MorfologicGene();
+        this.translationGene = new TranslationGene();
+        this.rotationGene = new RotationGene();
+        this.colorGene = new ColorGene();
+        this.reproductionGene = new ReproductionGene();
+        this.morfologicGene = new MorfologicGene();
+        this.lifeGene = new LifeGene();
     }
 
     public double geneticDistance(Genome genome) {
@@ -35,27 +38,32 @@ public class Genome {
                 this.rotationGene.distance(genome.rotationGene) +
                 this.colorGene.distance(genome.colorGene) +
                 this.reproductionGene.distance(genome.reproductionGene) +
-                this.morfologicGene.distance(genome.morfologicGene);
+                this.morfologicGene.distance(genome.morfologicGene) +
+                this.lifeGene.distance(genome.lifeGene);
     }
 
     public TranslationGene getTranslation() {
-        return translationGene;
+        return this.translationGene;
     }
 
     public RotationGene getRotation() {
-        return rotationGene;
+        return this.rotationGene;
     }
 
     public ColorGene getColor() {
-        return colorGene;
+        return this.colorGene;
     }
 
     public ReproductionGene getReproduction() {
-        return reproductionGene;
+        return this.reproductionGene;
     }
 
     public MorfologicGene getMorfological() {
-        return morfologicGene;
+        return this.morfologicGene;
+    }
+
+    public LifeGene getLife() {
+        return this.lifeGene;
     }
 
     public Genome meiosis(Genome genome) {

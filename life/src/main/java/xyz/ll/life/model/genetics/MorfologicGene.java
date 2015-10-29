@@ -11,17 +11,18 @@ public class MorfologicGene implements Gene<MorfologicGene> {
     private static final int NUMBER_OF_CHARACTERISTICS = 12;
     private static final int MORFOLOGIC_PRECISION = 100;
     private static final double ARC = 2 * Math.PI / (double) MORFOLOGIC_PRECISION;
-    private static final double CHARACTERISTIC_VARIANCE = 0.1;
+
+    private static final double CHARACTERISTIC_WEIGHT = 1d, CHARACTERISTIC_VARIANCE = 0.1d;
 
     private double[] characteristics;
 
     private void init() {
         this.characteristics = new double[MorfologicGene.NUMBER_OF_CHARACTERISTICS];
         for (int i = 0; i < MorfologicGene.NUMBER_OF_CHARACTERISTICS; i++) {
-            this.characteristics[i] = 0;
+            this.characteristics[i] = 0d;
         }
-        this.characteristics[0] = 12;
-        this.characteristics[4] = 10;
+        this.characteristics[0] = 12d;
+        this.characteristics[4] = 10d;
     }
 
     private MorfologicGene(double[] characteristics) {
@@ -80,7 +81,7 @@ public class MorfologicGene implements Gene<MorfologicGene> {
     public double distance(MorfologicGene gene) {
         double distance = 0;
         for (int i = 0; i < MorfologicGene.NUMBER_OF_CHARACTERISTICS; i++) {
-            distance += Math.abs(this.characteristics[i] - gene.characteristics[i]);
+            distance += Math.abs(this.characteristics[i] - gene.characteristics[i]) / MorfologicGene.CHARACTERISTIC_WEIGHT;
         }
         return distance;
     }

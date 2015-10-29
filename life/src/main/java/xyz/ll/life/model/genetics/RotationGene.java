@@ -6,7 +6,7 @@ import xyz.ll.life.model.Util;
 
 public class RotationGene implements Gene<RotationGene> {
 
-    private static final double SPEED_MAX = 0.1, SPEED_MIN = 0, SPEED_VARIANCE = 0.005;
+    private static final double SPEED_MAX = 0.1d, SPEED_MIN = 0d, SPEED_VARIANCE = 0.005d;
 
     private double speed;
 
@@ -48,6 +48,7 @@ public class RotationGene implements Gene<RotationGene> {
 
     @Override
     public double distance(RotationGene gene) {
-        return Math.abs(this.speed - gene.speed) / (SPEED_MAX - SPEED_MIN);
+        double fs = RotationGene.SPEED_MAX - RotationGene.SPEED_MIN;
+        return Math.abs(this.speed - gene.speed) / fs;
     }
 }

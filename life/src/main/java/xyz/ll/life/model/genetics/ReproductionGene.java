@@ -4,8 +4,8 @@ import xyz.ll.life.model.EntityShape;
 
 public class ReproductionGene implements Gene<ReproductionGene> {
 
-    private static double LIBIDO_MAX = 1, LIBIDO_MIN = 0, LIBIDO_VARIANCE = 0.05;
-    private static double CHARITY_MIN = 0, CHARITY_VARIANCE = 0.2;
+    private static double LIBIDO_MAX = 1d, LIBIDO_MIN = 0d, LIBIDO_VARIANCE = 0.05d;
+    private static double CHARITY_MIN = 0d, CHARITY_WEIGHT = 2d, CHARITY_VARIANCE = 0.2d;
 
     public static final double BASE_REPRODUCTION_ENERGY_COST = 40d;
 
@@ -73,7 +73,7 @@ public class ReproductionGene implements Gene<ReproductionGene> {
     @Override
     public double distance(ReproductionGene gene) {
         double fl = ReproductionGene.LIBIDO_MAX - ReproductionGene.LIBIDO_MIN;
-        double fc = 1;
+        double fc = ReproductionGene.CHARITY_WEIGHT;
         return Math.abs(this.libido - gene.libido) / fl + Math.abs(this.charity - gene.charity) / fc;
     }
 }

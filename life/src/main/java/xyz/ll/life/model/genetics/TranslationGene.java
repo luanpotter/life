@@ -6,8 +6,8 @@ import xyz.ll.life.model.Util;
 
 public class TranslationGene implements Gene<TranslationGene> {
 
-    private static final double SPEED_MAX = 1, SPEED_MIN = 0, SPEED_VARIANCE = 0.05;
-    private static final double INCONSTANCY_MAX = 1, INCONSTANCY_MIN = 0, INCONSTANCY_VARIANCE = 0.05;
+    private static final double SPEED_MAX = 1d, SPEED_MIN = 0d, SPEED_VARIANCE = 0.05d;
+    private static final double INCONSTANCY_MAX = 1d, INCONSTANCY_MIN = 0d, INCONSTANCY_VARIANCE = 0.05d;
 
     private double speed;
     private double inconstancy;
