@@ -10,6 +10,7 @@ public class Genome {
     private ReproductionGene reproductionGene;
     private MorfologicGene morfologicGene;
     private LifeGene lifeGene;
+    private MetabolizationGene metabolizationGene;
 
     public Genome() {
         initialGenes();
@@ -22,6 +23,7 @@ public class Genome {
         this.reproductionGene = genome1.reproductionGene.meiosis(genome2.reproductionGene);
         this.morfologicGene = genome1.morfologicGene.meiosis(genome2.morfologicGene);
         this.lifeGene = genome1.lifeGene.meiosis(genome2.lifeGene);
+        this.metabolizationGene = genome1.metabolizationGene.meiosis(genome2.metabolizationGene);
     }
 
     private void initialGenes() {
@@ -31,6 +33,7 @@ public class Genome {
         this.reproductionGene = new ReproductionGene();
         this.morfologicGene = new MorfologicGene();
         this.lifeGene = new LifeGene();
+        this.metabolizationGene = new MetabolizationGene();
     }
 
     public double geneticDistance(Genome genome) {
@@ -39,7 +42,8 @@ public class Genome {
                 this.colorGene.distance(genome.colorGene) +
                 this.reproductionGene.distance(genome.reproductionGene) +
                 this.morfologicGene.distance(genome.morfologicGene) +
-                this.lifeGene.distance(genome.lifeGene);
+                this.lifeGene.distance(genome.lifeGene) +
+                this.metabolizationGene.distance(genome.metabolizationGene);
     }
 
     public TranslationGene getTranslation() {
@@ -64,6 +68,10 @@ public class Genome {
 
     public LifeGene getLife() {
         return this.lifeGene;
+    }
+
+    public MetabolizationGene getMetabolization() {
+        return this.metabolizationGene;
     }
 
     public Genome meiosis(Genome genome) {

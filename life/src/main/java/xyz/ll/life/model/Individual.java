@@ -82,14 +82,10 @@ public class Individual extends Entity {
     }
 
     private void tryToEat(Entity entity, EntityManager em, LazyIntersection intersection) {
-        if (this.getArea() / entity.getArea() > Util.ACCEPTABLE_AREA_PROPORTION_TO_EAT) {
-            double cost = Util.BASE_METABOLIZATION_ENERGY_COST * entity.getArea();
-            if (this.getTotalEnergy() >= cost) {
-                if (intersection.intersects()) {
-                    this.loseEnergy(cost);
-                    this.gainEnergy(entity.getTotalEnergy());
-                    em.remove(entity);
-                }
+        if (this.genome.getMetabolization().canEat(this.body, entity.body, this.energy)) {
+            if (intersection.intersects()) {
+                this.gainEnergy(this.genome.getMetabolization().phagocytosis(entity.body, entity.energy));
+                em.remove(entity);
             }
         }
     }
@@ -107,6 +103,7 @@ public class Individual extends Entity {
     @Override
     public void onCollide(Entity entity, EntityManager em) {
         LazyIntersection intersection = new LazyIntersection(this, entity);
+
         tryToReproduce(entity, em, intersection);
         tryToEat(entity, em, intersection);
     }

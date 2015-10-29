@@ -11,9 +11,7 @@ public class Util {
 	public static final Color FOOD_COLOR = Color.GRAY;
 
     public static final double BASE_LIFE_ENERGY_COST = 0.2d;
-	public static final double BASE_METABOLIZATION_ENERGY_COST = 0.1d;
 	public static final double BASE_ENERGY_RELEASED = 0.9d;
-	public static final double BASE_STRUCTURE_ENERGY = 0.5d;
 
 
 

@@ -36,10 +36,6 @@ public abstract class Entity {
 		return energy;
 	}
 
-	public double getTotalEnergy() {
-		return energy * Util.BASE_ENERGY_RELEASED + area * Util.BASE_STRUCTURE_ENERGY;
-	}
-
 	public void gainEnergy(double energy) {
 		this.energy += energy;
 	}
