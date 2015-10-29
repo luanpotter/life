@@ -15,7 +15,7 @@ public class Util {
 	public static final double BASE_ENERGY_RELEASED = 0.9d;
 	public static final double BASE_STRUCTURE_ENERGY = 0.5d;
 
-	public static final double ACCEPTABLE_AREA_PROPORTION_TO_EAT = 1.5d;
+
 
 	public static Point2D rotate(Point2D p, double theta) {
 		return new Rotate(Math.toDegrees(theta), 0, 0).transform(p);
