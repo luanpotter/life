@@ -2,6 +2,8 @@ package xyz.ll.life.model.genetics;
 
 public class Genome {
 
+    public static final double ACCEPTABLE_GENETIC_DISTANCE_TO_REPRODUCE = 10d;
+
     private TranslationGene translationGene;
     private RotationGene rotationGene;
     private ColorGene colorGene;

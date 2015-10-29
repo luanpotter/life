@@ -15,9 +15,7 @@ public class Util {
 	public static final double BASE_ENERGY_RELEASED = 0.9d;
 	public static final double BASE_STRUCTURE_ENERGY = 0.5d;
 
-	public static final double ACCEPTABLE_GENETIC_DISTANCE_TO_REPRODUCE = 10d;
 	public static final double ACCEPTABLE_AREA_PROPORTION_TO_EAT = 1.5d;
-	public static final int RARITY_OF_IMMUTABILITY = 10;
 
 	public static Point2D rotate(Point2D p, double theta) {
 		return new Rotate(Math.toDegrees(theta), 0, 0).transform(p);

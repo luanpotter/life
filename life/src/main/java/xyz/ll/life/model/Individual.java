@@ -12,6 +12,7 @@ import xyz.ll.life.model.genetics.Genome;
 public class Individual extends Entity {
 
     private Genome genome;
+
     private int tickAge = 0;
     private long timeAge = System.currentTimeMillis();
     private int generation = 0;
@@ -72,7 +73,7 @@ public class Individual extends Entity {
 
     private void tryToReproduceIndividual(Individual individual, EntityManager em, LazyIntersection intersection) {
         if (this.isAvailableToReproduce() && individual.isAvailableToReproduce()) {
-            if (genome.geneticDistance(individual.genome) < Util.ACCEPTABLE_GENETIC_DISTANCE_TO_REPRODUCE) {
+            if (genome.geneticDistance(individual.genome) < Genome.ACCEPTABLE_GENETIC_DISTANCE_TO_REPRODUCE) {
                 if (intersection.intersects()) {
                     em.add(reproduce(individual, intersection.getShape()));
                 }
