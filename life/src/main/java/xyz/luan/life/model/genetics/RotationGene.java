@@ -6,7 +6,7 @@ import xyz.luan.life.model.Util;
 
 public class RotationGene implements Gene<RotationGene> {
 
-    private static final double MAX = 0.1, MIN = 0, VARIANCE = 0.005;
+    private static final double SPEED_MAX = 0.1, SPEED_MIN = 0, SPEED_VARIANCE = 0.005;
 
     private double speed;
 
@@ -27,12 +27,12 @@ public class RotationGene implements Gene<RotationGene> {
     }
 
     public void mutation() {
-        this.speed += Math.random() * VARIANCE * (Math.random() > .5 ? 1 : -1);
-        if (this.speed < MIN) {
-            this.speed = 2 * MIN - this.speed;
+        this.speed += Math.random() * SPEED_VARIANCE * (Math.random() > .5 ? 1 : -1);
+        if (this.speed < SPEED_MIN) {
+            this.speed = 2 * SPEED_MIN - this.speed;
         }
-        if (this.speed > MAX) {
-            this.speed = 2 * MAX - this.speed;
+        if (this.speed > SPEED_MAX) {
+            this.speed = 2 * SPEED_MAX - this.speed;
         }
     }
 
@@ -48,6 +48,6 @@ public class RotationGene implements Gene<RotationGene> {
 
     @Override
     public double distance(RotationGene gene) {
-        return Math.abs(this.speed - gene.speed) / (MAX - MIN);
+        return Math.abs(this.speed - gene.speed) / (SPEED_MAX - SPEED_MIN);
     }
 }
