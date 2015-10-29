@@ -87,7 +87,7 @@ public class MetabolizationGene implements Gene<MetabolizationGene> {
     public double distance(MetabolizationGene gene) {
         double fe = MetabolizationGene.EFFICIENCY_MAX - MetabolizationGene.EFFICIENCY_MIN;
         double fa = MetabolizationGene.AREA_PROPORTION_MAX - MetabolizationGene.AREA_PROPORTION_MIN;
-        double fc = MetabolizationGene.COST_WEIGHT;
+        double fc = 1 / MetabolizationGene.COST_WEIGHT;
         return Math.abs(this.efficiency - gene.efficiency) / fe +
                 Math.abs(this.areaProportion - gene.areaProportion) / fa +
                 Math.abs(this.cost - gene.cost) / fc;

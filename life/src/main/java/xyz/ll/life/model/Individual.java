@@ -101,7 +101,7 @@ public class Individual extends Entity {
     }
 
     private boolean disease() {
-        return this.genome.getLife().disease();
+        return this.genome.getLife().disease(this.tickAge);
     }
 
     @Override
