@@ -48,21 +48,6 @@ public class Genome {
     }
 
     private void randomGenes() {
-        genes2.put(Gene2.A, 10d);
-        genes2.put(Gene2.B, 1d);
-        genes2.put(Gene2.C, 0d);
-        genes2.put(Gene2.D, 0d);
-        genes2.put(Gene2.E, 0d);
-        genes2.put(Gene2.F, 10d);
-        genes2.put(Gene2.G, 1d);
-        genes2.put(Gene2.H, 3d);
-        genes2.put(Gene2.I, 10d);
-        genes2.put(Gene2.J, 0d);
-        genes2.put(Gene2.K, 0d);
-        genes2.put(Gene2.L, 0d);
-        genes2.put(Gene2.M, 1d);
-        genes2.put(Gene2.N, 40d);
-
         translationGene = new TranslationGene();
         rotationGene = new RotationGene();
         colorGene = new ColorGene();

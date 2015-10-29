@@ -20,8 +20,8 @@ public class MorfologicGene implements Gene<MorfologicGene> {
         for (int i = 0; i < MorfologicGene.NUMBER_OF_CHARACTERISTICS; i++) {
             this.characteristics[i] = 0;
         }
-        this.characteristics[0] = 1;
-        this.characteristics[4] = 1;
+        this.characteristics[0] = 10;
+        this.characteristics[4] = 10;
     }
 
     private MorfologicGene(double[] characteristics) {
