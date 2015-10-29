@@ -9,13 +9,14 @@ import xyz.ll.life.EntityManager;
 
 public class Food extends Entity {
 
+    private static final double ENERGY = 100000;
     private static final Color FOOD_COLOR = Color.GRAY;
     private static final Point2D[] FOOD_VERTICES = {new Point2D(0, 1), new Point2D(1, 0),
             new Point2D(0, - 1), new Point2D(- 1, 0)};
 
 	public static Food randomFood(Dimension2D dimension) {
 		Random r = new Random();
-		return new Food(new Point2D(r.nextInt((int) dimension.getWidth()), r.nextInt((int) dimension.getHeight())), 50000);
+		return new Food(new Point2D(r.nextInt((int) dimension.getWidth()), r.nextInt((int) dimension.getHeight())), Food.ENERGY);
 	}
 
     public Food(Point2D position, double energy) {

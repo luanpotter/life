@@ -26,10 +26,12 @@ public class Game {
 	}
 
 	private void randomStart(Dimension2D dimension) {
-        for (int i = 0; i < 10; i++) {
-            add(Individual.abiogenesis(dimension));
+        for (int i = 0; i < 100; i++) {
             add(Food.randomFood(dimension));
 		}
+        for (int i = 0; i < 10; i++) {
+            add(Individual.abiogenesis(dimension));
+        }
 	}
 
 	public void tick(Group group) throws Exception {
@@ -67,7 +69,7 @@ public class Game {
 	}
 
 	private void generateRandomFood() {
-		if (rand.nextInt(10) == 0) {
+		if (rand.nextInt(5) == 0) {
 			add(Food.randomFood(dimension));
 		}
 	}
