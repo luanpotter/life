@@ -74,12 +74,12 @@ public class Game {
 		}
 	}
 
-	private void remove(Entity e) {
+	public void remove(Entity e) {
 		entities.remove(e);
 		root.getChildren().remove(e.getBody());
 	}
 
-	private void add(Entity e) {
+	public void add(Entity e) {
 		entities.add(e);
 		root.getChildren().add(e.getBody());
         if (e instanceof Individual) {

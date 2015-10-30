@@ -28,6 +28,11 @@ public class Individual extends Entity {
         return new Individual(new Point2D(r.nextInt((int) dimension.getWidth()), r.nextInt((int) dimension.getHeight())), 50000, new Genome());
     }
 
+    public static Individual abiogenesis(Point2D p) {
+        Random r = new Random();
+        return new Individual(p, 50000, new Genome());
+    }
+
     private static EntityShape generateBody(Point2D position, Genome genome) {
         EntityShape body = new EntityShape(position);
         genome.getTranslation().initialSpeed(body);

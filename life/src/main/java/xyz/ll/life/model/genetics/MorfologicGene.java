@@ -22,11 +22,11 @@ public class MorfologicGene implements Gene<MorfologicGene> {
             this.characteristics[i] = 0d;
         }
 
-        this.characteristics[0] = 8d;
+        this.characteristics[0] = 4d;
         this.characteristics[1] = 1d;
         this.characteristics[2] = 0d;
         this.characteristics[3] = 0d;
-        this.characteristics[4] = 8d;
+        this.characteristics[4] = 4d;
         this.characteristics[5] = 1d;
         this.characteristics[6] = 0d;
         this.characteristics[7] = 1d;
@@ -49,12 +49,12 @@ public class MorfologicGene implements Gene<MorfologicGene> {
     }
 
     private Point2D getPoint(double t) {
-        double a = characteristics[0] * Math.pow(Math.sin(t), 2);
+        double a = characteristics[0] * 3 * Math.pow(Math.sin(t), 2);
         double b = characteristics[1] * Math.pow(Math.sin(characteristics[2] * t), 2) * Math.pow(Math.cos(characteristics[3] * t), 2);
-        double c = characteristics[4] * Math.pow(Math.cos(t), 2);
-        double d = characteristics[5] * Math.sin(characteristics[6] * 3 * t);
+        double c = characteristics[4] * 3 * Math.pow(Math.cos(t), 2);
+        double d = characteristics[5] * Math.sin(characteristics[6] * 10 * t);
         double e = characteristics[7] * Math.sin(characteristics[8] * t) * Math.cos(characteristics[9] * t);
-        double f = characteristics[10] * Math.cos(characteristics[11] * 3 * t);
+        double f = characteristics[10] * Math.cos(characteristics[11] * 10 * t);
         double radius = a + b + c + d + e + f;
         return new Point2D(radius * Math.cos(t), radius * Math.sin(t));
     }

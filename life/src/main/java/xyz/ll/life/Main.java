@@ -3,10 +3,12 @@ package xyz.ll.life;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.geometry.Dimension2D;
+import javafx.geometry.Point2D;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
+import xyz.ll.life.model.Individual;
 
 public class Main extends Application {
 
@@ -39,6 +41,12 @@ public class Main extends Application {
             }
 
         }.start();
+
+        scene.setOnMousePressed(e -> {
+            System.out.println(".");
+            Individual individual = Individual.abiogenesis(new Point2D(e.getX(), e.getY()));
+            game.add(individual);
+        });
     }
 
     private void setupStage(Stage stage) {
