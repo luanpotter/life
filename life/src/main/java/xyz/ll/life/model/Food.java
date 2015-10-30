@@ -10,7 +10,7 @@ import xyz.ll.life.EntityManager;
 public class Food extends Entity {
 
     private static final double ENERGY = 100000;
-    private static final Color FOOD_COLOR = Color.GRAY;
+    private static final Color FOOD_COLOR = Color.hsb(0, 0, 0.2);
     private static final Point2D[] FOOD_VERTICES = {new Point2D(0, 1), new Point2D(1, 0),
             new Point2D(0, - 1), new Point2D(- 1, 0)};
 

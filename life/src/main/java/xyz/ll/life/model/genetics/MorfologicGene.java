@@ -16,17 +16,17 @@ public class MorfologicGene implements Gene<MorfologicGene> {
 
     private double[] characteristics;
 
-    private void init() {
+    private void init(double size) {
         this.characteristics = new double[MorfologicGene.NUMBER_OF_CHARACTERISTICS];
         for (int i = 0; i < MorfologicGene.NUMBER_OF_CHARACTERISTICS; i++) {
             this.characteristics[i] = 0d;
         }
 
-        this.characteristics[0] = 4d;
+        this.characteristics[0] = size;
         this.characteristics[1] = 1d;
         this.characteristics[2] = 0d;
         this.characteristics[3] = 0d;
-        this.characteristics[4] = 4d;
+        this.characteristics[4] = size;
         this.characteristics[5] = 1d;
         this.characteristics[6] = 0d;
         this.characteristics[7] = 1d;
@@ -40,12 +40,12 @@ public class MorfologicGene implements Gene<MorfologicGene> {
         if (MorfologicGene.NUMBER_OF_CHARACTERISTICS == characteristics.length) {
             this.characteristics = characteristics;
         } else {
-            init();
+            init(4d);
         }
     }
 
-    public MorfologicGene() {
-        init();
+    public MorfologicGene(double size) {
+        init(size);
     }
 
     private Point2D getPoint(double t) {

@@ -30,7 +30,7 @@ public class Game {
             add(Food.randomFood(dimension));
 		}
         for (int i = 0; i < 10; i++) {
-            add(Individual.abiogenesis(dimension));
+            add(Individual.abiogenesis(dimension, 4d));
         }
 	}
 
@@ -96,4 +96,8 @@ public class Game {
 	public Dimension2D getDimension() {
 		return dimension;
 	}
+
+    public void setDimension(Dimension2D dimension) {
+        this.dimension = dimension;
+    }
 }

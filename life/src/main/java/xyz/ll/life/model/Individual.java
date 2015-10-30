@@ -23,14 +23,13 @@ public class Individual extends Entity {
         this.genome = genome;
     }
 
-    public static Individual abiogenesis(Dimension2D dimension) {
+    public static Individual abiogenesis(Dimension2D dimension, double size) {
         Random r = new Random();
-        return new Individual(new Point2D(r.nextInt((int) dimension.getWidth()), r.nextInt((int) dimension.getHeight())), 50000, new Genome());
+        return new Individual(new Point2D(r.nextInt((int) dimension.getWidth()), r.nextInt((int) dimension.getHeight())), 50000, new Genome(size));
     }
 
-    public static Individual abiogenesis(Point2D p) {
-        Random r = new Random();
-        return new Individual(p, 50000, new Genome());
+    public static Individual abiogenesis(Point2D p, double size) {
+        return new Individual(p, 50000, new Genome(size));
     }
 
     private static EntityShape generateBody(Point2D position, Genome genome) {

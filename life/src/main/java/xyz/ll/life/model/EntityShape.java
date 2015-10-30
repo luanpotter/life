@@ -47,6 +47,7 @@ public class EntityShape extends Polygon {
     }
 
     public void translate(double x, double y) {
+        //DANGER//
         this.center = new Point2D(this.center.getX() + x, this.center.getY() + y);
         this.setTranslateX(this.center.getX());
         this.setTranslateY(this.center.getY());

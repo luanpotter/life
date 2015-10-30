@@ -2,7 +2,7 @@ package xyz.ll.life.model.genetics;
 
 public class Genome {
 
-    public static final double ACCEPTABLE_GENETIC_DISTANCE_TO_REPRODUCE = 10d;
+    public static final double ACCEPTABLE_GENETIC_DISTANCE_TO_REPRODUCE = 1d;
 
     private TranslationGene translationGene;
     private RotationGene rotationGene;
@@ -12,8 +12,8 @@ public class Genome {
     private LifeGene lifeGene;
     private MetabolizationGene metabolizationGene;
 
-    public Genome() {
-        initialGenes();
+    public Genome(double size) {
+        initialGenes(size);
     }
 
     private Genome(Genome genome1, Genome genome2) {
@@ -26,12 +26,12 @@ public class Genome {
         this.metabolizationGene = genome1.metabolizationGene.meiosis(genome2.metabolizationGene);
     }
 
-    private void initialGenes() {
+    private void initialGenes(double size) {
         this.translationGene = new TranslationGene();
         this.rotationGene = new RotationGene();
         this.colorGene = new ColorGene();
         this.reproductionGene = new ReproductionGene();
-        this.morfologicGene = new MorfologicGene();
+        this.morfologicGene = new MorfologicGene(size);
         this.lifeGene = new LifeGene();
         this.metabolizationGene = new MetabolizationGene();
     }
