@@ -18,6 +18,7 @@ public class Main extends Application {
     private Game game;
     private Group root;
     private Scene scene;
+    private double size;
 
     public static void main(String[] args) {
         launch(args);
@@ -25,10 +26,11 @@ public class Main extends Application {
 
     @Override
     public void start(Stage stage) {
-        dimension = new Dimension2D(600, 400);
+        dimension = new Dimension2D(600d, 400d);
         root = new Group();
         game = new Game(dimension, root);
         scene = new Scene(root, dimension.getWidth(), dimension.getHeight(), Color.BLACK);
+        size = 6d;
 
         new AnimationTimer() {
 
@@ -65,9 +67,20 @@ public class Main extends Application {
             }
         });
 
+        scene.setOnScroll(e -> {
+            this.size += e.getDeltaY() / 20;
+            if (this.size < 1) {
+                this.size = 1;
+            }
+            if (this.size > 100) {
+                this.size = 100;
+            }
+            System.out.println(this.size);
+        });
+
         scene.setOnMousePressed(e -> {
             System.out.println(".");
-            Individual individual = Individual.abiogenesis(new Point2D(e.getX(), e.getY()), 8d);
+            Individual individual = Individual.abiogenesis(new Point2D(e.getX(), e.getY()), this.size);
             game.add(individual);
         });
 
