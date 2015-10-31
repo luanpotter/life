@@ -5,6 +5,7 @@ import java.util.Random;
 import javafx.geometry.Bounds;
 import javafx.geometry.Dimension2D;
 import javafx.geometry.Point2D;
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Shape;
 import xyz.ll.life.EntityManager;
 import xyz.ll.life.model.genetics.Genome;
@@ -25,7 +26,8 @@ public class Individual extends Entity {
 
     public static Individual abiogenesis(Dimension2D dimension, double size) {
         Random r = new Random();
-        return new Individual(new Point2D(r.nextInt((int) dimension.getWidth()), r.nextInt((int) dimension.getHeight())), 50000, new Genome(size));
+        Individual individual =  new Individual(new Point2D(r.nextInt((int) dimension.getWidth()), r.nextInt((int) dimension.getHeight())), 50000, new Genome(size));
+        return individual;
     }
 
     public static Individual abiogenesis(Point2D p, double size) {
@@ -96,6 +98,10 @@ public class Individual extends Entity {
 
     private boolean disease() {
         return this.genome.getLife().disease(this.tickAge);
+    }
+
+    public Genome getGenome() {
+        return this.genome;
     }
 
     private Food onDeath() {

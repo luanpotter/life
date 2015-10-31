@@ -10,6 +10,7 @@ public class EntityShape extends Polygon {
     private Point2D center;
     private double angle;
     private Color color;
+    private Color ColorStroke;
     private Point2D[] points;
     private Point2D velocity;
     private double area;
@@ -81,6 +82,15 @@ public class EntityShape extends Polygon {
     public void setColor(Color color) {
         this.color = color;
         this.setFill(color);
+    }
+
+    public Color getColorStroke() {
+        return this.ColorStroke;
+    }
+
+    public void setColorStroke(Color colorStroke) {
+        this.ColorStroke = colorStroke;
+        this.setStroke(this.ColorStroke);
     }
 
     public Point2D getVelocity() {

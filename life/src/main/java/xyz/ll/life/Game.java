@@ -6,6 +6,7 @@ import java.util.Random;
 
 import javafx.geometry.Dimension2D;
 import javafx.scene.Group;
+import javafx.scene.paint.Color;
 import xyz.ll.life.model.Entity;
 import xyz.ll.life.model.Food;
 import xyz.ll.life.model.Individual;
@@ -15,7 +16,8 @@ public class Game {
 	private Group root;
 	private List<Entity> entities;
 	private Dimension2D dimension;
-	private static final Random rand = new Random();
+
+    private Individual selected;
 
 	public Game(Dimension2D dimension, Group root) {
 		this.entities = new ArrayList<>();
@@ -34,7 +36,7 @@ public class Game {
         }
 	}
 
-	public void tick(Group group) throws Exception {
+	public void tick(Group group) {
 		generateRandomFood();
 
 		EntityManager em = new EntityManager();
@@ -42,6 +44,19 @@ public class Game {
 			if (!em.alive(e)) {
 				continue;
 			}
+
+            if (e instanceof Individual) {
+                if (selected == null && Color.RED.equals(e.getBody().getColorStroke())) {
+                    e.getBody().setColorStroke(null);
+                }
+                if (selected != null) {
+                    if (selected.getGenome().isCompatible(((Individual) e).getGenome())) {
+                        e.getBody().setColorStroke(Color.RED);
+                    } else {
+                        e.getBody().setColorStroke(null);
+                    }
+                }
+            }
 
 			e.tick(em);
 			e.fixPosition(dimension);
@@ -69,7 +84,7 @@ public class Game {
 	}
 
 	private void generateRandomFood() {
-		if (rand.nextInt(5) == 0) {
+		if (Math.random() < 2) {
 			add(Food.randomFood(dimension));
 		}
 	}
@@ -99,5 +114,13 @@ public class Game {
 
     public void setDimension(Dimension2D dimension) {
         this.dimension = dimension;
+    }
+
+    public Individual getSelected() {
+        return selected;
+    }
+
+    public void setSelected(Individual selected) {
+        this.selected = selected;
     }
 }

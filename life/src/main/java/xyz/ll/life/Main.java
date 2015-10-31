@@ -8,9 +8,11 @@ import javafx.geometry.Dimension2D;
 import javafx.geometry.Point2D;
 import javafx.scene.Group;
 import javafx.scene.Scene;
+import javafx.scene.input.MouseButton;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 import javafx.stage.Stage;
+import xyz.ll.life.model.Entity;
 import xyz.ll.life.model.EntityShape;
 import xyz.ll.life.model.Individual;
 
@@ -21,6 +23,7 @@ public class Main extends Application {
     private Group root;
     private Scene scene;
     private double size;
+
     private EntityShape preview;
     private EntityShape newPreview;
 
@@ -46,7 +49,7 @@ public class Main extends Application {
                 try {
                     game.tick(root);
                 } catch (Exception e) {
-
+                    e.printStackTrace();
                 }
             }
 
@@ -82,14 +85,16 @@ public class Main extends Application {
         stage.setScene(scene);
 
         scene.widthProperty().addListener(new ChangeListener<Number>() {
-            @Override public void changed(ObservableValue<? extends Number> observableValue, Number oldSceneWidth, Number newSceneWidth) {
+            @Override
+            public void changed(ObservableValue<? extends Number> observableValue, Number oldSceneWidth, Number newSceneWidth) {
                 //DANGER//
                 dimension = new Dimension2D(newSceneWidth.doubleValue(), dimension.getHeight());
                 game.setDimension(dimension);
             }
         });
         scene.heightProperty().addListener(new ChangeListener<Number>() {
-            @Override public void changed(ObservableValue<? extends Number> observableValue, Number oldSceneHeight, Number newSceneHeight) {
+            @Override
+            public void changed(ObservableValue<? extends Number> observableValue, Number oldSceneHeight, Number newSceneHeight) {
                 //DANGER//
                 dimension = new Dimension2D(dimension.getWidth(), newSceneHeight.doubleValue());
                 game.setDimension(dimension);
@@ -113,11 +118,23 @@ public class Main extends Application {
         });
 
         scene.setOnMousePressed(e -> {
-            if (preview != null) {
-                root.getChildren().remove(preview);
+            if (e.getButton().equals(MouseButton.PRIMARY)) {
+                if (preview != null) {
+                    root.getChildren().remove(preview);
+                }
+                Individual individual = Individual.abiogenesis(new Point2D(e.getX(), e.getY()), this.size);
+                game.add(individual);
+            } else if (e.getButton().equals(MouseButton.SECONDARY)) {
+                for (Entity entity : game.getEntities()) {
+                    if (entity instanceof Individual) {
+                        if (entity.getBody().getBoundsInParent().contains(e.getX(), e.getY())) {
+                            game.setSelected((Individual) entity);
+                            return;
+                        }
+                    }
+                }
+                game.setSelected(null);
             }
-            Individual individual = Individual.abiogenesis(new Point2D(e.getX(), e.getY()), this.size);
-            game.add(individual);
         });
 
         stage.show();
