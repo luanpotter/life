@@ -7,8 +7,8 @@ import xyz.ll.life.model.EntityShape;
  */
 public class LifeGene implements Gene<LifeGene> {
 
-    private static double BASE_COST_OF_LIVING  = 0.1d;
-    private static double OLDNESS_IMPACT  = 0.0000001d;
+    private static double BASE_COST_OF_LIVING = 0.1d;
+    private static double OLDNESS_IMPACT = 0.0000001d;
 
     private static final double HEALTH_MAX = 1, HEALTH_MIN = 0, HEALTH_VARIANCE = 0.0000005;
 

@@ -20,6 +20,7 @@ class LazyIntersection {
     }
 
     public boolean intersects() {
-        return getShape() != null && getShape().getLayoutBounds().getHeight() > 0 && getShape().getLayoutBounds().getWidth() > 0;
+        return getShape() != null && getShape().getLayoutBounds().getHeight() > 0
+                && getShape().getLayoutBounds().getWidth() > 0;
     }
 }

@@ -26,8 +26,9 @@ public class Individual extends Entity {
 
     public static Individual abiogenesis(Dimension2D dimension, double size) {
         Random r = new Random();
-        Individual individual =  new Individual(new Point2D(r.nextInt((int) dimension.getWidth()), r.nextInt((int) dimension.getHeight())), 50000, new Genome(size));
-        return individual;
+        return new Individual(
+                new Point2D(r.nextInt((int) dimension.getWidth()), r.nextInt((int) dimension.getHeight())), 50000,
+                new Genome(size));
     }
 
     public static Individual abiogenesis(Point2D p, double size) {
@@ -71,7 +72,8 @@ public class Individual extends Entity {
     private Individual reproduce(Individual pair, Shape intersection) {
         double initialEnergy = this.divide() + pair.divide();
         Bounds bounds = intersection.getBoundsInParent();
-        Point2D center = new Point2D((bounds.getMaxX() + bounds.getMinX()) / 2, (bounds.getMaxY() + bounds.getMinY()) / 2);
+        Point2D center = new Point2D((bounds.getMaxX() + bounds.getMinX()) / 2,
+                (bounds.getMaxY() + bounds.getMinY()) / 2);
         Individual child = new Individual(center, initialEnergy, this.genome.meiosis(pair.genome));
         child.generation = Math.max(this.generation, pair.generation) + 1;
         return child;
@@ -105,7 +107,8 @@ public class Individual extends Entity {
     }
 
     private Food onDeath() {
-        System.out.println("death { tick: " + tickAge + " time: " + (System.currentTimeMillis() - timeAge) + " generation: " + generation + " }");
+        System.out.println("death { tick: " + tickAge + " time: " + (System.currentTimeMillis() - timeAge)
+                + " generation: " + generation + " }");
         return new Food(this);
     }
 
@@ -120,7 +123,9 @@ public class Individual extends Entity {
     @Override
     public void tick(EntityManager em) {
         this.tickAge++;
-        //System.out.println("tick { tick: " + tickAge + " time: " + (System.currentTimeMillis() - timeAge) + " energy: " + energy + " }");
+        // System.out.println("tick { tick: " + tickAge + " time: " +
+        // (System.currentTimeMillis() - timeAge) + " energy: " + energy + "
+        // }");
         live();
 
         if (disease() || this.getEnergy() < 0) {

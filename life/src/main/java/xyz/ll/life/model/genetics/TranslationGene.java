@@ -5,8 +5,8 @@ import xyz.ll.life.model.EntityShape;
 
 public class TranslationGene implements Gene<TranslationGene> {
 
-    private static final double SPEED_MAX = 1d, SPEED_MIN = 0d, SPEED_VARIANCE = 0.05d;
-    private static final double INCONSTANCY_MAX = 1d, INCONSTANCY_MIN = 0d, INCONSTANCY_VARIANCE = 0.05d;
+    private static final MutationHelper SPEED = MutationHelper.helper().min(0d).max(1d).variance(0.05d).build();
+    private static final MutationHelper INCONSTANCY = MutationHelper.helper().min(0d).max(1d).variance(0.05d).build();
 
     private double speed;
     private double inconstancy;
@@ -40,25 +40,8 @@ public class TranslationGene implements Gene<TranslationGene> {
 
     @Override
     public void mutation() {
-        if (Math.random() < MUTATION_PROBABILITY) {
-            this.speed += Math.random() * TranslationGene.SPEED_VARIANCE * (Math.random() > .5 ? 1 : -1);
-            if (this.speed < TranslationGene.SPEED_MIN) {
-                this.speed = 2 * TranslationGene.SPEED_MIN - this.speed;
-            }
-            if (this.speed > TranslationGene.SPEED_MAX) {
-                this.speed = 2 * TranslationGene.SPEED_MAX - this.speed;
-            }
-        }
-
-        if (Math.random() < MUTATION_PROBABILITY) {
-            this.inconstancy += Math.random() * TranslationGene.INCONSTANCY_VARIANCE * (Math.random() > .5 ? 1 : -1);
-            if (this.inconstancy < TranslationGene.INCONSTANCY_MIN) {
-                this.inconstancy = 2 * TranslationGene.INCONSTANCY_MIN - this.inconstancy;
-            }
-            if (this.inconstancy > TranslationGene.INCONSTANCY_MAX) {
-                this.inconstancy = 2 * TranslationGene.INCONSTANCY_MAX - this.inconstancy;
-            }
-        }
+        this.speed = SPEED.mutate(this.speed);
+        this.inconstancy = INCONSTANCY.mutate(this.inconstancy);
     }
 
     @Override
@@ -73,8 +56,8 @@ public class TranslationGene implements Gene<TranslationGene> {
 
     @Override
     public double distance(TranslationGene gene) {
-        double fs = TranslationGene.SPEED_MAX - TranslationGene.SPEED_MIN;
-        double fi = TranslationGene.INCONSTANCY_MAX - TranslationGene.INCONSTANCY_MIN;
-        return Math.abs(this.speed - gene.speed) / fs + Math.abs(this.inconstancy - gene.inconstancy) / fi;
+        double speedDistance = Math.abs(this.speed - gene.speed) / SPEED.range();
+        double inconstancyDistance = Math.abs(this.inconstancy - gene.inconstancy) / INCONSTANCY.range();
+        return speedDistance + inconstancyDistance;
     }
 }

@@ -10,7 +10,6 @@ import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.input.MouseButton;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Line;
 import javafx.stage.Stage;
 import xyz.ll.life.model.Entity;
 import xyz.ll.life.model.EntityShape;
@@ -75,7 +74,6 @@ public class Main extends Application {
             }
 
         }.start();
-
 
         setupStage(stage);
     }

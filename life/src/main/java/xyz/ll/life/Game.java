@@ -24,13 +24,13 @@ public class Game {
 		this.root = root;
 		this.dimension = dimension;
 
-		randomStart(dimension);
-	}
+        randomStart(dimension);
+    }
 
-	private void randomStart(Dimension2D dimension) {
+    private void randomStart(Dimension2D dimension) {
         for (int i = 0; i < 100; i++) {
             add(Food.randomFood(dimension));
-		}
+        }
         for (int i = 0; i < 10; i++) {
             add(Individual.abiogenesis(dimension, 4d));
         }
@@ -102,15 +102,15 @@ public class Game {
         } else {
             e.getBody().toBack();
         }
-	}
+    }
 
-	public List<Entity> getEntities() {
-		return entities;
-	}
+    public List<Entity> getEntities() {
+        return entities;
+    }
 
-	public Dimension2D getDimension() {
-		return dimension;
-	}
+    public Dimension2D getDimension() {
+        return dimension;
+    }
 
     public void setDimension(Dimension2D dimension) {
         this.dimension = dimension;
