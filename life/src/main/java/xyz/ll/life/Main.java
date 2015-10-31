@@ -2,6 +2,8 @@ package xyz.ll.life;
 
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.geometry.Dimension2D;
 import javafx.geometry.Point2D;
 import javafx.scene.Group;
@@ -33,7 +35,6 @@ public class Main extends Application {
         dimension = new Dimension2D(600d, 400d);
         root = new Group();
         game = new Game(dimension, root);
-
         scene = new Scene(root, dimension.getWidth(), dimension.getHeight(), Color.BLACK);
         size = 6d;
 
@@ -44,7 +45,11 @@ public class Main extends Application {
 
             @Override
             public void handle(long now) {
-                game.tick(root);
+                try {
+                    game.tick(root);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
 
         }.start();
@@ -77,15 +82,21 @@ public class Main extends Application {
         stage.setTitle("Game of Life");
         stage.setScene(scene);
 
-        scene.widthProperty().addListener((observableValue, oldSceneWidth, newSceneWidth) -> {
-            // DANGER//
-            dimension = new Dimension2D(newSceneWidth.doubleValue(), dimension.getHeight());
-            game.setDimension(dimension);
+        scene.widthProperty().addListener(new ChangeListener<Number>() {
+            @Override
+            public void changed(ObservableValue<? extends Number> observableValue, Number oldSceneWidth, Number newSceneWidth) {
+                //DANGER//
+                dimension = new Dimension2D(newSceneWidth.doubleValue(), dimension.getHeight());
+                game.setDimension(dimension);
+            }
         });
-        scene.heightProperty().addListener((observableValue, oldSceneHeight, newSceneHeight) -> {
-            // DANGER//
-            dimension = new Dimension2D(dimension.getWidth(), newSceneHeight.doubleValue());
-            game.setDimension(dimension);
+        scene.heightProperty().addListener(new ChangeListener<Number>() {
+            @Override
+            public void changed(ObservableValue<? extends Number> observableValue, Number oldSceneHeight, Number newSceneHeight) {
+                //DANGER//
+                dimension = new Dimension2D(dimension.getWidth(), newSceneHeight.doubleValue());
+                game.setDimension(dimension);
+            }
         });
 
         scene.setOnScroll(e -> {

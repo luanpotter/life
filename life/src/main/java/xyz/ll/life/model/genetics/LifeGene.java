@@ -10,7 +10,7 @@ public class LifeGene implements Gene<LifeGene> {
     private static double BASE_COST_OF_LIVING = 0.1d;
     private static double OLDNESS_IMPACT = 0.0000001d;
 
-    private static final Mutation HEALTH = Mutation.helper().min(0d).max(1d).variance(0.0000005d).build();
+    private static final double HEALTH_MAX = 1, HEALTH_MIN = 0, HEALTH_VARIANCE = 0.0000005;
 
     private double health;
 
@@ -32,7 +32,15 @@ public class LifeGene implements Gene<LifeGene> {
 
     @Override
     public void mutation() {
-        this.health = HEALTH.mutate(health);
+        if (Math.random() < MUTATION_PROBABILITY) {
+            this.health += Math.random() * LifeGene.HEALTH_VARIANCE * (Math.random() > .5 ? 1 : -1);
+            if (this.health < LifeGene.HEALTH_MIN) {
+                this.health = 2 * LifeGene.HEALTH_MIN - this.health;
+            }
+            if (this.health > LifeGene.HEALTH_MAX) {
+                this.health = 2 * LifeGene.HEALTH_MAX - this.health;
+            }
+        }
     }
 
     @Override
@@ -46,6 +54,7 @@ public class LifeGene implements Gene<LifeGene> {
 
     @Override
     public double distance(LifeGene gene) {
-        return Math.abs(this.health - gene.health) / HEALTH.range();
+        double fh = LifeGene.HEALTH_MAX - LifeGene.HEALTH_MIN;
+        return Math.abs(this.health - gene.health) / fh;
     }
 }

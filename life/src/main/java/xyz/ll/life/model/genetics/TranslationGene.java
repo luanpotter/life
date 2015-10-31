@@ -5,8 +5,8 @@ import xyz.ll.life.model.EntityShape;
 
 public class TranslationGene implements Gene<TranslationGene> {
 
-    private static final Mutation SPEED = Mutation.helper().min(0d).max(1d).variance(0.05d).build();
-    private static final Mutation INCONSTANCY = Mutation.helper().min(0d).max(1d).variance(0.05d).build();
+    private static final MutationHelper SPEED = MutationHelper.helper().min(0d).max(1d).variance(0.05d).build();
+    private static final MutationHelper INCONSTANCY = MutationHelper.helper().min(0d).max(1d).variance(0.05d).build();
 
     private double speed;
     private double inconstancy;

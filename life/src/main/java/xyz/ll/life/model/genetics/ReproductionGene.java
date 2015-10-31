@@ -4,10 +4,10 @@ import xyz.ll.life.model.EntityShape;
 
 public class ReproductionGene implements Gene<ReproductionGene> {
 
-    private static final Mutation LIBIDO = Mutation.helper().min(0d).max(1d).variance(0.05d).build();
+    private static double LIBIDO_MAX = 1d, LIBIDO_MIN = 0d, LIBIDO_VARIANCE = 0.05d;
     private static double CHARITY_MIN = 0d, CHARITY_WEIGHT = 0.5d, CHARITY_VARIANCE = 0.2d;
 
-    private static final double BASE_REPRODUCTION_ENERGY_COST = 40d;
+    private static final double BASE_REPRODUCTION_ENERGY_COST = 200d;
 
     private double libido;
     private double charity;
@@ -45,7 +45,15 @@ public class ReproductionGene implements Gene<ReproductionGene> {
 
     @Override
     public void mutation() {
-        this.libido = LIBIDO.mutate(this.libido);
+        if (Math.random() < MUTATION_PROBABILITY) {
+            this.libido += Math.random() * ReproductionGene.LIBIDO_VARIANCE * (Math.random() > 5 ? 1 : -1);
+            if (this.libido < ReproductionGene.LIBIDO_MIN) {
+                this.libido = 2 * ReproductionGene.LIBIDO_MIN - this.libido;
+            }
+            if (this.libido > ReproductionGene.LIBIDO_MAX) {
+                this.libido = 2 * ReproductionGene.LIBIDO_MAX - this.libido;
+            }
+        }
 
         if (Math.random() < MUTATION_PROBABILITY) {
             this.charity += Math.random() * ReproductionGene.CHARITY_VARIANCE * (Math.random() > 5 ? 1 : -1);
@@ -67,8 +75,8 @@ public class ReproductionGene implements Gene<ReproductionGene> {
 
     @Override
     public double distance(ReproductionGene gene) {
-        double libidoDist = Math.abs(this.libido - gene.libido) / LIBIDO.range();
-        double charityDist = Math.abs(this.charity - gene.charity) * ReproductionGene.CHARITY_WEIGHT;
-        return libidoDist + charityDist;
+        double fl = ReproductionGene.LIBIDO_MAX - ReproductionGene.LIBIDO_MIN;
+        double fc = 1 / ReproductionGene.CHARITY_WEIGHT;
+        return Math.abs(this.libido - gene.libido) / fl + Math.abs(this.charity - gene.charity) / fc;
     }
 }

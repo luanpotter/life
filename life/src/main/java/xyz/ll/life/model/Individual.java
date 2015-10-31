@@ -5,6 +5,7 @@ import java.util.Random;
 import javafx.geometry.Bounds;
 import javafx.geometry.Dimension2D;
 import javafx.geometry.Point2D;
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Shape;
 import xyz.ll.life.EntityManager;
 import xyz.ll.life.model.genetics.Genome;
