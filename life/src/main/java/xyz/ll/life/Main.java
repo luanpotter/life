@@ -9,7 +9,6 @@ import javafx.geometry.Point2D;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Line;
 import javafx.stage.Stage;
 import xyz.ll.life.model.EntityShape;
 import xyz.ll.life.model.Individual;
