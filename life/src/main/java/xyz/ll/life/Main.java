@@ -9,7 +9,9 @@ import javafx.geometry.Point2D;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Line;
 import javafx.stage.Stage;
+import xyz.ll.life.model.EntityShape;
 import xyz.ll.life.model.Individual;
 
 public class Main extends Application {
@@ -19,6 +21,8 @@ public class Main extends Application {
     private Group root;
     private Scene scene;
     private double size;
+    private EntityShape preview;
+    private EntityShape newPreview;
 
     public static void main(String[] args) {
         launch(args);
@@ -32,6 +36,9 @@ public class Main extends Application {
         scene = new Scene(root, dimension.getWidth(), dimension.getHeight(), Color.BLACK);
         size = 6d;
 
+        preview = null;
+        newPreview = null;
+
         new AnimationTimer() {
 
             @Override
@@ -44,6 +51,28 @@ public class Main extends Application {
             }
 
         }.start();
+
+        new AnimationTimer() {
+
+            @Override
+            public void handle(long now) {
+                if (newPreview != null) {
+                    root.getChildren().remove(preview);
+                    preview = newPreview;
+                    newPreview = null;
+                    root.getChildren().add(preview);
+                } else if (preview != null) {
+                    if (preview.getStrokeWidth() <= 0.1) {
+                        root.getChildren().remove(preview);
+                        preview = null;
+                    } else {
+                        preview.setStrokeWidth(preview.getStrokeWidth() - 0.05);
+                    }
+                }
+            }
+
+        }.start();
+
 
         setupStage(stage);
     }
@@ -75,11 +104,18 @@ public class Main extends Application {
             if (this.size > 100) {
                 this.size = 100;
             }
-            System.out.println(this.size);
+
+            Individual individual = Individual.abiogenesis(new Point2D(e.getX(), e.getY()), this.size);
+            individual.getBody().setStrokeWidth(3);
+            individual.getBody().setStroke(Color.hsb(0, 0, 1));
+            individual.getBody().setColor(Color.TRANSPARENT);
+            newPreview = individual.getBody();
         });
 
         scene.setOnMousePressed(e -> {
-            System.out.println(".");
+            if (preview != null) {
+                root.getChildren().remove(preview);
+            }
             Individual individual = Individual.abiogenesis(new Point2D(e.getX(), e.getY()), this.size);
             game.add(individual);
         });
