@@ -38,6 +38,7 @@ public class Individual extends Entity {
     private static EntityShape generateBody(Point2D position, Genome genome) {
         EntityShape body = new EntityShape(position);
         genome.getTranslation().initialSpeed(body);
+        genome.getRotation().initialAngularVelocity(body);
         genome.getColor().dye(body);
         genome.getMorfological().generateShape(body);
         return body;

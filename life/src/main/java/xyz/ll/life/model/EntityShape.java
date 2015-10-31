@@ -8,21 +8,20 @@ import javafx.scene.shape.Polygon;
 public class EntityShape extends Polygon {
 
     private Point2D center;
-    private double angle;
     private Color color;
     private Color ColorStroke;
     private Point2D[] points;
-    private Point2D velocity;
     private double area;
+
+    private Point2D velocity;
+    private double angleAcc;
 
     public EntityShape(Point2D center) {
         this.center = center;
-        this.angle = 0;
         this.area = 0;
 
         this.setTranslateX(center.getX());
         this.setTranslateY(center.getY());
-        this.setRotate(angle);
     }
 
     public double getArea() {
@@ -39,11 +38,6 @@ public class EntityShape extends Polygon {
                 - this.points[this.points.length - 1].getY() * this.points[0].getX();
 
         return (double) Math.abs(sum) / 2d;
-    }
-
-    public void rotate(double angle) {
-        this.angle += angle;
-        this.setRotate(Math.toDegrees(this.angle));
     }
 
     public void translate(double x, double y) {
@@ -68,10 +62,6 @@ public class EntityShape extends Polygon {
 
     public Point2D getCenter() {
         return this.center;
-    }
-
-    public double getAngle() {
-        return this.angle;
     }
 
     public Color getColor() {
@@ -115,7 +105,21 @@ public class EntityShape extends Polygon {
         }
     }
 
+    public double getAngleAcc() {
+        return angleAcc;
+    }
+
+    public void setAngleAcc(double angleAcc) {
+        this.angleAcc = angleAcc;
+    }
+
     public void move() {
         translate(getVelocity().getX(), getVelocity().getY());
+        rotate();
+    }
+
+    private void rotate() {
+        Point2D defaultDirection = this.center.add(0d, 1d);
+        this.setRotate(defaultDirection.angle(velocity));
     }
 }

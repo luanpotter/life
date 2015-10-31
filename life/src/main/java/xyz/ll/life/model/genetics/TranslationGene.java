@@ -35,7 +35,7 @@ public class TranslationGene implements Gene<TranslationGene> {
     }
 
     private double acceleration(Point2D velocity) {
-        return (speed / velocity.magnitude()) + (2 * Math.random() - 1) * inconstancy;
+        return (speed / velocity.magnitude()) + Math.random() * inconstancy;
     }
 
     @Override

@@ -1,46 +1,50 @@
 package xyz.ll.life.model.genetics;
 
-import javafx.geometry.Point2D;
 import xyz.ll.life.model.EntityShape;
 
 public class RotationGene implements Gene<RotationGene> {
 
-    private static final double SPEED_MAX = 0.1d, SPEED_MIN = 0d, SPEED_VARIANCE = 0.005d;
+    private static final MutationHelper SPEED = MutationHelper.helper().min(0d).max(.1d).variance(0.05d).build();
+    private static final MutationHelper INCONSTANCY = MutationHelper.helper().min(0d).max(.1d).variance(0.05d).build();
 
     private double speed;
+    private double inconstancy;
 
-    private RotationGene(double speed) {
+    private RotationGene(double speed, double inconstancy) {
         this.speed = speed;
+        this.inconstancy = inconstancy;
     }
 
     public RotationGene() {
-        this.speed = 0.1;
+        this.speed = 0.0025;
+        this.inconstancy = 0.005;
+    }
+
+    public void initialAngularVelocity(EntityShape body) {
+        body.setAngleAcc(this.speed);
     }
 
     public void rotate(EntityShape body) {
-        Point2D velocity = body.getVelocity();
-        double theta = speed * (Math.random() - 0.5);
-        velocity = Util.rotate(velocity, theta);
-        body.setVelocity(velocity);
-        body.rotate(theta);
+        double speed = body.getAngleAcc() * acceleration(body.getAngleAcc());
+        body.setAngleAcc(speed);
+        body.setVelocity(Util.rotate(body.getVelocity(), speed));
     }
 
+    private double acceleration(double theta) {
+        return Math.abs(speed / theta) + (2 * Math.random() - 1) * inconstancy;
+    }
+
+    @Override
     public void mutation() {
-        if (Math.random() < MUTATION_PROBABILITY) {
-            this.speed += Math.random() * SPEED_VARIANCE * (Math.random() > 0.5 ? 1 : -1);
-            if (this.speed < SPEED_MIN) {
-                this.speed = 2 * SPEED_MIN - this.speed;
-            }
-            if (this.speed > SPEED_MAX) {
-                this.speed = 2 * SPEED_MAX - this.speed;
-            }
-        }
+        this.speed = SPEED.mutate(this.speed);
+        this.inconstancy = INCONSTANCY.mutate(this.inconstancy);
     }
 
     @Override
     public RotationGene meiosis(RotationGene gene) {
         double speed = Util.random(this.speed, gene.speed);
-        RotationGene childGene = new RotationGene(speed);
+        double constancy = Util.random(this.inconstancy, gene.inconstancy);
+        RotationGene childGene = new RotationGene(speed, constancy);
         childGene.mutation();
 
         return childGene;
@@ -48,7 +52,8 @@ public class RotationGene implements Gene<RotationGene> {
 
     @Override
     public double distance(RotationGene gene) {
-        double fs = RotationGene.SPEED_MAX - RotationGene.SPEED_MIN;
-        return Math.abs(this.speed - gene.speed) / fs;
+        double speedDistance = Math.abs(this.speed - gene.speed) / SPEED.range();
+        double inconstancyDistance = Math.abs(this.inconstancy - gene.inconstancy) / INCONSTANCY.range();
+        return speedDistance + inconstancyDistance;
     }
 }
