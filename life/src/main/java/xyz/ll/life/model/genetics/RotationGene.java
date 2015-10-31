@@ -4,8 +4,8 @@ import xyz.ll.life.model.EntityShape;
 
 public class RotationGene implements Gene<RotationGene> {
 
-    private static final MutationHelper SPEED = MutationHelper.helper().min(0d).max(.1d).variance(0.0005d).build();
-    private static final MutationHelper INCONSTANCY = MutationHelper.helper().min(0d).max(.1d).variance(0.005d).build();
+    private static final Mutation SPEED = Mutation.helper().min(0d).max(.1d).variance(0.05d).build();
+    private static final Mutation INCONSTANCY = Mutation.helper().min(0d).max(.1d).variance(0.05d).build();
 
     private double speed;
     private double inconstancy;

@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import xyz.ll.life.model.Entity;
-import xyz.ll.life.model.Individual;
 
 public class EntityManager {
 
