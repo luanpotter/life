@@ -1,34 +1,34 @@
 package xyz.ll.life.model.genetics;
 
-public class MutationHelper {
+public class Mutation {
 
     private double min;
     private double max;
     private double variance;
 
     public static Builder helper() {
-        return new MutationHelper().new Builder();
+        return new Mutation().new Builder();
     }
 
     public class Builder {
 
         public Builder min(double min) {
-            MutationHelper.this.min = min;
+            Mutation.this.min = min;
             return this;
         }
 
         public Builder max(double max) {
-            MutationHelper.this.max = max;
+            Mutation.this.max = max;
             return this;
         }
 
         public Builder variance(double variance) {
-            MutationHelper.this.variance = variance;
+            Mutation.this.variance = variance;
             return this;
         }
 
-        public MutationHelper build() {
-            return MutationHelper.this;
+        public Mutation build() {
+            return Mutation.this;
         }
     }
 
