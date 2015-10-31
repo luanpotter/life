@@ -44,19 +44,7 @@ public class Game {
                 continue;
             }
 
-            if (e instanceof Individual) {
-                if (selected == null && Color.RED.equals(e.getBody().getColorStroke())) {
-                    e.getBody().setColorStroke(null);
-                }
-                if (selected != null) {
-                    if (selected.getGenome().isCompatible(((Individual) e).getGenome())) {
-                        e.getBody().setColorStroke(Color.RED);
-                    } else {
-                        e.getBody().setColorStroke(null);
-                    }
-                }
-            }
-
+            setStroke(e);
             e.tick(em);
             e.fixPosition(dimension);
             dealWithCollisions(e, em);
@@ -67,6 +55,21 @@ public class Game {
         }
         for (Entity e : em.getAdded()) {
             add(e);
+        }
+    }
+
+    private void setStroke(Entity e) {
+        if (e instanceof Individual) {
+            if (selected == null && Color.RED.equals(e.getBody().getColorStroke())) {
+                e.getBody().setColorStroke(null);
+            }
+            if (selected != null) {
+                if (selected.getGenome().isCompatible(((Individual) e).getGenome())) {
+                    e.getBody().setColorStroke(Color.RED);
+                } else {
+                    e.getBody().setColorStroke(null);
+                }
+            }
         }
     }
 
