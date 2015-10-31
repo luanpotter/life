@@ -72,7 +72,6 @@ public class Main extends Application {
 
         }.start();
 
-
         setupStage(stage);
     }
 
@@ -81,15 +80,19 @@ public class Main extends Application {
         stage.setScene(scene);
 
         scene.widthProperty().addListener(new ChangeListener<Number>() {
-            @Override public void changed(ObservableValue<? extends Number> observableValue, Number oldSceneWidth, Number newSceneWidth) {
-                //DANGER//
+            @Override
+            public void changed(ObservableValue<? extends Number> observableValue, Number oldSceneWidth,
+                    Number newSceneWidth) {
+                // DANGER//
                 dimension = new Dimension2D(newSceneWidth.doubleValue(), dimension.getHeight());
                 game.setDimension(dimension);
             }
         });
         scene.heightProperty().addListener(new ChangeListener<Number>() {
-            @Override public void changed(ObservableValue<? extends Number> observableValue, Number oldSceneHeight, Number newSceneHeight) {
-                //DANGER//
+            @Override
+            public void changed(ObservableValue<? extends Number> observableValue, Number oldSceneHeight,
+                    Number newSceneHeight) {
+                // DANGER//
                 dimension = new Dimension2D(dimension.getWidth(), newSceneHeight.doubleValue());
                 game.setDimension(dimension);
             }

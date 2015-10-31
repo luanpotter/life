@@ -38,8 +38,7 @@ public class MetabolizationGene implements Gene<MetabolizationGene> {
     }
 
     public double phagocytosis(EntityShape prey, double preyEnergy) {
-        return this.efficiency *
-                (preyEnergy + prey.getArea() * (MetabolizationGene.BASE_STRUCTURE_ENERGY - this.cost));
+        return this.efficiency * (preyEnergy + prey.getArea() * (MetabolizationGene.BASE_STRUCTURE_ENERGY - this.cost));
     }
 
     @Override
@@ -55,7 +54,8 @@ public class MetabolizationGene implements Gene<MetabolizationGene> {
         }
 
         if (Math.random() < MUTATION_PROBABILITY) {
-            this.areaProportion += Math.random() * MetabolizationGene.AREA_PROPORTION_VARIANCE * (Math.random() > .5 ? 1 : -1);
+            this.areaProportion += Math.random() * MetabolizationGene.AREA_PROPORTION_VARIANCE
+                    * (Math.random() > .5 ? 1 : -1);
             if (this.areaProportion < MetabolizationGene.AREA_PROPORTION_MIN) {
                 this.areaProportion = 2 * MetabolizationGene.AREA_PROPORTION_MIN - this.areaProportion;
             }
@@ -88,8 +88,7 @@ public class MetabolizationGene implements Gene<MetabolizationGene> {
         double fe = MetabolizationGene.EFFICIENCY_MAX - MetabolizationGene.EFFICIENCY_MIN;
         double fa = MetabolizationGene.AREA_PROPORTION_MAX - MetabolizationGene.AREA_PROPORTION_MIN;
         double fc = 1 / MetabolizationGene.COST_WEIGHT;
-        return Math.abs(this.efficiency - gene.efficiency) / fe +
-                Math.abs(this.areaProportion - gene.areaProportion) / fa +
-                Math.abs(this.cost - gene.cost) / fc;
+        return Math.abs(this.efficiency - gene.efficiency) / fe
+                + Math.abs(this.areaProportion - gene.areaProportion) / fa + Math.abs(this.cost - gene.cost) / fc;
     }
 }

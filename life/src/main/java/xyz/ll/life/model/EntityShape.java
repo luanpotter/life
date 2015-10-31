@@ -31,12 +31,11 @@ public class EntityShape extends Polygon {
     private double calculateArea() {
         double sum = 0;
         for (int i = 0; i < (this.points.length - 1); i++) {
-            sum += this.points[i].getX() * this.points[i + 1].getY() -
-                    this.points[i].getY() * this.points[i + 1].getX();
+            sum += this.points[i].getX() * this.points[i + 1].getY()
+                    - this.points[i].getY() * this.points[i + 1].getX();
         }
-        sum += this.points[this.points.length - 1].getX() *
-                this.points[0].getY() - this.points[this.points.length - 1].getY() *
-                this.points[0].getX();
+        sum += this.points[this.points.length - 1].getX() * this.points[0].getY()
+                - this.points[this.points.length - 1].getY() * this.points[0].getX();
 
         return (double) Math.abs(sum) / 2d;
     }
@@ -47,7 +46,7 @@ public class EntityShape extends Polygon {
     }
 
     public void translate(double x, double y) {
-        //DANGER//
+        // DANGER//
         this.center = new Point2D(this.center.getX() + x, this.center.getY() + y);
         this.setTranslateX(this.center.getX());
         this.setTranslateY(this.center.getY());

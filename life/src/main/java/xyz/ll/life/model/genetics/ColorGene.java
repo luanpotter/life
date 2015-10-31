@@ -85,6 +85,7 @@ public class ColorGene implements Gene<ColorGene> {
         double fh = ColorGene.HUE_MAX - ColorGene.HUE_MIN;
         double fs = ColorGene.SATURATION_MAX - ColorGene.SATURATION_MIN;
         double fb = ColorGene.BRIGHTNESS_MAX - ColorGene.BRIGHTNESS_MIN;
-        return Math.abs(this.hue - gene.hue) / fh + Math.abs(this.saturation - gene.saturation) / fs + Math.abs(this.brightness - gene.brightness) / fb;
+        return Math.abs(this.hue - gene.hue) / fh + Math.abs(this.saturation - gene.saturation) / fs
+                + Math.abs(this.brightness - gene.brightness) / fb;
     }
 }

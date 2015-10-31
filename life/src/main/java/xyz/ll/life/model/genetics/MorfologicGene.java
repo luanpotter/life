@@ -50,7 +50,8 @@ public class MorfologicGene implements Gene<MorfologicGene> {
 
     private Point2D getPoint(double t) {
         double a = characteristics[0] * 3 * Math.pow(Math.sin(t), 2);
-        double b = characteristics[1] * Math.pow(Math.sin(characteristics[2] * t), 2) * Math.pow(Math.cos(characteristics[3] * t), 2);
+        double b = characteristics[1] * Math.pow(Math.sin(characteristics[2] * t), 2)
+                * Math.pow(Math.cos(characteristics[3] * t), 2);
         double c = characteristics[4] * 3 * Math.pow(Math.cos(t), 2);
         double d = characteristics[5] * Math.sin(characteristics[6] * 10 * t);
         double e = characteristics[7] * Math.sin(characteristics[8] * t) * Math.cos(characteristics[9] * t);
@@ -72,7 +73,8 @@ public class MorfologicGene implements Gene<MorfologicGene> {
     public void mutation() {
         for (int i = 0; i < MorfologicGene.NUMBER_OF_CHARACTERISTICS; i++) {
             if (Math.random() < MUTATION_PROBABILITY) {
-                this.characteristics[i] += Math.random() * MorfologicGene.CHARACTERISTIC_VARIANCE * (Math.random() > 5 ? 1 : -1);
+                this.characteristics[i] += Math.random() * MorfologicGene.CHARACTERISTIC_VARIANCE
+                        * (Math.random() > 5 ? 1 : -1);
             }
         }
     }
