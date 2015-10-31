@@ -31,6 +31,7 @@ public class Food extends Entity {
     private static EntityShape convertBody(Individual individual) {
         EntityShape body = individual.getBody();
         body.setColor(Food.FOOD_COLOR);
+        body.setColorStroke(null);
         return body;
     }
 
