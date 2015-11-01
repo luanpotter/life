@@ -18,6 +18,7 @@ public class Main extends Application {
     private Dimension2D dimension;
     private Game game;
     private Group root;
+    private Controls controls;
     private Scene scene;
     private double size;
 
@@ -33,6 +34,7 @@ public class Main extends Application {
         dimension = new Dimension2D(600d, 400d);
         root = new Group();
         game = new Game(dimension, root);
+        controls = new Controls();
 
         scene = new Scene(root, dimension.getWidth(), dimension.getHeight(), Color.BLACK);
         size = 6d;
@@ -44,7 +46,7 @@ public class Main extends Application {
 
             @Override
             public void handle(long now) {
-                game.tick(root);
+                game.tick();
             }
 
         }.start();
@@ -71,6 +73,7 @@ public class Main extends Application {
         }.start();
 
         setupStage(stage);
+        controls.show();
     }
 
     private void setupStage(Stage stage) {
@@ -124,6 +127,7 @@ public class Main extends Application {
             }
         });
 
+        stage.setOnCloseRequest(e -> controls.close());
         stage.show();
     }
 }

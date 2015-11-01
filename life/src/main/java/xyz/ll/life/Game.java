@@ -35,7 +35,7 @@ public class Game {
         }
     }
 
-    public void tick(Group group) {
+    public void tick() {
         generateRandomFood();
 
         EntityManager em = new EntityManager();
