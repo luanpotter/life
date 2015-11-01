@@ -19,6 +19,7 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import xyz.ll.life.commands.Messages;
 
 public class Controls extends Stage {
 
@@ -31,10 +32,13 @@ public class Controls extends Stage {
     private List<String> inputs;
     private InlineCssTextArea history;
 
-    public Controls() {
+    private Game game;
+
+    public Controls(Game game) {
         setTitle("Game of Life - Controls");
         setScene(new Scene(content(), 300, 400));
-        inputs = new ArrayList<>();
+        this.inputs = new ArrayList<>();
+        this.game = game;
     }
 
     private Pane content() {
@@ -92,8 +96,7 @@ public class Controls extends Stage {
 
     private void execute(String text) {
         input(text);
-        String response = "Command '" + text + "' not found. ";
-        output(response);
+        output(Messages.exec(game, text));
     }
 
     private void output(String response) {

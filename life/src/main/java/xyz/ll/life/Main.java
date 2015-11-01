@@ -34,7 +34,7 @@ public class Main extends Application {
         dimension = new Dimension2D(600d, 400d);
         root = new Group();
         game = new Game(dimension, root);
-        controls = new Controls();
+        controls = new Controls(game);
 
         scene = new Scene(root, dimension.getWidth(), dimension.getHeight(), Color.BLACK);
         size = 6d;
