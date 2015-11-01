@@ -10,6 +10,10 @@
 	<name>life</name>
 	<url>http://maven.apache.org</url>
 
+	<prerequisites>
+		<maven>3.3.3</maven>
+	</prerequisites>
+
 	<build>
 		<plugins>
 			<plugin>
@@ -23,6 +27,7 @@
 			</plugin>
 			<plugin>
 				<artifactId>maven-assembly-plugin</artifactId>
+				<version>2.6</version>
 				<configuration>
 					<archive>
 						<manifest>
@@ -42,6 +47,11 @@
 			<groupId>org.fxmisc.richtext</groupId>
 			<artifactId>richtextfx</artifactId>
 			<version>0.6.10</version>
+		</dependency>
+		<dependency>
+			<groupId>org.reflections</groupId>
+			<artifactId>reflections-maven</artifactId>
+			<version>0.9.9-RC2</version>
 		</dependency>
 	</dependencies>
 
