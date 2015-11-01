@@ -25,13 +25,16 @@ public class Controls extends Stage {
     private static final Background DARK_BG = new Background(
             new BackgroundFill(Color.BLACK, CornerRadii.EMPTY, Insets.EMPTY));
 
-    private List<String> lines;
+    private int currentIndex = 0;
+    private int currentLine = 0;
+    private String currentText = "";
+    private List<String> inputs;
     private InlineCssTextArea history;
 
     public Controls() {
         setTitle("Game of Life - Controls");
         setScene(new Scene(content(), 300, 400));
-        lines = new ArrayList<>();
+        inputs = new ArrayList<>();
     }
 
     private Pane content() {
@@ -48,27 +51,65 @@ public class Controls extends Stage {
         TextField input = new TextField();
         input.setBackground(DARK_BG);
         input.setOnKeyPressed(e -> {
+            String command = input.getText().trim();
             if (e.getCode() == KeyCode.ENTER) {
-                String command = input.getText().trim();
                 if (!command.isEmpty()) {
                     execute(command);
                     input.setText("");
                 }
+                currentIndex = 0;
+            } else if (e.getCode() == KeyCode.UP) {
+                cacheCurrentText(command);
+                currentIndex++;
+                readHistory(input);
+            } else if (e.getCode() == KeyCode.DOWN) {
+                cacheCurrentText(command);
+                currentIndex--;
+                readHistory(input);
+            } else {
+                currentIndex = 0;
             }
         });
         return input;
     }
 
+    private void cacheCurrentText(String command) {
+        if (currentIndex == 0) {
+            currentText = command;
+        }
+    }
+
+    private void readHistory(TextField input) {
+        if (currentIndex > 0 && currentIndex <= inputs.size()) {
+            input.setText(inputs.get(inputs.size() - currentIndex));
+        } else if (currentIndex == 0) {
+            currentIndex = 0;
+            input.setText(currentText);
+        } else {
+            currentIndex = currentIndex <= 0 ? 0 : inputs.size();
+        }
+    }
+
     private void execute(String text) {
-        appendLine("> " + text);
-        history.setStyle(lines.size() - 1, "-fx-fill: gray;");
+        input(text);
         String response = "Command '" + text + "' not found. ";
+        output(response);
+    }
+
+    private void output(String response) {
         appendLine("< " + response);
-        history.setStyle(lines.size() - 1, "-fx-fill: red;");
+        history.setStyle(currentLine, "-fx-fill: red;");
+        currentLine++;
+    }
+
+    private void input(String text) {
+        inputs.add(text);
+        appendLine("> " + text);
+        history.setStyle(currentLine, "-fx-fill: gray;");
+        currentLine++;
     }
 
     private void appendLine(String line) {
-        lines.add(line);
         history.appendText(line + '\n');
     }
 
