@@ -36,7 +36,7 @@ public class Genome {
         this.metabolizationGene = new MetabolizationGene();
     }
 
-    private double geneticDistance(Genome genome) {
+    public double geneticDistance(Genome genome) {
         return this.translationGene.distance(genome.translationGene) + this.rotationGene.distance(genome.rotationGene)
                 + this.colorGene.distance(genome.colorGene) + this.reproductionGene.distance(genome.reproductionGene)
                 + this.morfologicGene.distance(genome.morfologicGene) + this.lifeGene.distance(genome.lifeGene)

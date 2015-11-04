@@ -2,6 +2,7 @@ package xyz.ll.life;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javafx.geometry.Dimension2D;
 import javafx.scene.Group;
@@ -9,6 +10,7 @@ import javafx.scene.paint.Color;
 import xyz.ll.life.model.Entity;
 import xyz.ll.life.model.Food;
 import xyz.ll.life.model.Individual;
+import xyz.ll.life.model.Specie;
 
 public class Game {
 
@@ -103,6 +105,29 @@ public class Game {
             e.getBody().toFront();
         } else {
             e.getBody().toBack();
+        }
+    }
+
+    public int numberOfSpecies(List<Specie> species) {
+        List<Individual> l = entities.stream().filter(e -> e instanceof Individual).map(e -> (Individual) e).collect(Collectors.toList());
+        return numberOfSpeciesRecursive(l, species);
+    }
+
+    private static int numberOfSpeciesRecursive(List<Individual> individuals, List<Specie> species) {
+        if (individuals.size() == 0) {
+            return 0;
+        } else {
+            List<Individual> remains = new ArrayList<>();
+            Specie specie = new Specie();
+            for (Individual e : individuals) {
+                if (specie.matches(e)) {
+                    specie.add(e);
+                } else {
+                    remains.add(e);
+                }
+            }
+            species.add(specie);
+            return 1 + numberOfSpeciesRecursive(remains, species);
         }
     }
 
