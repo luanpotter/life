@@ -5,6 +5,7 @@ life/.classpath
 life/.project
 life/.settings
 life/.idea
+life/life.iml
 life/*.log
 
 dist/
