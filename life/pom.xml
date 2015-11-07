@@ -53,6 +53,11 @@
 			<artifactId>reflections-maven</artifactId>
 			<version>0.9.9-RC2</version>
 		</dependency>
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<version>1.16.6</version>
+		</dependency>
 	</dependencies>
 
 	<properties>
