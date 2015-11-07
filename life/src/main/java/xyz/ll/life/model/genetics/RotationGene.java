@@ -17,7 +17,7 @@ public class RotationGene implements Gene<RotationGene> {
 
     public RotationGene() {
         this.speed = 0.0025;
-        this.inconstancy = 0.005;
+        this.inconstancy = 0.0075;
     }
 
     public void initialAngularVelocity(EntityShape body) {
