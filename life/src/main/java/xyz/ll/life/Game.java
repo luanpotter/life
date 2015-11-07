@@ -2,7 +2,7 @@ package xyz.ll.life;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import javafx.geometry.Dimension2D;
 import javafx.scene.Group;
@@ -25,16 +25,22 @@ public class Game {
         this.root = root;
         this.dimension = dimension;
 
-        randomStart(dimension);
+        randomStart();
     }
 
-    private void randomStart(Dimension2D dimension) {
-        for (int i = 0; i < 10; i++) {
+    private void randomStart() {
+        int foodAmount = (int) (0.000125 * area());
+        int lifeAmount = (int) (0.000050 * area());
+        for (int i = 0; i < foodAmount; i++) {
             add(Food.randomFood(dimension));
         }
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < lifeAmount; i++) {
             add(Individual.abiogenesis(dimension, 4d));
         }
+    }
+
+    private double area() {
+        return dimension.getWidth() * dimension.getHeight();
     }
 
     public void tick() {
@@ -88,7 +94,8 @@ public class Game {
     }
 
     private void generateRandomFood() {
-        if (Math.random() < 0.1) {
+        double prob = Math.pow(10, -7) * area();
+        if (Math.random() < prob) {
             add(Food.randomFood(dimension));
         }
     }
@@ -110,26 +117,27 @@ public class Game {
 
     public List<Species> species() {
         List<Species> species = new ArrayList<>();
-        List<Individual> l = entities.stream().filter(e -> e instanceof Individual).map(e -> (Individual) e).collect(Collectors.toList());
-        numberOfSpeciesRecursive(l, species);
+        numberOfSpeciesRecursive(individuals(), species);
         return species;
     }
 
-    private static int numberOfSpeciesRecursive(List<Individual> individuals, List<Species> species) {
-        if (individuals.size() == 0) {
-            return 0;
-        } else {
-            List<Individual> remains = new ArrayList<>();
-            Species specie = new Species();
-            for (Individual e : individuals) {
-                if (specie.matches(e)) {
-                    specie.add(e);
-                } else {
-                    remains.add(e);
-                }
+    private Stream<Individual> individuals() {
+        return entities.stream().filter(e -> e instanceof Individual).map(e -> (Individual) e);
+    }
+
+    private static void numberOfSpeciesRecursive(Stream<Individual> individuals, List<Species> speciesList) {
+        Species species = new Species();
+        List<Individual> remains = new ArrayList<>();
+        individuals.forEach(e -> {
+            if (species.matches(e)) {
+                species.add(e);
+            } else {
+                remains.add(e);
             }
-            species.add(specie);
-            return 1 + numberOfSpeciesRecursive(remains, species);
+        });
+        if (species.size() > 0) {
+            speciesList.add(species);
+            numberOfSpeciesRecursive(remains.stream(), speciesList);
         }
     }
 
