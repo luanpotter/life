@@ -1,11 +1,14 @@
 package xyz.ll.life.geometry;
 
+import javafx.scene.canvas.GraphicsContext;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 @Data
+@EqualsAndHashCode(callSuper = false)
 @AllArgsConstructor
-public class Rectangle implements Shape {
+public class Rectangle extends ShapeBase {
 
     private Point point;
     private double width, height;
@@ -22,22 +25,35 @@ public class Rectangle implements Shape {
         return point.getY();
     }
 
-    public Shape intersection(Rectangle r) {
-        double startx = Math.max(getX(), r.getX());
-        double endx = Math.min(getX() + width, r.getX() + r.width);
-
-        double starty = Math.max(getY(), r.getY());
-        double endy = Math.min(getY() + height, r.getY() + r.height);
-
-        if (endy < starty || endx < startx || (starty == endy && startx == endx)) {
-            return new EmptyShape();
-        }
-
-        return new Rectangle(startx, endx, starty, endy);
+    public Polygon toPolygon() {
+        Point c1 = new Point(point, width, 0);
+        Point c2 = new Point(point, width, height);
+        Point c4 = new Point(point, 0, height);
+        return new Polygon(point, c1, c2, c4);
     }
 
     @Override
     public double area() {
         return width * height;
+    }
+
+    @Override
+    public void draw(GraphicsContext g) {
+        g.fillRect(point.getX(), point.getY(), width, height);
+    }
+
+    @Override
+    public void translate(Point vector) {
+        point.translate(vector);
+    }
+
+    @Override
+    public Rectangle getBounds() {
+        return this;
+    }
+
+    @Override
+    public Shape op(Shape shape, OpType type) {
+        return toPolygon().op(shape, type);
     }
 }

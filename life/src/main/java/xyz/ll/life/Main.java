@@ -6,9 +6,11 @@ import javafx.geometry.Dimension2D;
 import javafx.geometry.Point2D;
 import javafx.scene.Group;
 import javafx.scene.Scene;
+import javafx.scene.canvas.Canvas;
 import javafx.scene.input.MouseButton;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
+import xyz.ll.life.geometry.Polygon;
 import xyz.ll.life.model.Entity;
 import xyz.ll.life.model.EntityShape;
 import xyz.ll.life.model.Individual;
@@ -36,7 +38,11 @@ public class Main extends Application {
         game = new Game(dimension, root);
         controls = new Controls(game);
 
-        scene = new Scene(root, dimension.getWidth(), dimension.getHeight(), Color.BLACK);
+        Canvas canvas = new Canvas(600d, 400d);
+        Polygon.runTest(canvas.getGraphicsContext2D());
+        Group root2 = new Group();
+        root2.getChildren().add(canvas);
+        scene = new Scene(root2, dimension.getWidth(), dimension.getHeight(), Color.BLACK);
         size = 6d;
 
         preview = null;
@@ -73,7 +79,7 @@ public class Main extends Application {
         }.start();
 
         setupStage(stage);
-        controls.show();
+        // controls.show();
     }
 
     private void setupStage(Stage stage) {
