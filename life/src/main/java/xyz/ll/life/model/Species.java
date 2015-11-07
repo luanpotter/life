@@ -6,10 +6,10 @@ import java.util.List;
 /**
  * Created by lucas-cleto on 11/3/15.
  */
-public class Specie {
+public class Species {
     private List<Individual> individuals;
 
-    public Specie() {
+    public Species() {
         this.individuals = new ArrayList<>();
     }
 
@@ -26,8 +26,7 @@ public class Specie {
         this.individuals.add(i);
     }
 
-    @Override
-    public String toString() {
-        return String.valueOf(individuals.size());
+    public int size() {
+        return individuals.size();
     }
 }

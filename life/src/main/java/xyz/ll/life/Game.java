@@ -10,7 +10,7 @@ import javafx.scene.paint.Color;
 import xyz.ll.life.model.Entity;
 import xyz.ll.life.model.Food;
 import xyz.ll.life.model.Individual;
-import xyz.ll.life.model.Specie;
+import xyz.ll.life.model.Species;
 
 public class Game {
 
@@ -108,17 +108,19 @@ public class Game {
         }
     }
 
-    public int numberOfSpecies(List<Specie> species) {
+    public List<Species> species() {
+        List<Species> species = new ArrayList<>();
         List<Individual> l = entities.stream().filter(e -> e instanceof Individual).map(e -> (Individual) e).collect(Collectors.toList());
-        return numberOfSpeciesRecursive(l, species);
+        numberOfSpeciesRecursive(l, species);
+        return species;
     }
 
-    private static int numberOfSpeciesRecursive(List<Individual> individuals, List<Specie> species) {
+    private static int numberOfSpeciesRecursive(List<Individual> individuals, List<Species> species) {
         if (individuals.size() == 0) {
             return 0;
         } else {
             List<Individual> remains = new ArrayList<>();
-            Specie specie = new Specie();
+            Species specie = new Species();
             for (Individual e : individuals) {
                 if (specie.matches(e)) {
                     specie.add(e);
