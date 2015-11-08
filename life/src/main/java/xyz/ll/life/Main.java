@@ -7,10 +7,14 @@ import javafx.geometry.Point2D;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
+import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.input.MouseButton;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
+import xyz.ll.life.geometry.Point;
 import xyz.ll.life.geometry.Polygon;
+import xyz.ll.life.geometry.Rectangle;
+import xyz.ll.life.geometry.Shape;
 import xyz.ll.life.model.Entity;
 import xyz.ll.life.model.EntityShape;
 import xyz.ll.life.model.Individual;
@@ -31,6 +35,44 @@ public class Main extends Application {
         launch(args);
     }
 
+    public static void runTest(GraphicsContext g) {
+        Shape square = new Rectangle(new Point(100, 100), 100, 100);
+        Shape triangle = new Polygon(new Point(150, 150), new Point(150, 250), new Point(220, 130));
+        g.setFill(Color.MAGENTA);
+        square.draw(g);
+        g.setFill(Color.CYAN);
+        triangle.draw(g);
+        g.setFill(Color.BLUEVIOLET);
+        square.intersection(triangle).draw(g);
+
+        square.translate(new Point(300, 0));
+        triangle.translate(new Point(300, 0));
+        g.setFill(Color.MAGENTA);
+        square.draw(g);
+        g.setFill(Color.CYAN);
+        triangle.draw(g);
+        g.setFill(Color.BLUEVIOLET);
+        square.union(triangle).draw(g);
+
+        square.translate(new Point(0, 150));
+        triangle.translate(new Point(0, 150));
+        g.setFill(Color.MAGENTA);
+        square.draw(g);
+        g.setFill(Color.CYAN);
+        triangle.draw(g);
+        g.setFill(Color.BLUEVIOLET);
+        square.xor(triangle).draw(g);
+
+        square.translate(new Point(-300, 0));
+        triangle.translate(new Point(-300, 0));
+        g.setFill(Color.BLUEVIOLET);
+        square.diff(triangle).draw(g);
+
+        double a1 = square.union(triangle).area();
+        double a2 = square.intersection(triangle).area() + square.xor(triangle).area();
+        System.out.println(a1 - a2);
+    }
+
     @Override
     public void start(Stage stage) {
         dimension = new Dimension2D(600d, 400d);
@@ -39,7 +81,7 @@ public class Main extends Application {
         controls = new Controls(game);
 
         Canvas canvas = new Canvas(600d, 400d);
-        Polygon.runTest(canvas.getGraphicsContext2D());
+        runTest(canvas.getGraphicsContext2D());
         Group root2 = new Group();
         root2.getChildren().add(canvas);
         scene = new Scene(root2, dimension.getWidth(), dimension.getHeight(), Color.BLACK);

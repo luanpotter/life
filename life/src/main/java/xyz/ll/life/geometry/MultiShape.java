@@ -9,20 +9,27 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = false)
 public class MultiShape extends ShapeBase {
 
-    private List<Shape> nonOverlappingShapes;
-
     /*
      * Attention: cannot hold intersecting shapes, because the area() method
      * doesn't check for that. This should be only used internally. There is no
      * reason to export a MultiShape allowing overlapping shapes, just work with
      * Shape directly.
      */
+    private List<Shape> nonOverlappingShapes;
+
     private MultiShape(List<Shape> shapes) {
         this.nonOverlappingShapes = shapes;
     }
 
-    public static MultiShape buildNoCheck(List<Shape> shapes) {
-        return new MultiShape(shapes);
+    /**
+     * The shapes provided must not overlap!
+     * 
+     * @param nonOverlappingShapes
+     *            a list of shapes that do not overlap
+     * @return a Shape representing the union of all the shapes
+     */
+    public static MultiShape buildNoCheck(List<Shape> nonOverlappingShapes) {
+        return new MultiShape(nonOverlappingShapes);
     }
 
     public static MultiShape build(List<Shape> shapes) {

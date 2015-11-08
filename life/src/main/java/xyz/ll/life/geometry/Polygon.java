@@ -5,7 +5,6 @@ import java.util.List;
 
 import de.lighti.clipper.PolygonClipperHelper;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.paint.Color;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -63,45 +62,6 @@ public class Polygon extends ShapeBase {
         double[] xs = points.stream().mapToDouble(p -> p.getX()).toArray();
         double[] ys = points.stream().mapToDouble(p -> p.getY()).toArray();
         g.fillPolygon(xs, ys, points.size());
-    }
-
-    public static void runTest(GraphicsContext g) {
-        Shape square = new Rectangle(new Point(100, 100), 100, 100);
-        Shape triangle = new Polygon(new Point(150, 150), new Point(150, 250), new Point(220, 130));
-        g.setFill(Color.MAGENTA);
-        square.draw(g);
-        g.setFill(Color.CYAN);
-        triangle.draw(g);
-        g.setFill(Color.BLUEVIOLET);
-        square.intersection(triangle).draw(g);
-
-        //
-
-        square.translate(new Point(300, 0));
-        triangle.translate(new Point(300, 0));
-        g.setFill(Color.MAGENTA);
-        square.draw(g);
-        g.setFill(Color.CYAN);
-        triangle.draw(g);
-        g.setFill(Color.BLUEVIOLET);
-        square.union(triangle).draw(g);
-
-        square.translate(new Point(0, 150));
-        triangle.translate(new Point(0, 150));
-        g.setFill(Color.MAGENTA);
-        square.draw(g);
-        g.setFill(Color.CYAN);
-        triangle.draw(g);
-        g.setFill(Color.BLUEVIOLET);
-        square.xor(triangle).draw(g);
-
-        square.translate(new Point(-300, 0));
-        triangle.translate(new Point(-300, 0));
-        g.setFill(Color.BLUEVIOLET);
-        square.diff(triangle).draw(g);
-
-        System.out.println(
-                square.union(triangle).area() - (square.intersection(triangle).area() + square.xor(triangle).area()));
     }
 
     @Override
