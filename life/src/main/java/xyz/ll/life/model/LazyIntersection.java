@@ -1,6 +1,6 @@
 package xyz.ll.life.model;
 
-import javafx.scene.shape.Shape;
+import xyz.luan.geometry.Shape;
 
 class LazyIntersection {
 
@@ -14,13 +14,12 @@ class LazyIntersection {
 
     public Shape getShape() {
         if (shape == null) {
-            shape = e1.intersects(e2);
+            shape = e1.intersection(e2);
         }
         return shape;
     }
 
     public boolean intersects() {
-        return getShape() != null && getShape().getLayoutBounds().getHeight() > 0
-                && getShape().getLayoutBounds().getWidth() > 0;
+        return getShape().getBounds().getHeight() > 0 && getShape().getBounds().getWidth() > 0;
     }
 }

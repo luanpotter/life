@@ -27,7 +27,7 @@ public class RotationGene implements Gene<RotationGene> {
     public void rotate(EntityShape body) {
         double speed = body.getAngleAcc() * acceleration(body.getAngleAcc());
         body.setAngleAcc(speed);
-        body.setVelocity(Util.rotate(body.getVelocity(), speed));
+        body.getVelocity().rotate(speed);
     }
 
     private double acceleration(double theta) {

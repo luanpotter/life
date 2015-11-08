@@ -1,7 +1,7 @@
 package xyz.ll.life.model.genetics;
 
-import javafx.geometry.Point2D;
 import xyz.ll.life.model.EntityShape;
+import xyz.luan.geometry.Point;
 
 public class TranslationGene implements Gene<TranslationGene> {
 
@@ -22,19 +22,14 @@ public class TranslationGene implements Gene<TranslationGene> {
     }
 
     public void initialSpeed(EntityShape body) {
-        Point2D velocity = new Point2D(this.speed, 0);
-        velocity = Util.rotate(velocity, Math.random() * 2 * Math.PI);
-
-        body.setVelocity(velocity);
+        body.setVelocity(new Point(this.speed, 0).rotateTo(Math.random() * 2 * Math.PI));
     }
 
     public void translate(EntityShape body) {
-        Point2D velocity = body.getVelocity();
-        velocity = velocity.multiply(acceleration(velocity));
-        body.setVelocity(velocity);
+        body.getVelocity().scale(acceleration(body.getVelocity()));
     }
 
-    private double acceleration(Point2D velocity) {
+    private double acceleration(Point velocity) {
         return (speed / velocity.magnitude()) + Math.random() * inconstancy;
     }
 

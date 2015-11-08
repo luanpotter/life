@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.stream.Stream;
 
 import javafx.geometry.Dimension2D;
-import javafx.scene.Group;
+import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 import xyz.ll.life.model.Entity;
 import xyz.ll.life.model.Food;
@@ -14,15 +14,13 @@ import xyz.ll.life.model.Species;
 
 public class Game {
 
-    private Group root;
     private List<Entity> entities;
     private Dimension2D dimension;
 
     private Individual selected;
 
-    public Game(Dimension2D dimension, Group root) {
+    public Game(Dimension2D dimension) {
         this.entities = new ArrayList<>();
-        this.root = root;
         this.dimension = dimension;
 
         randomStart();
@@ -68,14 +66,14 @@ public class Game {
 
     private void setStroke(Entity e) {
         if (e instanceof Individual) {
-            if (selected == null && Color.RED.equals(e.getBody().getColorStroke())) {
-                e.getBody().setColorStroke(null);
+            if (selected == null && Color.RED.equals(e.getBody().getStrokeColor())) {
+                e.getBody().setStrokeColor(null);
             }
             if (selected != null) {
                 if (selected.getGenome().isCompatible(((Individual) e).getGenome())) {
-                    e.getBody().setColorStroke(Color.RED);
+                    e.getBody().setStrokeColor(Color.RED);
                 } else {
-                    e.getBody().setColorStroke(null);
+                    e.getBody().setStrokeColor(null);
                 }
             }
         }
@@ -85,9 +83,7 @@ public class Game {
         if (!(e instanceof Food)) {
             for (Entity otherEntity : entities) {
                 if (e != otherEntity) {
-                    if (e.estimatedIntersects(otherEntity)) {
-                        e.onCollide(otherEntity, em);
-                    }
+                    e.onCollide(otherEntity, em);
                 }
             }
         }
@@ -102,17 +98,10 @@ public class Game {
 
     public void remove(Entity e) {
         entities.remove(e);
-        root.getChildren().remove(e.getBody());
     }
 
     public void add(Entity e) {
         entities.add(e);
-        root.getChildren().add(e.getBody());
-        if (e instanceof Individual) {
-            e.getBody().toFront();
-        } else {
-            e.getBody().toBack();
-        }
     }
 
     public List<Species> species() {
@@ -123,6 +112,10 @@ public class Game {
 
     private Stream<Individual> individuals() {
         return entities.stream().filter(e -> e instanceof Individual).map(e -> (Individual) e);
+    }
+
+    private Stream<Food> food() {
+        return entities.stream().filter(e -> e instanceof Food).map(e -> (Food) e);
     }
 
     private static void numberOfSpeciesRecursive(Stream<Individual> individuals, List<Species> speciesList) {
@@ -159,5 +152,16 @@ public class Game {
 
     public void setSelected(Individual selected) {
         this.selected = selected;
+    }
+
+    public void render(GraphicsContext g) {
+        drawBackground(g);
+        food().forEach(e -> e.draw(g));
+        individuals().forEach(e -> e.draw(g));
+    }
+
+    private void drawBackground(GraphicsContext g) {
+        g.setFill(Color.BLACK);
+        g.fillRect(0, 0, dimension.getWidth(), dimension.getHeight());
     }
 }
