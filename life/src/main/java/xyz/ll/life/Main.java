@@ -11,13 +11,13 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.input.MouseButton;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
-import xyz.ll.life.geometry.Point;
-import xyz.ll.life.geometry.Polygon;
-import xyz.ll.life.geometry.Rectangle;
-import xyz.ll.life.geometry.Shape;
 import xyz.ll.life.model.Entity;
 import xyz.ll.life.model.EntityShape;
 import xyz.ll.life.model.Individual;
+import xyz.luan.geometry.Point;
+import xyz.luan.geometry.Polygon;
+import xyz.luan.geometry.Rectangle;
+import xyz.luan.geometry.Shape;
 
 public class Main extends Application {
 
@@ -130,14 +130,14 @@ public class Main extends Application {
 
         scene.widthProperty().addListener((observableValue, oldSceneWidth, newSceneWidth) -> {
             // DANGER//
-            dimension = new Dimension2D(newSceneWidth.doubleValue(), dimension.getHeight());
-            game.setDimension(dimension);
-        });
+                dimension = new Dimension2D(newSceneWidth.doubleValue(), dimension.getHeight());
+                game.setDimension(dimension);
+            });
         scene.heightProperty().addListener((observableValue, oldSceneHeight, newSceneHeight) -> {
             // DANGER//
-            dimension = new Dimension2D(dimension.getWidth(), newSceneHeight.doubleValue());
-            game.setDimension(dimension);
-        });
+                dimension = new Dimension2D(dimension.getWidth(), newSceneHeight.doubleValue());
+                game.setDimension(dimension);
+            });
 
         scene.setOnScroll(e -> {
             this.size += e.getDeltaY() / 20;
