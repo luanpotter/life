@@ -2,7 +2,7 @@ package xyz.ll.life;
 
 import javafx.animation.AnimationTimer;
 
-final class GameLoop extends AnimationTimer {
+final class GameLoopWithAT extends AnimationTimer {
 
     private static Profiler profiler = new Profiler();
 
@@ -15,7 +15,7 @@ final class GameLoop extends AnimationTimer {
     private Game game;
     private Runnable renderer;
 
-    public GameLoop(Game game, Runnable renderer) {
+    public GameLoopWithAT(Game game, Runnable renderer) {
         this.game = game;
         this.renderer = renderer;
     }
