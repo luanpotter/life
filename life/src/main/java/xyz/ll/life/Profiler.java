@@ -36,4 +36,21 @@ public class Profiler {
     public double average(String action) {
         return times.get(action).stream().mapToInt(Long::intValue).average().orElse(0);
     }
+    
+    public void logAveragesOverTime() {
+        Thread t = new Thread() {
+            @Override
+            public void run() {
+                while (true) {
+                    averages();
+                    try {
+                        Thread.sleep(20000);
+                    } catch (InterruptedException e) {
+                    }
+                }
+            }
+        };
+        t.setDaemon(true);
+        t.start();
+    }
 }
