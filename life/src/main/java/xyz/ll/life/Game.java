@@ -16,12 +16,14 @@ public class Game {
 
     private List<Entity> entities;
     private Dimension2D dimension;
+    private EntityManager em;
 
     private Individual selected;
 
     public Game(Dimension2D dimension) {
         this.entities = new ArrayList<>();
         this.dimension = dimension;
+        this.em = new EntityManager();
 
         randomStart();
     }
@@ -30,10 +32,10 @@ public class Game {
         int foodAmount = (int) (0.000125 * area());
         int lifeAmount = (int) (0.000050 * area());
         for (int i = 0; i < foodAmount; i++) {
-            add(Food.randomFood(dimension));
+            entities.add(Food.randomFood(dimension));
         }
         for (int i = 0; i < lifeAmount; i++) {
-            add(Individual.abiogenesis(dimension, 4d));
+            entities.add(Individual.abiogenesis(dimension, 4d));
         }
     }
 
@@ -41,10 +43,9 @@ public class Game {
         return dimension.getWidth() * dimension.getHeight();
     }
 
-    public void tick() {
+    public synchronized void tick() {
         generateRandomFood();
 
-        EntityManager em = new EntityManager();
         for (Entity e : entities) {
             if (!em.alive(e)) {
                 continue;
@@ -56,11 +57,15 @@ public class Game {
             dealWithCollisions(e, em);
         }
 
+        evaluateEntityManager();
+    }
+
+    private void evaluateEntityManager() {
         for (Entity e : em.getRemoved()) {
-            remove(e);
+            entities.remove(e);
         }
         for (Entity e : em.getAdded()) {
-            add(e);
+            entities.add(e);
         }
     }
 
@@ -92,16 +97,16 @@ public class Game {
     private void generateRandomFood() {
         double prob = Math.pow(10, -7) * area();
         if (Math.random() < prob) {
-            add(Food.randomFood(dimension));
+            entities.add(Food.randomFood(dimension));
         }
     }
 
     public void remove(Entity e) {
-        entities.remove(e);
+        em.remove(e);
     }
 
     public void add(Entity e) {
-        entities.add(e);
+        em.add(e);
     }
 
     public List<Species> species() {

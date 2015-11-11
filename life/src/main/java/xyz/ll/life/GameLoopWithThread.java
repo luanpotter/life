@@ -28,7 +28,7 @@ final class GameLoopWithThread extends Thread {
     private void it() {
         long diff = System.currentTimeMillis() - lastRenderTick;
         profiler.profile("tick", () -> game.tick());
-        if (diff > 1000/60) {
+        if (diff > 1000/30) {
             profiler.profile("render", () -> renderer.run());
             lastRenderTick = System.currentTimeMillis();
         }

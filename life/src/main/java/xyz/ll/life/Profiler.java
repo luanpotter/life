@@ -27,13 +27,13 @@ public class Profiler {
         log(action, System.currentTimeMillis() - now);
     }
 
-    public void averages() {
+    public synchronized void averages() {
         for (String action : times.keySet()) {
             System.out.println("Average time to [" + action + "] " + average(action));
         }
     }
 
-    public double average(String action) {
+    public synchronized double average(String action) {
         return times.get(action).stream().mapToInt(Long::intValue).average().orElse(0);
     }
     
