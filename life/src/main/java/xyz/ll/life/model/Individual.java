@@ -1,6 +1,7 @@
 package xyz.ll.life.model;
 
 import javafx.geometry.Dimension2D;
+import javafx.scene.paint.Color;
 import xyz.ll.life.EntityManager;
 import xyz.ll.life.model.genetics.Genome;
 import xyz.luan.geometry.Point;
@@ -73,9 +74,22 @@ public class Individual extends Entity {
     private void tryToEat(Entity entity, EntityManager em, LazyIntersection intersection) {
         if (this.genome.getMetabolization().canEat(this.body, entity.body, this.energy)) {
             if (intersection.intersects()) {
-                this.gainEnergy(this.genome.getMetabolization().phagocytosis(entity.body, entity.energy));
-                em.remove(entity);
+                eat(entity, em, intersection);
             }
+        }
+        else if (entity instanceof Food) {
+            //Shape result = entity.getBody().getShape().diff(this.getBody().getShape());
+            //if (Math.random() < 0.01) {
+            //    entity.body.setShape(result);
+            //}
+        }
+    }
+
+    private void eat(Entity entity, EntityManager em, LazyIntersection intersection) {
+        if (intersection.getShape().area() > entity.getArea() / 2) {
+            this.gainEnergy(this.genome.getMetabolization().phagocytosis(entity.body, entity.energy));
+            entity.getBody().setStrokeColor(Color.RED);
+            em.remove(entity);
         }
     }
 

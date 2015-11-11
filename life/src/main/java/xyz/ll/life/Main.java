@@ -15,6 +15,7 @@ import xyz.ll.life.model.EntityShape;
 import xyz.ll.life.model.Individual;
 import xyz.luan.geometry.Point;
 
+
 public class Main extends Application {
 
     private Dimension2D dimension;
@@ -64,7 +65,7 @@ public class Main extends Application {
             private void render() {
                 GraphicsContext g = canvas.getGraphicsContext2D();
                 game.render(g);
-                blah(g);
+                updatePreview(g);
             }
 
         }.start();
@@ -73,7 +74,7 @@ public class Main extends Application {
         // controls.show();
     }
 
-    private void blah(GraphicsContext g) {
+    private void updatePreview(GraphicsContext g) {
         if (newPreview != null) {
             preview = newPreview;
             newPreview = null;
@@ -85,7 +86,9 @@ public class Main extends Application {
             }
         }
 
-        // g.setStrokeWidth(strokeWidth);
+        double d = g.getLineWidth();
+        g.setLineWidth(strokeWidth);
+
         if (preview != null) {
             preview.draw(g);
         }
@@ -93,6 +96,7 @@ public class Main extends Application {
             newPreview.draw(g);
         }
 
+        g.setLineWidth(d);
     }
 
     private void setupStage(Stage stage) {
@@ -133,7 +137,7 @@ public class Main extends Application {
             } else if (e.getButton().equals(MouseButton.SECONDARY)) {
                 for (Entity entity : game.getEntities()) {
                     if (entity instanceof Individual) {
-                        if (entity.getBody().getPolygon().getBounds().contains(e.getX(), e.getY())) {
+                        if (entity.getBody().getShape().getBounds().contains(e.getX(), e.getY())) {
                             game.setSelected((Individual) entity);
                             return;
                         }

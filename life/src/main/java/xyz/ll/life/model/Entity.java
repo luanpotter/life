@@ -25,7 +25,7 @@ public abstract class Entity {
     }
 
     public Shape intersection(Entity entity) {
-        return body.getPolygon().intersection(entity.body.getPolygon());
+        return body.getShape().intersection(entity.body.getShape());
     }
 
     protected static Point randomPoint(Dimension2D dimension) {

@@ -8,10 +8,11 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 import xyz.luan.geometry.Point;
 import xyz.luan.geometry.Polygon;
+import xyz.luan.geometry.Shape;
 
 public class EntityShape {
 
-    private Polygon polygon;
+    private Shape shape;
     private Color color;
     private Color strokeColor;
     private double area;
@@ -21,8 +22,8 @@ public class EntityShape {
 
     public EntityShape(Point center, List<Point> vertices) {
         List<Point> points = vertices.stream().map(v -> v.translateTo(center)).collect(Collectors.toList());
-        this.polygon = new Polygon(points);
-        this.area = this.polygon.area();
+        this.shape = new Polygon(points);
+        this.area = this.shape.area();
     }
 
     public double getArea() {
@@ -30,7 +31,7 @@ public class EntityShape {
     }
 
     public void translate(double x, double y) {
-        polygon.translate(new Point(x, y));
+        shape.translate(new Point(x, y));
     }
 
     public void setColor(Color color) {
@@ -54,16 +55,16 @@ public class EntityShape {
     }
 
     public void fixPosition(Dimension2D d) {
-        while (polygon.getBounds().getX() + polygon.getBounds().getWidth() < 0) {
+        while (shape.getBounds().getX() + shape.getBounds().getWidth() < 0) {
             translate(d.getWidth(), 0);
         }
-        while (polygon.getBounds().getX() > d.getWidth()) {
+        while (shape.getBounds().getX() > d.getWidth()) {
             translate(-d.getWidth(), 0);
         }
-        while (polygon.getBounds().getY() + polygon.getBounds().getHeight() < 0) {
+        while (shape.getBounds().getY() + shape.getBounds().getHeight() < 0) {
             translate(0, d.getHeight());
         }
-        while (polygon.getBounds().getY() > d.getHeight()) {
+        while (shape.getBounds().getY() > d.getHeight()) {
             translate(0, -d.getHeight());
         }
     }
@@ -84,16 +85,21 @@ public class EntityShape {
         return new Point(0, 1).angle(velocity);
     }
 
-    public Polygon getPolygon() {
-        return polygon;
+    public Shape getShape() {
+        return shape;
+    }
+
+    public void setShape(Shape shape) {
+        this.shape = shape;
+        this.area = shape.area();
     }
 
     public void draw(GraphicsContext g) {
         g.setFill(color);
-        polygon.fill(g);
+        shape.fill(g);
         if (strokeColor != null) {
             g.setStroke(strokeColor);
-            polygon.draw(g);
+            shape.draw(g);
         }
     }
 }

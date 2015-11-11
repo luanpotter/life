@@ -16,9 +16,4 @@ public class Util {
             return 0;
         }
     }
-
-    public static Point2D rotate(Point2D p, double theta) {
-        return new Rotate(Math.toDegrees(theta), 0, 0).transform(p);
-    }
-
 }
