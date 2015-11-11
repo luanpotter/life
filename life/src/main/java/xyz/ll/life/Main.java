@@ -1,6 +1,5 @@
 package xyz.ll.life;
 
-import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.geometry.Dimension2D;
 import javafx.scene.Group;
@@ -47,33 +46,17 @@ public class Main extends Application {
 
         preview = null;
         newPreview = null;
-
-        new AnimationTimer() {
-
-            private long lastRenderTick = 0;
-
-            @Override
-            public void handle(long now) {
-                long diff = now - lastRenderTick;
-                game.tick();
-                if (diff > 60) { // TODO make this properly
-                    render();
-                    lastRenderTick = now;
-                }
-            }
-
-            private void render() {
-                GraphicsContext g = canvas.getGraphicsContext2D();
-                game.render(g);
-                updatePreview(g);
-            }
-
-        }.start();
+        new GameLoopWithThread(game, () -> render()).start();
 
         setupStage(stage);
         // controls.show();
     }
 
+    private void render() {
+        GraphicsContext g = canvas.getGraphicsContext2D();
+        game.render(g);
+        updatePreview(g);
+    }
     private void updatePreview(GraphicsContext g) {
         if (newPreview != null) {
             preview = newPreview;
@@ -105,14 +88,14 @@ public class Main extends Application {
 
         scene.widthProperty().addListener((observableValue, oldSceneWidth, newSceneWidth) -> {
             // DANGER//
-                dimension = new Dimension2D(newSceneWidth.doubleValue(), dimension.getHeight());
-                game.setDimension(dimension);
-            });
+            dimension = new Dimension2D(newSceneWidth.doubleValue(), dimension.getHeight());
+            game.setDimension(dimension);
+        });
         scene.heightProperty().addListener((observableValue, oldSceneHeight, newSceneHeight) -> {
             // DANGER//
-                dimension = new Dimension2D(dimension.getWidth(), newSceneHeight.doubleValue());
-                game.setDimension(dimension);
-            });
+            dimension = new Dimension2D(dimension.getWidth(), newSceneHeight.doubleValue());
+            game.setDimension(dimension);
+        });
 
         scene.setOnScroll(e -> {
             this.size += e.getDeltaY() / 20;
