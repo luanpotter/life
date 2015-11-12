@@ -47,7 +47,7 @@ public class Game {
         generateRandomFood();
 
         for (Entity e : entities) {
-            if (!em.alive(e)) {
+            if (em.deceased(e)) {
                 continue;
             }
 
@@ -67,6 +67,7 @@ public class Game {
         for (Entity e : em.getAdded()) {
             entities.add(e);
         }
+        em.clear();
     }
 
     private void setStroke(Entity e) {

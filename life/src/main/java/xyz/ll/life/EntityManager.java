@@ -26,7 +26,12 @@ public class EntityManager {
         return removed;
     }
 
-    public boolean alive(Entity e) {
-        return !removed.contains(e);
+    public boolean deceased(Entity e) {
+        return removed.contains(e);
+    }
+
+    public void clear() {
+        added.clear();
+        removed.clear();
     }
 }

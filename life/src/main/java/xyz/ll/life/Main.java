@@ -46,7 +46,7 @@ public class Main extends Application {
 
         preview = null;
         newPreview = null;
-        new GameLoopWithThread(game, () -> render()).start();
+        new GameLoopWithAT(game, () -> render()).start();
 
         setupStage(stage);
         // controls.show();
