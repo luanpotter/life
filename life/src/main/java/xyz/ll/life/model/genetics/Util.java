@@ -1,8 +1,5 @@
 package xyz.ll.life.model.genetics;
 
-import javafx.geometry.Point2D;
-import javafx.scene.transform.Rotate;
-
 public class Util {
 
     public static double random(double d1, double d2) {
