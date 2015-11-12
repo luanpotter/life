@@ -46,7 +46,7 @@ public class Main extends Application {
 
         preview = null;
         newPreview = null;
-        new GameLoopWithThread(game, () -> render()).start();
+        new GameLoopWithAT(game, () -> render()).start();
 
         setupStage(stage);
         // controls.show();
@@ -57,6 +57,7 @@ public class Main extends Application {
         game.render(g);
         updatePreview(g);
     }
+
     private void updatePreview(GraphicsContext g) {
         if (newPreview != null) {
             preview = newPreview;
