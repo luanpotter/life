@@ -10,8 +10,6 @@ final class GameLoopWithAT extends AnimationTimer {
         profiler.logAveragesOverTime();
     }
 
-    private long lastRenderTick = 0;
-
     private Game game;
     private Runnable renderer;
 
@@ -22,11 +20,9 @@ final class GameLoopWithAT extends AnimationTimer {
 
     @Override
     public void handle(long now) {
-        long diff = now - lastRenderTick;
         profiler.profile("tick", () -> game.tick());
-        if (diff > 60) { // TODO make this properly
+        if (game.isRendering()) {
             profiler.profile("render", () -> renderer.run());
-            lastRenderTick = now;
         }
     }
 }

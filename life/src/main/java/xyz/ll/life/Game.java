@@ -19,13 +19,23 @@ public class Game {
     private EntityManager em;
 
     private Individual selected;
+    private boolean rendering;
 
     public Game(Dimension2D dimension) {
         this.entities = new ArrayList<>();
         this.dimension = dimension;
         this.em = new EntityManager();
+        this.rendering = true;
 
         randomStart();
+    }
+
+    public boolean isRendering() {
+        return rendering;
+    }
+
+    public void setRendering(boolean rendering) {
+        this.rendering = rendering;
     }
 
     private void randomStart() {
@@ -96,7 +106,7 @@ public class Game {
     }
 
     private void generateRandomFood() {
-        double prob = Math.pow(10, -7) * area();
+        double prob = 5 * Math.pow(10, -7) * area();
         if (Math.random() < prob) {
             entities.add(Food.randomFood(dimension));
         }

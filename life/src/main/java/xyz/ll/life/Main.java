@@ -14,7 +14,6 @@ import xyz.ll.life.model.EntityShape;
 import xyz.ll.life.model.Individual;
 import xyz.luan.geometry.Point;
 
-
 public class Main extends Application {
 
     private Dimension2D dimension;
@@ -49,7 +48,7 @@ public class Main extends Application {
         new GameLoopWithAT(game, () -> render()).start();
 
         setupStage(stage);
-        // controls.show();
+        controls.show();
     }
 
     private void render() {
