@@ -1,9 +1,9 @@
 package xyz.ll.life.model;
 
-import javafx.geometry.Dimension2D;
 import javafx.scene.paint.Color;
 import xyz.ll.life.EntityManager;
 import xyz.ll.life.model.genetics.Genome;
+import xyz.ll.life.model.world.World;
 import xyz.luan.geometry.Point;
 import xyz.luan.geometry.Shape;
 
@@ -21,8 +21,8 @@ public class Individual extends Entity {
         this.genome = genome;
     }
 
-    public static Individual abiogenesis(Dimension2D dimension, double size) {
-        return new Individual(randomPoint(dimension), 50000, new Genome(size));
+    public static Individual abiogenesis(World world, double size) {
+        return new Individual(world.randomPoint(), 50000, new Genome(size));
     }
 
     public static Individual abiogenesis(Point p, double size) {
@@ -76,12 +76,11 @@ public class Individual extends Entity {
             if (intersection.intersects()) {
                 eat(entity, em, intersection);
             }
-        }
-        else if (entity instanceof Food) {
-            //Shape result = entity.getBody().getShape().diff(this.getBody().getShape());
-            //if (Math.random() < 0.01) {
-            //    entity.body.setShape(result);
-            //}
+        } else if (entity instanceof Food) {
+            // Shape result = entity.getBody().getShape().diff(this.getBody().getShape());
+            // if (Math.random() < 0.01) {
+            // entity.body.setShape(result);
+            // }
         }
     }
 

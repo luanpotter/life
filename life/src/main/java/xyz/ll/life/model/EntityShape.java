@@ -3,7 +3,6 @@ package xyz.ll.life.model;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import javafx.geometry.Dimension2D;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 import xyz.luan.geometry.Point;
@@ -52,21 +51,6 @@ public class EntityShape {
 
     public void setVelocity(Point velocity) {
         this.velocity = velocity;
-    }
-
-    public void fixPosition(Dimension2D d) {
-        while (shape.getBounds().getX() + shape.getBounds().getWidth() < 0) {
-            translate(d.getWidth(), 0);
-        }
-        while (shape.getBounds().getX() > d.getWidth()) {
-            translate(-d.getWidth(), 0);
-        }
-        while (shape.getBounds().getY() + shape.getBounds().getHeight() < 0) {
-            translate(0, d.getHeight());
-        }
-        while (shape.getBounds().getY() > d.getHeight()) {
-            translate(0, -d.getHeight());
-        }
     }
 
     public double getAngleAcc() {

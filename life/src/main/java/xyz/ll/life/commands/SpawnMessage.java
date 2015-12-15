@@ -12,7 +12,7 @@ public class SpawnMessage implements Message {
 
     @Override
     public String exec(Game game) {
-        game.add(Food.randomFood(game.getDimension()));
+        game.add(Food.randomFood(game.getWorld()));
         return "Spawned food.";
     }
 

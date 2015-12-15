@@ -2,9 +2,9 @@ package xyz.ll.life.model;
 
 import java.util.Arrays;
 
-import javafx.geometry.Dimension2D;
 import javafx.scene.paint.Color;
 import xyz.ll.life.EntityManager;
+import xyz.ll.life.model.world.World;
 import xyz.luan.geometry.Point;
 
 public class Food extends Entity {
@@ -21,8 +21,8 @@ public class Food extends Entity {
         super(Food.convertBody(individual), 0);
     }
 
-    public static Food randomFood(Dimension2D dimension) {
-        return new Food(randomPoint(dimension), Food.ENERGY);
+    public static Food randomFood(World world) {
+        return new Food(world.randomPoint(), Food.ENERGY);
     }
 
     private static EntityShape convertBody(Individual individual) {

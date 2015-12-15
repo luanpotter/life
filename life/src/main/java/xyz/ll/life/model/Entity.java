@@ -1,11 +1,7 @@
 package xyz.ll.life.model;
 
-import java.util.Random;
-
-import javafx.geometry.Dimension2D;
 import javafx.scene.canvas.GraphicsContext;
 import xyz.ll.life.EntityManager;
-import xyz.luan.geometry.Point;
 import xyz.luan.geometry.Shape;
 
 public abstract class Entity {
@@ -28,11 +24,6 @@ public abstract class Entity {
         return body.getShape().intersection(entity.body.getShape());
     }
 
-    protected static Point randomPoint(Dimension2D dimension) {
-        Random r = new Random();
-        return new Point(r.nextInt((int) dimension.getWidth()), r.nextInt((int) dimension.getHeight()));
-    }
-
     public double getEnergy() {
         return energy;
     }
@@ -51,10 +42,6 @@ public abstract class Entity {
 
     public double getArea() {
         return area;
-    }
-
-    public void fixPosition(Dimension2D d) {
-        body.fixPosition(d);
     }
 
     public void draw(GraphicsContext g) {

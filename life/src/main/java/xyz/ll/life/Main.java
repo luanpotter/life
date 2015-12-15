@@ -1,7 +1,6 @@
 package xyz.ll.life;
 
 import javafx.application.Application;
-import javafx.geometry.Dimension2D;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
@@ -12,11 +11,11 @@ import javafx.stage.Stage;
 import xyz.ll.life.model.Entity;
 import xyz.ll.life.model.EntityShape;
 import xyz.ll.life.model.Individual;
+import xyz.ll.life.model.world.Dimension;
 import xyz.luan.geometry.Point;
 
 public class Main extends Application {
 
-    private Dimension2D dimension;
     private Game game;
     private Canvas canvas;
     private Controls controls;
@@ -33,8 +32,8 @@ public class Main extends Application {
 
     @Override
     public void start(Stage stage) {
-        dimension = new Dimension2D(600d, 400d);
-        canvas = new Canvas(600d, 400d);
+        Dimension dimension = new Dimension(600d, 400d);
+        canvas = new Canvas(dimension.getWidth(), dimension.getHeight());
         game = new Game(dimension);
         controls = new Controls(game);
 
@@ -87,14 +86,10 @@ public class Main extends Application {
         stage.setScene(scene);
 
         scene.widthProperty().addListener((observableValue, oldSceneWidth, newSceneWidth) -> {
-            // DANGER//
-            dimension = new Dimension2D(newSceneWidth.doubleValue(), dimension.getHeight());
-            game.setDimension(dimension);
+            game.getViewport().newWidth(newSceneWidth.doubleValue());
         });
         scene.heightProperty().addListener((observableValue, oldSceneHeight, newSceneHeight) -> {
-            // DANGER//
-            dimension = new Dimension2D(dimension.getWidth(), newSceneHeight.doubleValue());
-            game.setDimension(dimension);
+            game.getViewport().newHeight(newSceneHeight.doubleValue());
         });
 
         scene.setOnScroll(e -> {

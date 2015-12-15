@@ -4,26 +4,30 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Stream;
 
-import javafx.geometry.Dimension2D;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 import xyz.ll.life.model.Entity;
 import xyz.ll.life.model.Food;
 import xyz.ll.life.model.Individual;
 import xyz.ll.life.model.Species;
+import xyz.ll.life.model.world.Dimension;
+import xyz.ll.life.model.world.Viewport;
+import xyz.ll.life.model.world.World;
 
 public class Game {
 
     private List<Entity> entities;
-    private Dimension2D dimension;
+    private World world;
     private EntityManager em;
 
+    private Viewport viewport;
     private Individual selected;
     private boolean rendering;
 
-    public Game(Dimension2D dimension) {
+    public Game(Dimension dimension) {
         this.entities = new ArrayList<>();
-        this.dimension = dimension;
+        this.world = new World(dimension);
+        this.viewport = new Viewport(dimension);
         this.em = new EntityManager();
         this.rendering = true;
 
@@ -39,18 +43,14 @@ public class Game {
     }
 
     private void randomStart() {
-        int foodAmount = (int) (0.000125 * area());
-        int lifeAmount = (int) (0.000050 * area());
+        int foodAmount = (int) (0.000125 * world.area());
+        int lifeAmount = (int) (0.000050 * world.area());
         for (int i = 0; i < foodAmount; i++) {
-            entities.add(Food.randomFood(dimension));
+            entities.add(Food.randomFood(world));
         }
         for (int i = 0; i < lifeAmount; i++) {
-            entities.add(Individual.abiogenesis(dimension, 4d));
+            entities.add(Individual.abiogenesis(world, 4d));
         }
-    }
-
-    private double area() {
-        return dimension.getWidth() * dimension.getHeight();
     }
 
     public synchronized void tick() {
@@ -63,7 +63,7 @@ public class Game {
 
             setStroke(e);
             e.tick(em);
-            e.fixPosition(dimension);
+            world.fixPosition(e);
             dealWithCollisions(e, em);
         }
 
@@ -106,9 +106,9 @@ public class Game {
     }
 
     private void generateRandomFood() {
-        double prob = 5 * Math.pow(10, -7) * area();
+        double prob = 5 * Math.pow(10, -7) * world.area();
         if (Math.random() < prob) {
-            entities.add(Food.randomFood(dimension));
+            entities.add(Food.randomFood(world));
         }
     }
 
@@ -154,12 +154,12 @@ public class Game {
         return entities;
     }
 
-    public Dimension2D getDimension() {
-        return dimension;
+    public World getWorld() {
+        return world;
     }
 
-    public void setDimension(Dimension2D dimension) {
-        this.dimension = dimension;
+    public Viewport getViewport() {
+        return viewport;
     }
 
     public Individual getSelected() {
@@ -178,6 +178,6 @@ public class Game {
 
     private void drawBackground(GraphicsContext g) {
         g.setFill(Color.BLACK);
-        g.fillRect(0, 0, dimension.getWidth(), dimension.getHeight());
+        g.fillRect(0, 0, viewport.getWidth(), viewport.getHeight());
     }
 }
