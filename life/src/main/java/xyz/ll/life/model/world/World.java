@@ -1,17 +1,25 @@
 package xyz.ll.life.model.world;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
+import javafx.scene.canvas.GraphicsContext;
 import xyz.ll.life.model.Entity;
+import xyz.ll.life.model.Organic;
 import xyz.luan.geometry.Point;
+import xyz.luan.geometry.Rectangle;
 import xyz.luan.geometry.Shape;
 
 public class World {
 
     private Dimension borders;
+    private List<Entity> walls;
 
     public World(Dimension borders) {
         this.borders = borders;
+        this.walls = new ArrayList<>();
+        walls.add(new Wall(new Rectangle(0, 100, 0, 100)));
     }
 
     public Point randomPoint() {
@@ -19,7 +27,7 @@ public class World {
         return new Point(r.nextInt((int) borders.getWidth()), r.nextInt((int) borders.getHeight()));
     }
 
-    public void fixPosition(Entity e) {
+    public void fixPosition(Organic e) {
         Shape shape = e.getBody().getShape();
         while (shape.getBounds().getX() + shape.getBounds().getWidth() < 0) {
             e.getBody().translate(borders.getWidth(), 0);
@@ -33,6 +41,10 @@ public class World {
         while (shape.getBounds().getY() > borders.getHeight()) {
             e.getBody().translate(0, -borders.getHeight());
         }
+    }
+
+    public void draw(GraphicsContext g) {
+        walls.forEach(w -> w.draw(g));
     }
 
     public double area() {

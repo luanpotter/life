@@ -6,7 +6,7 @@ import java.util.stream.Stream;
 
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
-import xyz.ll.life.model.Entity;
+import xyz.ll.life.model.Organic;
 import xyz.ll.life.model.Food;
 import xyz.ll.life.model.Individual;
 import xyz.ll.life.model.Species;
@@ -16,7 +16,7 @@ import xyz.ll.life.model.world.World;
 
 public class Game {
 
-    private List<Entity> entities;
+    private List<Organic> entities;
     private World world;
     private EntityManager em;
 
@@ -56,7 +56,7 @@ public class Game {
     public synchronized void tick() {
         generateRandomFood();
 
-        for (Entity e : entities) {
+        for (Organic e : entities) {
             if (em.deceased(e)) {
                 continue;
             }
@@ -71,16 +71,16 @@ public class Game {
     }
 
     private void evaluateEntityManager() {
-        for (Entity e : em.getRemoved()) {
+        for (Organic e : em.getRemoved()) {
             entities.remove(e);
         }
-        for (Entity e : em.getAdded()) {
+        for (Organic e : em.getAdded()) {
             entities.add(e);
         }
         em.clear();
     }
 
-    private void setStroke(Entity e) {
+    private void setStroke(Organic e) {
         if (e instanceof Individual) {
             if (selected == null && Color.RED.equals(e.getBody().getStrokeColor())) {
                 e.getBody().setStrokeColor(null);
@@ -95,11 +95,11 @@ public class Game {
         }
     }
 
-    private void dealWithCollisions(Entity e, EntityManager em) {
+    private void dealWithCollisions(Organic e, EntityManager em) {
         if (!(e instanceof Food)) {
-            for (Entity otherEntity : entities) {
-                if (e != otherEntity) {
-                    e.onCollide(otherEntity, em);
+            for (Organic otherOrganic : entities) {
+                if (e != otherOrganic) {
+                    e.onCollide(otherOrganic, em);
                 }
             }
         }
@@ -112,11 +112,11 @@ public class Game {
         }
     }
 
-    public void remove(Entity e) {
+    public void remove(Organic e) {
         em.remove(e);
     }
 
-    public void add(Entity e) {
+    public void add(Organic e) {
         em.add(e);
     }
 
@@ -150,7 +150,7 @@ public class Game {
         }
     }
 
-    public List<Entity> getEntities() {
+    public List<Organic> getEntities() {
         return entities;
     }
 
@@ -172,6 +172,7 @@ public class Game {
 
     public void render(GraphicsContext g) {
         drawBackground(g);
+        world.draw(g);
         food().forEach(e -> e.draw(g));
         individuals().forEach(e -> e.draw(g));
     }

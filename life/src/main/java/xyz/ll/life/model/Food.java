@@ -7,7 +7,7 @@ import xyz.ll.life.EntityManager;
 import xyz.ll.life.model.world.World;
 import xyz.luan.geometry.Point;
 
-public class Food extends Entity {
+public class Food extends Organic {
 
     private static final double ENERGY = 100000;
     private static final Color FOOD_COLOR = Color.hsb(0, 0, 0.2);

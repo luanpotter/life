@@ -8,7 +8,7 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.input.MouseButton;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
-import xyz.ll.life.model.Entity;
+import xyz.ll.life.model.Organic;
 import xyz.ll.life.model.EntityShape;
 import xyz.ll.life.model.Individual;
 import xyz.ll.life.model.world.Dimension;
@@ -113,10 +113,10 @@ public class Main extends Application {
                 Individual individual = Individual.abiogenesis(new Point(e.getX(), e.getY()), this.size);
                 game.add(individual);
             } else if (e.getButton().equals(MouseButton.SECONDARY)) {
-                for (Entity entity : game.getEntities()) {
-                    if (entity instanceof Individual) {
-                        if (entity.getBody().getShape().getBounds().contains(e.getX(), e.getY())) {
-                            game.setSelected((Individual) entity);
+                for (Organic organic : game.getEntities()) {
+                    if (organic instanceof Individual) {
+                        if (organic.getBody().getShape().getBounds().contains(e.getX(), e.getY())) {
+                            game.setSelected((Individual) organic);
                             return;
                         }
                     }

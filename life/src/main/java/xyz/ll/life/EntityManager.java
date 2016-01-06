@@ -3,30 +3,30 @@ package xyz.ll.life;
 import java.util.ArrayList;
 import java.util.List;
 
-import xyz.ll.life.model.Entity;
+import xyz.ll.life.model.Organic;
 
 public class EntityManager {
 
-    private List<Entity> added = new ArrayList<>();
-    private List<Entity> removed = new ArrayList<>();
+    private List<Organic> added = new ArrayList<>();
+    private List<Organic> removed = new ArrayList<>();
 
-    public void add(Entity e) {
+    public void add(Organic e) {
         added.add(e);
     }
 
-    public void remove(Entity e) {
+    public void remove(Organic e) {
         removed.add(e);
     }
 
-    public List<Entity> getAdded() {
+    public List<Organic> getAdded() {
         return added;
     }
 
-    public List<Entity> getRemoved() {
+    public List<Organic> getRemoved() {
         return removed;
     }
 
-    public boolean deceased(Entity e) {
+    public boolean deceased(Organic e) {
         return removed.contains(e);
     }
 

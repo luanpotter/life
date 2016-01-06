@@ -3,11 +3,12 @@ package xyz.ll.life.model;
 import javafx.scene.paint.Color;
 import xyz.ll.life.EntityManager;
 import xyz.ll.life.model.genetics.Genome;
+import xyz.ll.life.model.world.Wall;
 import xyz.ll.life.model.world.World;
 import xyz.luan.geometry.Point;
 import xyz.luan.geometry.Shape;
 
-public class Individual extends Entity {
+public class Individual extends Organic {
 
     private Genome genome;
 
@@ -72,23 +73,25 @@ public class Individual extends Entity {
     }
 
     private void tryToEat(Entity entity, EntityManager em, LazyIntersection intersection) {
-        if (this.genome.getMetabolization().canEat(this.body, entity.body, this.energy)) {
-            if (intersection.intersects()) {
-                eat(entity, em, intersection);
+        if (entity instanceof Organic) {
+            if (this.genome.getMetabolization().canEat(this.body, entity.body, this.energy)) {
+                if (intersection.intersects()) {
+                    eat((Organic) entity, em, intersection);
+                }
+            } else if (entity instanceof Food) {
+                // Shape result = entity.getBody().getShape().diff(this.getBody().getShape());
+                // if (Math.random() < 0.01) {
+                // entity.body.setShape(result);
+                // }
             }
-        } else if (entity instanceof Food) {
-            // Shape result = entity.getBody().getShape().diff(this.getBody().getShape());
-            // if (Math.random() < 0.01) {
-            // entity.body.setShape(result);
-            // }
         }
     }
 
-    private void eat(Entity entity, EntityManager em, LazyIntersection intersection) {
-        if (intersection.getShape().area() > entity.getArea() / 2) {
-            this.gainEnergy(this.genome.getMetabolization().phagocytosis(entity.body, entity.energy));
-            entity.getBody().setStrokeColor(Color.RED);
-            em.remove(entity);
+    private void eat(Organic organic, EntityManager em, LazyIntersection intersection) {
+        if (intersection.getShape().area() > organic.getArea() / 2) {
+            this.gainEnergy(this.genome.getMetabolization().phagocytosis(organic.body, organic.energy));
+            organic.getBody().setStrokeColor(Color.RED);
+            em.remove(organic);
         }
     }
 
@@ -115,10 +118,17 @@ public class Individual extends Entity {
         return new Food(this);
     }
 
+    private void tryToAvoid(Entity entity, LazyIntersection intersection) {
+        if (entity instanceof Wall) {
+
+        }
+    }
+
     @Override
     public void onCollide(Entity entity, EntityManager em) {
         LazyIntersection intersection = new LazyIntersection(this, entity);
 
+        tryToAvoid(entity, intersection);
         tryToReproduce(entity, em, intersection);
         tryToEat(entity, em, intersection);
     }
