@@ -3,6 +3,9 @@ package xyz.ll.life;
 import java.util.ArrayList;
 import java.util.List;
 
+import javafx.scene.chart.LineChart;
+import javafx.scene.chart.NumberAxis;
+import javafx.scene.chart.XYChart;
 import org.fxmisc.richtext.InlineCssTextArea;
 
 import javafx.geometry.Insets;
@@ -44,11 +47,50 @@ public class Controls extends Stage {
     private Pane content() {
         BorderPane grid = new BorderPane();
 
-        grid.setTop(title());
+        grid.setTop(chart(1000));
         grid.setCenter(history());
         grid.setBottom(input());
 
         return grid;
+    }
+
+    private LineChart<Number, Number> chart(int time) {
+        //defining the axes
+        final NumberAxis xAxis = new NumberAxis();
+        final NumberAxis yAxis = new NumberAxis();
+        xAxis.setLabel("Time (" + (((float) time)/1000f) + "s)");
+        //creating the chart
+        final LineChart<Number,Number> lineChart =
+                new LineChart<Number,Number>(xAxis,yAxis);
+
+        lineChart.setTitle("Species");
+        lineChart.setCreateSymbols(false);
+
+        XYChart.Series series = new XYChart.Series();
+        series.setName("Number of Species");
+        lineChart.getData().add(series);
+
+        new Thread() {
+
+            private int x = 0;
+
+            @Override
+            public void run() {
+                while(true) {
+                    try {
+                        if (game != null) {
+                            series.getData().add(new XYChart.Data(x++, game.numberOfSpecies()));
+                        }
+                        Thread.sleep(time);
+                    } catch(Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }.start();
+
+        lineChart.setPrefSize(300, 340);
+        return lineChart;
     }
 
     private TextField input() {

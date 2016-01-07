@@ -150,6 +150,10 @@ public class Game {
         }
     }
 
+    public int numberOfSpecies() {
+        return species().size();
+    }
+
     public List<Organic> getEntities() {
         return entities;
     }
