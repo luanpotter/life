@@ -14,6 +14,9 @@ import xyz.ll.life.model.Individual;
 import xyz.ll.life.model.world.Dimension;
 import xyz.luan.geometry.Point;
 
+import java.util.Collections;
+import java.util.List;
+
 public class Main extends Application {
 
     private Game game;
@@ -37,6 +40,8 @@ public class Main extends Application {
         game = new Game(dimension);
         controls = new Controls(game);
 
+        final GeneticsPCA pca = new GeneticsPCA(game);
+
         Group root = new Group();
         root.getChildren().add(canvas);
         scene = new Scene(root, dimension.getWidth(), dimension.getHeight(), Color.BLACK);
@@ -48,6 +53,7 @@ public class Main extends Application {
 
         setupStage(stage);
         controls.show();
+        pca.show();
     }
 
     private void render() {
