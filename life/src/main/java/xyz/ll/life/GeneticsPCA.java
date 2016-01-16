@@ -1,27 +1,20 @@
 package xyz.ll.life;
 
-import javafx.geometry.Insets;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import javafx.application.Platform;
 import javafx.scene.Scene;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.ScatterChart;
 import javafx.scene.chart.XYChart;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.Pane;
-import javafx.scene.paint.Color;
-import javafx.scene.text.Font;
-import javafx.scene.text.FontWeight;
-import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javastat.multivariate.PCA;
 import xyz.ll.life.model.Individual;
 
 public class GeneticsPCA extends Stage {
-
-    private static final Background DARK_BG = new Background(
-            new BackgroundFill(Color.BLACK, CornerRadii.EMPTY, Insets.EMPTY));
 
     private Game game;
 
@@ -33,9 +26,7 @@ public class GeneticsPCA extends Stage {
 
     private Pane content() {
         BorderPane grid = new BorderPane();
-
-        grid.setCenter(chart(1000));
-
+        grid.setCenter(chart(2000));
         return grid;
     }
 
@@ -49,21 +40,20 @@ public class GeneticsPCA extends Stage {
 
         lineChart.setTitle("PCA");
 
-        XYChart.Series series = new XYChart.Series();
+        XYChart.Series<Number, Number> series = new XYChart.Series<>();
         series.setName("PCS");
         lineChart.getData().add(series);
 
-        new Thread() {
-
-            private int x = 0;
+        Thread t = new Thread() {
 
             @Override
             public void run() {
                 while (true) {
                     try {
                         if (game != null) {
-                            series.getData().clear();
-                            pca(game.getIndividuals(), series);
+                            Platform.runLater(() -> {
+                                pca(game.individuals().collect(Collectors.toList()), series);
+                            });
                         }
                         Thread.sleep(time);
                     } catch (Exception e) {
@@ -71,39 +61,32 @@ public class GeneticsPCA extends Stage {
                     }
                 }
             }
-        }.start();
+        };
+        t.setDaemon(true);
+        t.start();
 
         lineChart.setPrefSize(300, 340);
         return lineChart;
     }
 
-    private static void pca(Individual[] individuals, XYChart.Series series) {
-        double[][] testscores = new double[individuals.length][individuals.length];
-        for (int i = 0; i < individuals.length; i++) {
-            for (int j = 0; j < individuals.length; j++) {
-                testscores[i][j] = individuals[i].getGenome().geneticDistance(individuals[j].getGenome());
-                // System.out.print(testscores[i][j] + " ");
+    private void pca(List<Individual> individuals, XYChart.Series<Number, Number> series) {
+        double[][] testscores = new double[individuals.size()][individuals.size()];
+        for (int i = 0; i < individuals.size(); i++) {
+            for (int j = 0; j < individuals.size(); j++) {
+                testscores[i][j] = Math
+                        .abs(individuals.get(i).getGenome().geneticDistance(individuals.get(j).getGenome()));
             }
-            // System.out.println();
         }
-        // System.out.println();
+        // System.out.println(Arrays.deepToString(testscores));
 
-        PCA testclass1 = new PCA(1, "covariance", testscores);
-        double[][] principalComponents = testclass1.principalComponents;
+        PCA pca = new PCA(1, "covariance", testscores);
+        double[][] principalComponents = pca.principalComponents;
 
+        series.getData().clear();
         for (int i = 0; i < principalComponents[0].length; i++) {
             double a = principalComponents.length > 0 ? principalComponents[0][i] : 0;
             double b = principalComponents.length > 1 ? principalComponents[1][i] : 0;
-            // System.out.print(a + ",");
-            // System.out.print(b + " ");
-            series.getData().add(new XYChart.Data(a, b));
+            series.getData().add(new XYChart.Data<>(a, b));
         }
-        // System.out.println();
-    }
-
-    private Text title() {
-        Text scenetitle = new Text("PCA Panel");
-        scenetitle.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
-        return scenetitle;
     }
 }

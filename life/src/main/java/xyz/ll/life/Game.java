@@ -126,16 +126,11 @@ public class Game {
         return species;
     }
 
-    public Individual[] getIndividuals() {
-        Stream<Individual> stream = individuals();
-        return stream.toArray(size -> new Individual[size]);
-    }
-
-    private Stream<Individual> individuals() {
+    public Stream<Individual> individuals() {
         return entities.stream().filter(e -> e instanceof Individual).map(e -> (Individual) e);
     }
 
-    private Stream<Food> food() {
+    public Stream<Food> food() {
         return entities.stream().filter(e -> e instanceof Food).map(e -> (Food) e);
     }
 

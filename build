@@ -1,4 +1,4 @@
 #!/bin/bash
 
-(cd life ; mvn clean compile)
+(cd life ; mvn clean compile eclipse:eclipse)
 

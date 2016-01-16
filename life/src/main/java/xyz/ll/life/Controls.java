@@ -66,7 +66,7 @@ public class Controls extends Stage {
         lineChart.setTitle("Species");
         lineChart.setCreateSymbols(false);
 
-        XYChart.Series series = new XYChart.Series();
+        XYChart.Series<Number, Number> series = new XYChart.Series<>();
         series.setName("Number of Species");
         lineChart.getData().add(series);
 
@@ -79,7 +79,7 @@ public class Controls extends Stage {
                 while(true) {
                     try {
                         if (game != null) {
-                            series.getData().add(new XYChart.Data(x++, game.numberOfSpecies()));
+                            series.getData().add(new XYChart.Data<>(x++, game.numberOfSpecies()));
                         }
                         Thread.sleep(time);
                     } catch(Exception e) {
