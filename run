@@ -1,1 +1,4 @@
-java -jar ./dist/life.jar
+#!/bin/bash
+
+# java -jar ./dist/life.jar
+(cd life ; mvn exec:java -D exec.mainClass=xyz.ll.life.Main)

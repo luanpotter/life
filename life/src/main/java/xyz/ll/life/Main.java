@@ -18,7 +18,7 @@ public class Main extends Application {
 
     private Game game;
     private Canvas canvas;
-    private Controls controls;
+    private Stage controls, pca;
     private Scene scene;
     private double size;
 
@@ -36,6 +36,7 @@ public class Main extends Application {
         canvas = new Canvas(dimension.getWidth(), dimension.getHeight());
         game = new Game(dimension);
         controls = new Controls(game);
+        pca = new GeneticsPCA(game);
 
         Group root = new Group();
         root.getChildren().add(canvas);
@@ -48,7 +49,7 @@ public class Main extends Application {
 
         setupStage(stage);
         controls.show();
-        // new GeneticsPCA(game).show();
+        pca.show();
     }
 
     private void render() {
@@ -126,7 +127,10 @@ public class Main extends Application {
             }
         });
 
-        stage.setOnCloseRequest(e -> controls.close());
+        stage.setOnCloseRequest(e -> {
+            controls.close();
+            pca.close();
+        });
         stage.show();
     }
 }
