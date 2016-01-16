@@ -43,14 +43,23 @@ public class DiscreteSimulation {
         System.out.println();
 
         for (int i = 0; i < individuals.length; i++) {
+            System.out.printf("(%03d) ", i);
             for (int j = 0; j < individuals[i].length; j++) {
                 System.out.print(individuals[i][j] + " ");
             }
-            System.out.println();
+            if (i % 2 == 0) {
+                System.out.print("        ");
+            } else {
+                System.out.println();
+            }
         }
 
         System.out.println();
         System.out.println();
+
+        try {
+            Thread.sleep(5 * 1000);
+        } catch (Exception e) {}
     }
 
     private static boolean compatible(int[][] individuals, int a, int b) {
@@ -66,7 +75,7 @@ public class DiscreteSimulation {
     public static void main(String[] args) {
         int[][] individuals = new int[20][5];
         int[][] pos = new int[20][2];
-        int[][] map = new int[8][8];
+        int[][] map = new int[25][25];
 
         for (int i = 0; i < map.length; i++) {
             for (int j = 0; j < map[i].length; j++) {
@@ -126,35 +135,37 @@ public class DiscreteSimulation {
                             }
 
                             //move to the new position
-                            int[] mov = new int[9];
-                            for (int j = 0; j < 9; j++) {
-                                mov[j] = j;
-                            }
-                            mov = shuffleArray(mov);
-                            for (int j = 0; j < 9; j++) {
-                                int xf = pos[i][0] + DEL_X[mov[j]];
-                                int yf = pos[i][1] + DEL_Y[mov[j]];
-
-                                if (xf < 0) {
-                                    xf = 0;
+                            if (random.nextInt(10) == 0) {
+                                int[] mov = new int[9];
+                                for (int j = 0; j < 9; j++) {
+                                    mov[j] = j;
                                 }
-                                if (xf > map.length - 1) {
-                                    xf = map.length - 1;
-                                }
-                                if (yf < 0) {
-                                    yf = 0;
-                                }
-                                if (yf > map[xf].length - 1) {
-                                    yf = map[xf].length - 1;
-                                }
+                                mov = shuffleArray(mov);
+                                for (int j = 0; j < 9; j++) {
+                                    int xf = pos[i][0] + DEL_X[mov[j]];
+                                    int yf = pos[i][1] + DEL_Y[mov[j]];
 
-                                if (map[xf][yf] == -1 || map[xf][yf] == i) {
-                                    map[pos[i][0]][pos[i][1]] = -1;
+                                    if (xf < 0) {
+                                        xf = 0;
+                                    }
+                                    if (xf > map.length - 1) {
+                                        xf = map.length - 1;
+                                    }
+                                    if (yf < 0) {
+                                        yf = 0;
+                                    }
+                                    if (yf > map[xf].length - 1) {
+                                        yf = map[xf].length - 1;
+                                    }
 
-                                    pos[i][0] = xf;
-                                    pos[i][1] = yf;
+                                    if (map[xf][yf] == -1 || map[xf][yf] == i) {
+                                        map[pos[i][0]][pos[i][1]] = -1;
 
-                                    map[pos[i][0]][pos[i][1]] = i;
+                                        pos[i][0] = xf;
+                                        pos[i][1] = yf;
+
+                                        map[pos[i][0]][pos[i][1]] = i;
+                                    }
                                 }
                             }
 
@@ -168,9 +179,6 @@ public class DiscreteSimulation {
             if (t % 100 == 0) {
                 System.out.println();
                 plot(map, individuals);
-                try {
-                    Thread.sleep(5 * 1000);
-                } catch (Exception e) {}
             } else {
                 System.out.print(".");
             }
