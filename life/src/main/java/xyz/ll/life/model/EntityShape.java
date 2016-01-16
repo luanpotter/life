@@ -5,7 +5,6 @@ import java.util.stream.Collectors;
 
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
-import xyz.luan.geometry.*;
 import xyz.luan.geometry.Point;
 import xyz.luan.geometry.Polygon;
 import xyz.luan.geometry.Shape;
@@ -41,6 +40,10 @@ public class EntityShape {
 
     public void setColor(Color color) {
         this.color = color;
+    }
+
+    public Color getColor() {
+        return color;
     }
 
     public Color getStrokeColor() {
@@ -79,6 +82,10 @@ public class EntityShape {
         return shape;
     }
 
+    public Point getCenter() {
+        return this.shape.getBounds().getCenter();
+    }
+
     public void setShape(Shape shape) {
         this.shape = shape;
         this.area = shape.area();
@@ -91,5 +98,9 @@ public class EntityShape {
             g.setStroke(strokeColor);
             shape.draw(g);
         }
+    }
+
+    public void setPosition(Point point) {
+        this.shape.translate(point.minusTo(getCenter()));
     }
 }

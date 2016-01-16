@@ -7,7 +7,7 @@ import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.ScatterChart;
 import javafx.scene.chart.XYChart;
-import javastat.multivariate.PCA;
+//import javastat.multivariate.PCA;
 import org.fxmisc.richtext.InlineCssTextArea;
 
 import javafx.geometry.Insets;
@@ -92,23 +92,23 @@ public class GeneticsPCA extends Stage {
         for (int i = 0; i < individuals.length; i++) {
             for (int j = 0; j < individuals.length; j++) {
                 testscores[i][j] = individuals[i].getGenome().geneticDistance(individuals[j].getGenome());
-                System.out.print(testscores[i][j] + " ");
+                //System.out.print(testscores[i][j] + " ");
             }
-            System.out.println();
+            //System.out.println();
         }
-        System.out.println();
+        //System.out.println();
 
-        PCA testclass1 = new PCA(1, "covariance", testscores);
-        double[][] principalComponents = testclass1.principalComponents;
+        //PCA testclass1 = new PCA(1, "covariance", testscores);
+        double[][] principalComponents = null;//testclass1.principalComponents;
 
         for (int i = 0; i < principalComponents[0].length; i++) {
             double a = principalComponents.length > 0 ? principalComponents[0][i] : 0;
             double b = principalComponents.length > 1 ? principalComponents[1][i] : 0;
-            System.out.print(a + ",");
-            System.out.print(b + " ");
+            //System.out.print(a + ",");
+            //System.out.print(b + " ");
             series.getData().add(new XYChart.Data(a, b));
         }
-        System.out.println();
+        //System.out.println();
     }
 
     private Text title() {

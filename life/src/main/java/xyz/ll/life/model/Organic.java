@@ -1,7 +1,6 @@
 package xyz.ll.life.model;
 
 import xyz.ll.life.EntityManager;
-import xyz.luan.geometry.Shape;
 
 public abstract class Organic extends Entity {
 

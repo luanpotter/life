@@ -8,14 +8,11 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.input.MouseButton;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
-import xyz.ll.life.model.Organic;
 import xyz.ll.life.model.EntityShape;
 import xyz.ll.life.model.Individual;
+import xyz.ll.life.model.Organic;
 import xyz.ll.life.model.world.Dimension;
 import xyz.luan.geometry.Point;
-
-import java.util.Collections;
-import java.util.List;
 
 public class Main extends Application {
 
@@ -40,8 +37,6 @@ public class Main extends Application {
         game = new Game(dimension);
         controls = new Controls(game);
 
-        final GeneticsPCA pca = new GeneticsPCA(game);
-
         Group root = new Group();
         root.getChildren().add(canvas);
         scene = new Scene(root, dimension.getWidth(), dimension.getHeight(), Color.BLACK);
@@ -53,7 +48,7 @@ public class Main extends Application {
 
         setupStage(stage);
         controls.show();
-        pca.show();
+        // new GeneticsPCA(game).show();
     }
 
     private void render() {
