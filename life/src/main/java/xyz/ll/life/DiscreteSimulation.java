@@ -10,6 +10,8 @@ public class DiscreteSimulation {
     private static final int[] DEL_X = {-1,  0,  1, -1,  0,  1, -1,  0,  1};
     private static final int[] DEL_Y = {-1, -1, -1,  0,  0,  0,  1,  1,  1};
 
+    private static final int REPRODUCTION_DISTANCE = 2;
+
     private static int[] shuffleArray(int[] array) {
         int index;
         Random random = new Random();
@@ -42,23 +44,23 @@ public class DiscreteSimulation {
         System.out.println();
         System.out.println();
 
-        for (int i = 0; i < individuals.length; i++) {
-            System.out.printf("(%03d) ", i);
-            for (int j = 0; j < individuals[i].length; j++) {
-                System.out.print(individuals[i][j] + " ");
+        int part = individuals.length / 4;
+        for (int i = 0; i < part; i++) {
+            for (int k = 0; k < 4; k++) {
+                System.out.printf("(%03d) ", k * part + i);
+                for (int j = 0; j < individuals[i].length; j++) {
+                    System.out.print(individuals[k * part + i][j] + " ");
+                }
+                System.out.print("    ");
             }
-            if (i % 2 == 0) {
-                System.out.print("        ");
-            } else {
-                System.out.println();
-            }
+            System.out.println();
         }
 
         System.out.println();
         System.out.println();
 
         try {
-            Thread.sleep(5 * 1000);
+            Thread.sleep(3 * 1000);
         } catch (Exception e) {}
     }
 
@@ -69,47 +71,66 @@ public class DiscreteSimulation {
                 sum++;
             }
         }
-        return sum < 3;
+        return sum < 5;
     }
 
-    public static void main(String[] args) {
-        int[][] individuals = new int[20][5];
-        int[][] pos = new int[20][2];
-        int[][] map = new int[25][25];
-
+    private static int[][] populate(int[][] map, int[][] pos, Random random) {
         for (int i = 0; i < map.length; i++) {
             for (int j = 0; j < map[i].length; j++) {
                 map[i][j] = -1;
             }
         }
 
-        Random random = new Random(0l);
-        for (int i = 0; i < pos.length; i++) {
-            while (true) {
-                int x = random.nextInt(map.length);
-                int y = random.nextInt(map[x].length);
-                if (map[x][y] == -1) {
-                    map[x][y] = i;
-                    pos[i][0] = x;
-                    pos[i][1] = y;
-                    break;
+        for (int i = 0; i < map.length; i++) {
+            for (int j = - REPRODUCTION_DISTANCE / 2; j < 1 + REPRODUCTION_DISTANCE / 2; j++) {
+                map[i][map.length / 2 + j] = -2;
+            }
+        }
+        for (int i = 0; i < map[0].length; i++) {
+            for (int j = - REPRODUCTION_DISTANCE / 2; j < 1 + REPRODUCTION_DISTANCE / 2; j++) {
+                map[map[0].length / 2 + j][i] = -2;
+            }
+        }
+
+        for (int k = 0; k < 4; k++) {
+            for (int i = k * pos.length / 4; i < (k + 1) * pos.length / 4; i++) {
+                while (true) {
+                    int x = random.nextInt(map.length / 3) + ((k == 0 || k == 2) ? 0 : (2 * map.length / 3));
+                    int y = random.nextInt(map[x].length / 3) + ((k == 0 || k == 1) ? 0 : (2 * map[x].length / 3));
+                    if (map[x][y] == -1) {
+                        map[x][y] = i;
+                        pos[i][0] = x;
+                        pos[i][1] = y;
+                        break;
+                    }
                 }
             }
         }
 
+        return map;
+    }
+
+    public static void main(String[] args) {
+        Random random = new Random(0l);
+
+        int[][] individuals = new int[80][15];
+        int[][] pos = new int[80][2];
+        int[][] map = new int[30][30];
+
+        populate(map, pos, random);
         plot(map, individuals);
 
         for (int t = 1; true; t++) {
             individualsLoop : for (int i = 0; i < pos.length; i++) {
                 //scanning the surroundings
-                int startX = (pos[i][0] - 3) < 0 ? 0 : (pos[i][0] - 3);
-                int endX = (pos[i][0] + 3) > map.length ? map.length : (pos[i][0] + 3);
+                int startX = (pos[i][0] - REPRODUCTION_DISTANCE) < 0 ? 0 : (pos[i][0] - REPRODUCTION_DISTANCE);
+                int endX = (pos[i][0] + REPRODUCTION_DISTANCE) > map.length ? map.length : (pos[i][0] + REPRODUCTION_DISTANCE);
                 for (int x = startX; x < endX; x++) {
-                    int startY = (pos[i][1] - 3) < 0 ? 0 : (pos[i][1] - 3);
-                    int endY = (pos[i][1] + 3) > map[x].length ? map[x].length : (pos[i][1] + 3);
+                    int startY = (pos[i][1] - REPRODUCTION_DISTANCE) < 0 ? 0 : (pos[i][1] - REPRODUCTION_DISTANCE);
+                    int endY = (pos[i][1] + REPRODUCTION_DISTANCE) > map[x].length ? map[x].length : (pos[i][1] + REPRODUCTION_DISTANCE);
                     for (int y = startY; y < endY; y++) {
                         //looking for a pair
-                        if (map[x][y] != -1 && map[x][y] != i && compatible(individuals, i, map[x][y])) {
+                        if (map[x][y] >= 0 && map[x][y] != i && compatible(individuals, i, map[x][y])) {
                             //get the pair
                             int pair = map[x][y];
 
