@@ -62,7 +62,7 @@ public class Game {
             }
 
             setStroke(e);
-            e.tick(em);
+            e.tick(world, em);
             world.fixPosition(e);
             dealWithCollisions(e, em);
         }

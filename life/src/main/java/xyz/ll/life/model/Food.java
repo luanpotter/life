@@ -39,7 +39,7 @@ public class Food extends Organic {
     }
 
     @Override
-    public void tick(EntityManager em) {
+    public void tick(World world, EntityManager em) {
     }
 
     @Override

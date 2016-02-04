@@ -1,13 +1,14 @@
 package xyz.ll.life.model;
 
 import xyz.ll.life.EntityManager;
+import xyz.ll.life.model.world.World;
 
 public abstract class Organic extends Entity {
 
     protected double area;
     protected double energy;
 
-    public abstract void tick(EntityManager em);
+    public abstract void tick(World world, EntityManager em);
 
     public abstract void onCollide(Entity entity, EntityManager em);
 

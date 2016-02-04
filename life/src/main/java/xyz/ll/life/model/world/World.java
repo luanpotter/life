@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Random;
 
 import javafx.scene.canvas.GraphicsContext;
+import xyz.ll.life.model.Entity;
 import xyz.ll.life.model.Organic;
 import xyz.luan.geometry.Point;
 import xyz.luan.geometry.Rectangle;
@@ -52,5 +53,14 @@ public class World {
 
     public double area() {
         return borders.area();
+    }
+
+    public boolean collides(Entity e) {
+        for (Wall wall : walls) {
+            if (wall.intersection(e).area() > 0) {
+                return true;
+            }
+        }
+        return false;
     }
 }

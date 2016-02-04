@@ -99,10 +99,13 @@ public class Individual extends Organic {
         }
     }
 
-    private void move() {
+    private void move(World world) {
         genome.getRotation().rotate(body);
         genome.getTranslation().translate(body);
         body.move();
+        if (world.collides(this)) {
+            body.unmove();
+        }
     }
 
     private void live() {
@@ -118,14 +121,12 @@ public class Individual extends Organic {
     }
 
     private Food onDeath() {
-        System.out.println("death { tick: " + tickAge + " time: " + (System.currentTimeMillis() - timeAge)
-                + " generation: " + generation + " }");
+        System.out.println("death { tick: " + tickAge + " time: " + (System.currentTimeMillis() - timeAge) + " generation: " + generation + " }");
         return new Food(this);
     }
 
     private void tryToAvoid(Entity entity, LazyIntersection intersection) {
-        if (entity instanceof Wall && !this.body.getColor().equals(Color.AQUAMARINE)
-                && !this.body.getColor().equals(Color.BEIGE)) {
+        if (entity instanceof Wall && !this.body.getColor().equals(Color.AQUAMARINE) && !this.body.getColor().equals(Color.BEIGE)) {
             if (intersection.intersects()) {
                 Point center = this.getBody().getCenter();
                 Point velocity = this.body.getVelocity();
@@ -155,13 +156,15 @@ public class Individual extends Organic {
     public void onCollide(Entity entity, EntityManager em) {
         LazyIntersection intersection = new LazyIntersection(this, entity);
 
-        tryToAvoid(entity, intersection);
+        if (false) {
+            tryToAvoid(entity, intersection);
+        }
         tryToReproduce(entity, em, intersection);
         tryToEat(entity, em, intersection);
     }
 
     @Override
-    public void tick(EntityManager em) {
+    public void tick(World world, EntityManager em) {
         this.tickAge++;
         live();
 
@@ -171,6 +174,6 @@ public class Individual extends Organic {
             return;
         }
 
-        move();
+        move(world);
     }
 }

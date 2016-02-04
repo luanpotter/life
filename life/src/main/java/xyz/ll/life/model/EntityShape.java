@@ -74,6 +74,10 @@ public class EntityShape {
         translate(getVelocity().getX(), getVelocity().getY());
     }
 
+    public void unmove() {
+        translate(-getVelocity().getX(), -getVelocity().getY());
+    }
+
     public double getAngle() {
         return new Point(0, 1).angle(velocity);
     }
