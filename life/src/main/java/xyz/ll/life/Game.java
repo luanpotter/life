@@ -49,7 +49,11 @@ public class Game {
             entities.add(Food.randomFood(world));
         }
         for (int i = 0; i < lifeAmount; i++) {
-            entities.add(Individual.abiogenesis(world, 4d));
+            Individual e;
+            do {
+                e = Individual.abiogenesis(world, 4d);
+            } while (world.collides(e));
+            entities.add(e);
         }
     }
 
