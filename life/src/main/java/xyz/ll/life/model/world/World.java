@@ -1,15 +1,14 @@
 package xyz.ll.life.model.world;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
-
 import javafx.scene.canvas.GraphicsContext;
 import xyz.ll.life.model.Entity;
 import xyz.ll.life.model.Organic;
 import xyz.luan.geometry.Point;
-import xyz.luan.geometry.Rectangle;
 import xyz.luan.geometry.Shape;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 
 public class World {
 
@@ -19,7 +18,7 @@ public class World {
     public World(Dimension borders) {
         this.borders = borders;
         this.walls = new ArrayList<>();
-        walls.add(new Wall(new Rectangle(0, 100, 0, 100)));
+        WorldTypes.TWO_AREAS.build(this);
     }
 
     public Point randomPoint() {
@@ -45,6 +44,14 @@ public class World {
         for (Wall wall : walls) {
             e.onCollide(wall, null); // TODO is em needed here (?)
         }
+    }
+
+    List<Wall> getWalls() {
+        return this.walls;
+    }
+
+    Dimension getBorders() {
+        return borders;
     }
 
     public void draw(GraphicsContext g) {
