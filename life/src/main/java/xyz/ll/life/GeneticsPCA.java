@@ -11,7 +11,6 @@ import javafx.scene.chart.XYChart;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
-import javastat.multivariate.PCA;
 import xyz.ll.life.model.Individual;
 
 public class GeneticsPCA extends Stage {
@@ -79,8 +78,7 @@ public class GeneticsPCA extends Stage {
         }
         // System.out.println(Arrays.deepToString(testscores));
 
-        PCA pca = new PCA(1, "covariance", testscores);
-        double[][] principalComponents = pca.principalComponents;
+        double[][] principalComponents = null;
 
         series.getData().clear();
         for (int i = 0; i < principalComponents[0].length; i++) {
