@@ -39,12 +39,12 @@ public class DiscreteSimulation {
     private static final int[] DEL_X = {-1,  0,  1, -1,  0,  1, -1,  0,  1};
     private static final int[] DEL_Y = {-1, -1, -1,  0,  0,  0,  1,  1,  1};
 
-    private static final int IMAGE_SIZE = 1000;
+    private static final int IMAGE_SIZE = 2000;
     private static final int ZOOM = 100;
     private static final int POINT_SIZE = 10;
 
     private static final int REPRODUCTION_SPACIAL_DISTANCE = 3;
-    private static final int REPRODUCTION_GENIC_DISTANCE = 5;
+    private static final int REPRODUCTION_GENIC_DISTANCE = 3;
 
     private static final int GENES = 100;
     private static final int MAX_FILE_NUMBER = 1;
@@ -86,11 +86,11 @@ public class DiscreteSimulation {
         System.out.println();
     }
 
-    private static boolean compatible(int[][] individuals, int a, int b) {
+    private static boolean compatible(double[][] individuals, int a, int b) {
         int sum = 0;
         for (int i = 0; i < individuals[a].length; i++) {
             if (individuals[a][i] != individuals[b][i]) {
-                sum++;
+                sum += Math.abs(individuals[a][i] - individuals[b][i]);
             }
         }
         return sum <= REPRODUCTION_GENIC_DISTANCE;
@@ -132,7 +132,7 @@ public class DiscreteSimulation {
         return map;
     }
 
-    private static BufferedImage pca(int[][] individual, SparkContext sc, int time,
+    private static BufferedImage pca(double[][] individual, SparkContext sc, int time,
                                      Coord3d[] coords, org.jzy3d.colors.Color[] coordsColors, int[] coordsCont, int z,
                                      LineStrip[] lineStrips) {
         long aux = System.currentTimeMillis();
@@ -199,6 +199,15 @@ public class DiscreteSimulation {
                 ls.setDisplayed(true);
                 lineStrips[coordsCont[0] - POPULATION_SIZE] = ls;
             }
+
+            if (pcaDialog != null) {
+                pcaDialog.addPoints(coords[coordsCont[0]]);
+                pcaDialog.addColors(coordsColors[coordsCont[0]]);
+                if (coordsCont[0] >= POPULATION_SIZE) {
+                    pcaDialog.addLine(lineStrips[coordsCont[0] - POPULATION_SIZE]);
+                }
+            }
+
             coordsCont[0]++;
 
             i++;
@@ -211,7 +220,7 @@ public class DiscreteSimulation {
         return image;
     }
 
-    private static Color[] species(int[][] individual) {
+    private static Color[] species(double[][] individual) {
         ArrayList<Integer> species = new ArrayList<>();
         int[] already = new int[individual.length];
 
@@ -249,6 +258,8 @@ public class DiscreteSimulation {
         return colors;
     }
 
+    private static Pca3dDialog pcaDialog;
+
     public static void main(String[] args) throws Exception {
         SparkConf conf = new SparkConf().setAppName("PCA Example")
                 .set("spark.driver.allowMultipleContexts", "true")
@@ -257,7 +268,7 @@ public class DiscreteSimulation {
 
         Random random = new Random(0l);
 
-        int[][] individuals = new int[POPULATION_SIZE][GENES];
+        double[][] individuals = new double[POPULATION_SIZE][GENES];
         int[][] pos = new int[POPULATION_SIZE][2];
         int[][] map = new int[70][70];
 
@@ -271,6 +282,29 @@ public class DiscreteSimulation {
         LineStrip[] lineStrips = new LineStrip[coords.length - POPULATION_SIZE];
         int[] coordsCont = {0};
         BufferedImage image = pca(individuals, sc, t, coords, colors, coordsCont, z++, lineStrips);
+
+        Coord3d[] initCoord = {new Coord3d(0, 0, 0), new Coord3d(0, 0, 10),
+                new Coord3d(1, 0, 0), new Coord3d(0, 1, 0), new Coord3d(-1, 0, 0), new Coord3d(0, -1, 0)};
+        org.jzy3d.colors.Color[] initColor = {org.jzy3d.colors.Color.BLACK, org.jzy3d.colors.Color.BLACK,
+                org.jzy3d.colors.Color.BLACK, org.jzy3d.colors.Color.BLACK, org.jzy3d.colors.Color.BLACK,
+                org.jzy3d.colors.Color.BLACK};
+        pcaDialog = new Pca3dDialog(initCoord, initColor, null);
+        new Thread() {
+            @Override
+            public void run() {
+                try {
+                    AnalysisLauncher.open(pcaDialog);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }.start();
+
+        try {
+            Thread.sleep(2000);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         for (int fileNumber = 0; fileNumber < MAX_FILE_NUMBER; fileNumber++) {
             ImageOutputStream output =
@@ -317,7 +351,19 @@ public class DiscreteSimulation {
                                 //potential mutation
                                 if (random.nextInt(100) == 0) {
                                     int mutation = random.nextInt(individuals[i].length);
-                                    individuals[i][mutation] = individuals[i][mutation] == 0 ? 1 : 0;
+                                    //individuals[i][mutation] = individuals[i][mutation] == 0 ? 1 : 0;
+                                    double diff = random.nextDouble() / 10;
+                                    if (random.nextBoolean()) {
+                                        individuals[i][mutation] += diff;
+                                    } else {
+                                        individuals[i][mutation] -= diff;
+                                    }
+                                    if (individuals[i][mutation] > 1) {
+                                        individuals[i][mutation] = 0;
+                                    }
+                                    if (individuals[i][mutation] < 0) {
+                                        individuals[i][mutation] = 1;
+                                    }
                                 }
 
                                 //move to the new position
@@ -379,7 +425,5 @@ public class DiscreteSimulation {
             writer.close();
             output.close();
         }
-
-        AnalysisLauncher.open(new Pca3dDialog(coords, colors, lineStrips));
     }
 }
