@@ -8,24 +8,14 @@ import java.util.UUID;
 public class SimplifiedIndividual {
 
     private UUID[] parents;
-    private double[] coordinates;
+    private double[] genome;
+    private double[] principalComponents;
     private int color;
 
-    public SimplifiedIndividual(UUID[] parents, double[] coordinates, int color) {
+    public SimplifiedIndividual(UUID[] parents, double[] genome, double[] principalComponents, int color) {
         this.parents = parents;
-        this.coordinates = coordinates;
+        this.genome = genome;
+        this.principalComponents = principalComponents;
         this.color = color;
-    }
-
-    public int getColor() {
-        return color;
-    }
-
-    public double[] getCoordinates() {
-        return coordinates;
-    }
-
-    public UUID[] getParents() {
-        return parents;
     }
 }

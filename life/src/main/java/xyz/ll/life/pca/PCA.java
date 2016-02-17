@@ -11,6 +11,7 @@ import org.apache.spark.mllib.linalg.Matrix;
 import org.apache.spark.mllib.linalg.Vector;
 import org.apache.spark.mllib.linalg.Vectors;
 import org.apache.spark.mllib.linalg.distributed.RowMatrix;
+import xyz.ll.life.model.Individual;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -30,8 +31,8 @@ public class PCA {
         this.sparkContext = new SparkContext(conf);
     }
 
-    private double[][] covariance(double[][] matrix) {
-        RealMatrix geneticMatrix = MatrixUtils.createRealMatrix(matrix);
+    private double[][] covariance(double[][] genetics) {
+        RealMatrix geneticMatrix = MatrixUtils.createRealMatrix(genetics);
         geneticMatrix = geneticMatrix.transpose();
         return new Covariance(geneticMatrix).getCovarianceMatrix().getData();
     }
@@ -57,8 +58,17 @@ public class PCA {
         return pca;
     }
 
-    public void iterate(double[][] individuals) {
-        double[][] covariance = covariance(individuals);
+    public void iterate(List<Individual> individuals) {
+        double[][] genetics = new double[individuals.size()][];
+        int i = 0;
+        for (Individual individual : individuals) {
+            genetics[i] = individual.getGenome().getValue();
+            i++;
+        }
+
+        long time = System.currentTimeMillis();
+
+        double[][] covariance = covariance(genetics);
         double[][] pca = pca(covariance);
     }
 }
