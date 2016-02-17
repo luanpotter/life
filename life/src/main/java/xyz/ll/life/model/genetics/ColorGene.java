@@ -3,6 +3,9 @@ package xyz.ll.life.model.genetics;
 import javafx.scene.paint.Color;
 import xyz.ll.life.model.EntityShape;
 
+import java.util.Arrays;
+import java.util.List;
+
 /**
  * Created by lucas-cleto on 10/27/15.
  */
@@ -60,5 +63,10 @@ public class ColorGene implements Gene<ColorGene> {
         double saturationDistance = Math.abs(this.saturation - gene.saturation) / SATURATION.range();
         double briightnessDistance = Math.abs(this.brightness - gene.brightness) / BRIGHTNESS.range();
         return hueDistance + saturationDistance + briightnessDistance;
+    }
+
+    @Override
+    public List<Double> getValues() {
+        return Arrays.asList(HUE.normalize(hue), SATURATION.normalize(saturation), BRIGHTNESS.normalize(brightness));
     }
 }

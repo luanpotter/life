@@ -1,5 +1,11 @@
 package xyz.ll.life.model.genetics;
 
+import com.google.common.primitives.Doubles;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 public class Genome {
 
     public static final double ACCEPTABLE_GENETIC_DISTANCE_TO_REPRODUCE = 1d;
@@ -34,6 +40,10 @@ public class Genome {
         this.morfologicGene = new MorfologicGene(size);
         this.lifeGene = new LifeGene();
         this.metabolizationGene = new MetabolizationGene();
+    }
+
+    private List<Gene<?>> allGenes() {
+        return Arrays.asList(translationGene, rotationGene, colorGene, reproductionGene, morfologicGene, lifeGene, metabolizationGene);
     }
 
     public double geneticDistance(Genome genome) {
@@ -77,5 +87,13 @@ public class Genome {
 
     public Genome meiosis(Genome genome) {
         return new Genome(this, genome);
+    }
+
+    public double[] getValue() {
+        List<Double> values = new ArrayList<>();
+        for (Gene<?> gene : allGenes()) {
+            values.addAll(gene.getValues());
+        }
+        return Doubles.toArray(values);
     }
 }

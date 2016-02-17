@@ -3,6 +3,9 @@ package xyz.ll.life.model.genetics;
 import xyz.ll.life.model.EntityShape;
 import xyz.luan.geometry.Point;
 
+import java.util.Arrays;
+import java.util.List;
+
 public class TranslationGene implements Gene<TranslationGene> {
 
     private static final Mutation SPEED = Mutation.helper().min(0d).max(1d).variance(0.05d).build();
@@ -54,5 +57,10 @@ public class TranslationGene implements Gene<TranslationGene> {
         double speedDistance = Math.abs(this.speed - gene.speed) / SPEED.range();
         double inconstancyDistance = Math.abs(this.inconstancy - gene.inconstancy) / INCONSTANCY.range();
         return speedDistance + inconstancyDistance;
+    }
+
+    @Override
+    public List<Double> getValues() {
+        return Arrays.asList(SPEED.normalize(speed), INCONSTANCY.normalize(inconstancy));
     }
 }

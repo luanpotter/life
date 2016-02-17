@@ -2,6 +2,9 @@ package xyz.ll.life.model.genetics;
 
 import xyz.ll.life.model.EntityShape;
 
+import java.util.Arrays;
+import java.util.List;
+
 /**
  * Created by lucas-cleto on 10/29/15.
  */
@@ -47,5 +50,10 @@ public class LifeGene implements Gene<LifeGene> {
     @Override
     public double distance(LifeGene gene) {
         return Math.abs(this.health - gene.health) / HEALTH.range();
+    }
+
+    @Override
+    public List<Double> getValues() {
+        return Arrays.asList(HEALTH.mutate(health));
     }
 }

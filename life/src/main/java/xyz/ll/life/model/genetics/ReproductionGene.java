@@ -2,10 +2,13 @@ package xyz.ll.life.model.genetics;
 
 import xyz.ll.life.model.EntityShape;
 
+import java.util.Arrays;
+import java.util.List;
+
 public class ReproductionGene implements Gene<ReproductionGene> {
 
     private static final Mutation LIBIDO = Mutation.helper().min(0d).max(1d).variance(0.05d).build();
-    private static double CHARITY_MIN = 0d, CHARITY_WEIGHT = 0.5d, CHARITY_VARIANCE = 0.2d;
+    private static final Mutation CHARITY = Mutation.helper().min(0d).max(10d).variance(0.2d).build();
 
     private static final double BASE_REPRODUCTION_ENERGY_COST = 40d;
 
@@ -46,13 +49,7 @@ public class ReproductionGene implements Gene<ReproductionGene> {
     @Override
     public void mutation() {
         this.libido = LIBIDO.mutate(this.libido);
-
-        if (Math.random() < MUTATION_PROBABILITY) {
-            this.charity += Math.random() * ReproductionGene.CHARITY_VARIANCE * (Math.random() > 5 ? 1 : -1);
-            if (this.charity < ReproductionGene.CHARITY_MIN) {
-                this.charity = 2 * ReproductionGene.CHARITY_MIN - this.charity;
-            }
-        }
+        this.charity = CHARITY.mutate(this.charity);
     }
 
     @Override
@@ -68,7 +65,12 @@ public class ReproductionGene implements Gene<ReproductionGene> {
     @Override
     public double distance(ReproductionGene gene) {
         double libidoDist = Math.abs(this.libido - gene.libido) / LIBIDO.range();
-        double charityDist = Math.abs(this.charity - gene.charity) * ReproductionGene.CHARITY_WEIGHT;
+        double charityDist = Math.abs(this.charity - gene.charity) / CHARITY.range();
         return libidoDist + charityDist;
+    }
+
+    @Override
+    public List<Double> getValues() {
+        return Arrays.asList(LIBIDO.normalize(libido), CHARITY.normalize(charity));
     }
 }

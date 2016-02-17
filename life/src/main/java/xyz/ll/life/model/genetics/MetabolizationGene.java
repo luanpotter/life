@@ -2,6 +2,9 @@ package xyz.ll.life.model.genetics;
 
 import xyz.ll.life.model.EntityShape;
 
+import java.util.Arrays;
+import java.util.List;
+
 /**
  * Created by lucas-cleto on 10/29/15.
  */
@@ -11,7 +14,7 @@ public class MetabolizationGene implements Gene<MetabolizationGene> {
 
     private static final Mutation EFFICIENCY = Mutation.helper().min(0d).max(0.9d).variance(0.05d).build();
     private static final Mutation AREA_PROPORTION = Mutation.helper().min(0d).max(0.6d).variance(0.05d).build();
-    private static final double COST_MIN = 0.1d, COST_WEIGHT = 1, COST_VARIANCE = 0.05d;
+    private static final Mutation COST = Mutation.helper().min(0.1d).max(10d).variance(0.05d).build();
 
     private double efficiency;
     private double areaProportion;
@@ -45,13 +48,7 @@ public class MetabolizationGene implements Gene<MetabolizationGene> {
     public void mutation() {
         this.efficiency = EFFICIENCY.mutate(this.efficiency);
         this.areaProportion = AREA_PROPORTION.mutate(this.areaProportion);
-
-        if (Math.random() < MUTATION_PROBABILITY) {
-            this.cost += Math.random() * MetabolizationGene.COST_VARIANCE * (Math.random() > .5 ? 1 : -1);
-            if (this.cost < MetabolizationGene.COST_MIN) {
-                this.cost = 2 * MetabolizationGene.COST_MIN - this.cost;
-            }
-        }
+        this.cost = COST.mutate(this.areaProportion);
     }
 
     @Override
@@ -69,7 +66,12 @@ public class MetabolizationGene implements Gene<MetabolizationGene> {
     public double distance(MetabolizationGene gene) {
         double effDist = Math.abs(this.efficiency - gene.efficiency) / EFFICIENCY.range();
         double areaDist = Math.abs(this.areaProportion - gene.areaProportion) / AREA_PROPORTION.range();
-        double costDist = Math.abs(this.cost - gene.cost) * MetabolizationGene.COST_WEIGHT;
+        double costDist = Math.abs(this.cost - gene.cost) / COST.range();
         return effDist + areaDist + costDist;
+    }
+
+    @Override
+    public List<Double> getValues() {
+        return Arrays.asList(EFFICIENCY.normalize(efficiency), AREA_PROPORTION.normalize(areaProportion), COST.normalize(cost));
     }
 }

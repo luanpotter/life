@@ -1,10 +1,10 @@
 package xyz.ll.life.model.genetics;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import xyz.ll.life.model.EntityShape;
 import xyz.luan.geometry.Point;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by lucas-cleto on 10/28/15.
@@ -99,5 +99,14 @@ public class MorfologicGene implements Gene<MorfologicGene> {
             distance += Math.abs(this.characteristics[i] - gene.characteristics[i]) / fc;
         }
         return distance;
+    }
+
+    @Override
+    public List<Double> getValues() {
+        List<Double> values = new ArrayList<>();
+        for (double c : characteristics) {
+            values.add(c < 0 ? 0 : c > 1 ? 1 : c); // TODO normalize!
+        }
+        return values;
     }
 }

@@ -45,6 +45,10 @@ public class Mutation {
         return value;
     }
 
+    public double normalize(double value) {
+        return (value - min) / (max - min);
+    }
+
     public double range() {
         return max - min;
     }

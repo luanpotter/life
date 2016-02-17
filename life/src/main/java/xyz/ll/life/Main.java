@@ -14,6 +14,8 @@ import xyz.ll.life.model.Organic;
 import xyz.ll.life.model.world.Dimension;
 import xyz.luan.geometry.Point;
 
+import java.util.Arrays;
+
 public class Main extends Application {
 
     private Game game;
@@ -49,7 +51,7 @@ public class Main extends Application {
 
         setupStage(stage);
         controls.show();
-        pca.show();
+        // pca.show();
     }
 
     private void render() {
@@ -118,6 +120,7 @@ public class Main extends Application {
                 for (Organic organic : game.getEntities()) {
                     if (organic instanceof Individual) {
                         if (organic.getBody().getShape().getBounds().contains(e.getX(), e.getY())) {
+                            System.out.println(Arrays.toString(((Individual) organic).getGenome().getValue()));
                             game.setSelected((Individual) organic);
                             return;
                         }

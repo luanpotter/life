@@ -1,8 +1,5 @@
 package xyz.ll.life;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
 import javafx.application.Platform;
 import javafx.scene.Scene;
 import javafx.scene.chart.NumberAxis;
@@ -12,6 +9,9 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import xyz.ll.life.model.Individual;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class GeneticsPCA extends Stage {
 
@@ -62,7 +62,7 @@ public class GeneticsPCA extends Stage {
             }
         };
         t.setDaemon(true);
-        t.start();
+        // t.start();
 
         lineChart.setPrefSize(300, 340);
         return lineChart;
