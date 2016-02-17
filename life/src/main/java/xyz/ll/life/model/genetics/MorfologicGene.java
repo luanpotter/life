@@ -105,7 +105,9 @@ public class MorfologicGene implements Gene<MorfologicGene> {
     public List<Double> getValues() {
         List<Double> values = new ArrayList<>();
         for (double c : characteristics) {
-            values.add(c < 0 ? 0 : c > 1 ? 1 : c); // TODO normalize!
+            c /= 10;
+            values.add(c < 0 ? 0 : c > 1 ? 1 : c);
+            // /\ /\ TODO normalize! /\ /\
         }
         return values;
     }

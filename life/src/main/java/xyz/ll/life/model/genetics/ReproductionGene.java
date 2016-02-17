@@ -8,7 +8,7 @@ import java.util.List;
 public class ReproductionGene implements Gene<ReproductionGene> {
 
     private static final Mutation LIBIDO = Mutation.helper().min(0d).max(1d).variance(0.05d).build();
-    private static final Mutation CHARITY = Mutation.helper().min(0d).max(10d).variance(0.2d).build();
+    private static final Mutation CHARITY = Mutation.helper().min(0d).max(100d).variance(0.2d).build();
 
     private static final double BASE_REPRODUCTION_ENERGY_COST = 40d;
 
