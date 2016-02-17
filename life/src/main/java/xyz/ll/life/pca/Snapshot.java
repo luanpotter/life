@@ -15,4 +15,13 @@ public class Snapshot {
         this.simplifiedIndividuals = simplifiedIndividuals;
         this.time = time;
     }
+
+    public Snapshot(long time) {
+        this.simplifiedIndividuals = new HashMap<>();
+        this.time = time;
+    }
+
+    public void add(UUID uuid, SimplifiedIndividual simplifiedIndividual) {
+        this.simplifiedIndividuals.put(uuid, simplifiedIndividual);
+    }
 }

@@ -15,6 +15,7 @@ import xyz.ll.life.model.Individual;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * Created by lucas-cleto on 2/16/16.
@@ -29,6 +30,7 @@ public class PCA {
                 .set("spark.driver.allowMultipleContexts", "true")
                 .setMaster("local");
         this.sparkContext = new SparkContext(conf);
+        this.snapshots = new LinkedList<>();
     }
 
     private double[][] covariance(double[][] genetics) {
@@ -58,17 +60,42 @@ public class PCA {
         return pca;
     }
 
-    public void iterate(List<Individual> individuals) {
+    private double[][] extractGenetics(List<Individual> individuals) {
         double[][] genetics = new double[individuals.size()][];
         int i = 0;
         for (Individual individual : individuals) {
             genetics[i] = individual.getGenome().getValue();
             i++;
         }
+        return genetics;
+    }
+
+    private Snapshot generateSnapshot(List<Individual> individuals, double[][] genetics, double[][] pca, long time) {
+        Snapshot snapshot = new Snapshot(time);
+        int i = 0;
+        for (Individual individual : individuals) {
+            UUID uuid = individual.getUUID();
+            UUID[] parents = individual.getParents();
+            double[] genome = genetics[i];
+            double[] principalComponents = pca[i];
+            int specie = 0;
+            SimplifiedIndividual simplifiedIndividual = new SimplifiedIndividual(
+                    uuid, parents, genome, principalComponents, specie);
+            snapshot.add(uuid, simplifiedIndividual);
+        }
+        return snapshot;
+    }
+
+    public void iterate(List<Individual> individuals) {
+        double[][] genetics = extractGenetics(individuals);
 
         long time = System.currentTimeMillis();
 
         double[][] covariance = covariance(genetics);
         double[][] pca = pca(covariance);
+
+        Snapshot snapshot = generateSnapshot(individuals, genetics, pca, time);
+
+        this.snapshots.add(snapshot);
     }
 }

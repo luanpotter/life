@@ -1,6 +1,7 @@
 package xyz.ll.life.model;
 
 import java.util.List;
+import java.util.UUID;
 
 import javafx.scene.paint.Color;
 import xyz.ll.life.EntityManager;
@@ -19,18 +20,24 @@ public class Individual extends Organic {
     private long timeAge = System.currentTimeMillis();
     private int generation = 0;
 
-    private Individual(Point position, double energy, Genome genome) {
-        super(Individual.generateBody(position, genome), energy);
+    private UUID uuid;
+    private UUID[] parents;
 
+    private Individual(Point position, double energy, Genome genome, UUID[] parents) {
+        super(Individual.generateBody(position, genome), energy);
+        this.uuid = UUID.randomUUID();
+        this.parents = parents;
         this.genome = genome;
     }
 
     public static Individual abiogenesis(World world, double size) {
-        return new Individual(world.randomPoint(), 50000, new Genome(size));
+        UUID[] parents = {null, null};
+        return new Individual(world.randomPoint(), 50000, new Genome(size), parents);
     }
 
     public static Individual abiogenesis(Point p, double size) {
-        return new Individual(p, 50000, new Genome(size));
+        UUID[] parents = {null, null};
+        return new Individual(p, 50000, new Genome(size), parents);
     }
 
     private static EntityShape generateBody(Point position, Genome genome) {
@@ -70,7 +77,8 @@ public class Individual extends Organic {
     private Individual reproduce(Individual pair, Shape intersection) {
         double initialEnergy = this.divide() + pair.divide();
         Point center = intersection.getBounds().getCenter();
-        Individual child = new Individual(center, initialEnergy, this.genome.meiosis(pair.genome));
+        UUID[] parents = {this.getUUID(), pair.getUUID()};
+        Individual child = new Individual(center, initialEnergy, this.genome.meiosis(pair.genome), parents);
         child.generation = Math.max(this.generation, pair.generation) + 1;
         return child;
     }
@@ -175,5 +183,13 @@ public class Individual extends Organic {
         }
 
         move(world);
+    }
+
+    public UUID getUUID() {
+        return uuid;
+    }
+
+    public UUID[] getParents() {
+        return parents;
     }
 }
