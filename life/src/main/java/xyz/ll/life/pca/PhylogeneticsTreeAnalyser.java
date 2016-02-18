@@ -1,12 +1,17 @@
 package xyz.ll.life.pca;
 
+import javafx.geometry.Point2D;
+import javafx.geometry.Point3D;
 import org.jzy3d.analysis.AbstractAnalysis;
 import org.jzy3d.chart.factories.AWTChartComponentFactory;
 import org.jzy3d.colors.Color;
 import org.jzy3d.maths.Coord3d;
 import org.jzy3d.plot3d.primitives.LineStrip;
+import org.jzy3d.plot3d.primitives.Point;
 import org.jzy3d.plot3d.primitives.Scatter;
 import org.jzy3d.plot3d.rendering.canvas.Quality;
+
+import java.util.ArrayList;
 
 
 /**
@@ -18,10 +23,26 @@ public class PhylogeneticsTreeAnalyser extends AbstractAnalysis {
     private Color[] colors;
     private LineStrip[] lineStrips;
 
-    public PhylogeneticsTreeAnalyser(Coord3d[] points, Color[] colors, LineStrip[] lineStrips) {
-        this.points = points;
-        this.colors = colors;
-        this.lineStrips = lineStrips;
+    public PhylogeneticsTreeAnalyser(PhylogeneticsTree phylogeneticsTree) {
+        this.points = new Coord3d[phylogeneticsTree.getPoints().length];
+        this.colors = new Color[phylogeneticsTree.getColors().length];
+        this.lineStrips = new LineStrip[phylogeneticsTree.getConnections().length];
+
+        int i = 0;
+        for (Point3D p : phylogeneticsTree.getPoints()) {
+            points[i++] = new Coord3d(p.getX(), p.getY(), p.getZ());
+        }
+
+        i = 0;
+        for (Integer c : phylogeneticsTree.getColors()) {
+            colors[i++] = new Color(c, c, c);
+        }
+
+        i = 0;
+        for (Point2D l : phylogeneticsTree.getConnections()) {
+            lineStrips[i++] = new LineStrip(new Point(points[(int) l.getX()], colors[(int) l.getX()]),
+                    new Point(points[(int) l.getY()], colors[(int) l.getY()]));
+        }
     }
 
     public void init(){

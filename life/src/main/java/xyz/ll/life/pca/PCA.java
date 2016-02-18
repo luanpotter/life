@@ -1,6 +1,7 @@
 package xyz.ll.life.pca;
 
 import javafx.geometry.Point2D;
+import javafx.geometry.Point3D;
 import org.apache.commons.math3.linear.MatrixUtils;
 import org.apache.commons.math3.linear.RealMatrix;
 import org.apache.commons.math3.stat.correlation.Covariance;
@@ -118,9 +119,9 @@ public class PCA {
     }
 
     private PhylogeneticsTree generatePhylogeneticsTree(int begin, int end, int step) {
-        ArrayList<Coord3d> points = new ArrayList<>();
-        ArrayList<Color> colors = new ArrayList<>();
-        ArrayList<LineStrip> lines = new ArrayList<>();
+        ArrayList<Point3D> points = new ArrayList<>();
+        ArrayList<Integer> colors = new ArrayList<>();
+        ArrayList<Point2D> lines = new ArrayList<>();
 
         for (int i = begin, z = 0; i < end; i += step, z++) {
             Snapshot snapshot = snapshots.get(i);
@@ -130,20 +131,22 @@ public class PCA {
             int[] subColors = snapshot.getColors();
 
             for (Point2D p : subPoints) {
-                points.add(new Coord3d(p.getX(), p.getY(), z));
+                points.add(new Point3D(p.getX(), p.getY(), z));
             }
-            for (int c : subColors) {
-                colors.add(new Color(c, c, c));
-            }
+            colors.addAll(Arrays.asList(Arrays.stream(subColors).boxed().toArray(Integer[]::new)));
         }
 
-        PhylogeneticsTree phylogeneticsTree = new PhylogeneticsTree(points.toArray(new Coord3d[points.size()]),
-                colors.toArray(new Color[colors.size()]), lines.toArray(new LineStrip[lines.size()]));
+        Point3D[] p = points.toArray(new Point3D[points.size()]);
+        Integer[] c = colors.toArray(new Integer[colors.size()]);
+        Point2D[] l = lines.toArray(new Point2D[lines.size()]);
+        PhylogeneticsTree phylogeneticsTree = new PhylogeneticsTree(p, c, l);
+        return phylogeneticsTree;
     }
 
-    public void showPhylogeneticsTreeAnalyser() {
+    public void showPhylogeneticsTreeAnalyser(int begin, int end, int step) {
+        PhylogeneticsTreeAnalyser analyser = new PhylogeneticsTreeAnalyser(generatePhylogeneticsTree(begin, end, step));
+
         try {
-            PhylogeneticsTreeAnalyser analyser = new PhylogeneticsTreeAnalyser();
             AnalysisLauncher.open(analyser);
         } catch (Exception e) {
             e.printStackTrace();

@@ -9,10 +9,10 @@ import javafx.geometry.Point3D;
 public class PhylogeneticsTree {
 
     private Point3D[] points;
-    private int[] colors;
+    private Integer[] colors;
     private Point2D[] connections;
 
-    public PhylogeneticsTree(Point3D[] points, int[] colors, Point2D[] connections) {
+    public PhylogeneticsTree(Point3D[] points, Integer[] colors, Point2D[] connections) {
         this.points = points;
         this.colors = colors;
         this.connections = connections;
@@ -26,11 +26,11 @@ public class PhylogeneticsTree {
         this.points = points;
     }
 
-    public int[] getColors() {
+    public Integer[] getColors() {
         return colors;
     }
 
-    public void setColors(int[] colors) {
+    public void setColors(Integer[] colors) {
         this.colors = colors;
     }
 
