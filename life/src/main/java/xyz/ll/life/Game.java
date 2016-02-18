@@ -2,6 +2,7 @@ package xyz.ll.life;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import javafx.scene.canvas.GraphicsContext;
@@ -13,6 +14,7 @@ import xyz.ll.life.model.Species;
 import xyz.ll.life.model.world.Dimension;
 import xyz.ll.life.model.world.Viewport;
 import xyz.ll.life.model.world.World;
+import xyz.ll.life.pca.PCA;
 
 public class Game {
 
@@ -23,6 +25,8 @@ public class Game {
     private Viewport viewport;
     private Individual selected;
     private boolean rendering;
+    //private PCA pca;
+    private long tick;
 
     public Game(Dimension dimension) {
         this.entities = new ArrayList<>();
@@ -30,6 +34,8 @@ public class Game {
         this.viewport = new Viewport(dimension);
         this.em = new EntityManager();
         this.rendering = true;
+        //this.pca = new PCA();
+        this.tick = 0;
 
         randomStart();
     }
@@ -58,6 +64,9 @@ public class Game {
     }
 
     public synchronized void tick() {
+        if (tick % 5000 == 0) {
+            //pca.iterate(individuals().collect(Collectors.toList()));
+        }
         generateRandomFood();
 
         for (Organic e : entities) {
@@ -72,6 +81,7 @@ public class Game {
         }
 
         evaluateEntityManager();
+        tick++;
     }
 
     private void evaluateEntityManager() {
@@ -189,4 +199,10 @@ public class Game {
         g.setFill(Color.BLACK);
         g.fillRect(0, 0, viewport.getWidth(), viewport.getHeight());
     }
+
+    public PCA getPca() {
+        return null;
+    }
+
+
 }

@@ -14,15 +14,10 @@ import org.apache.spark.mllib.linalg.Vector;
 import org.apache.spark.mllib.linalg.Vectors;
 import org.apache.spark.mllib.linalg.distributed.RowMatrix;
 import org.jzy3d.analysis.AnalysisLauncher;
-import org.jzy3d.colors.Color;
-import org.jzy3d.maths.Coord3d;
-import org.jzy3d.plot3d.primitives.LineStrip;
-import org.jzy3d.plot3d.primitives.Point;
 import xyz.ll.life.model.Individual;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -33,6 +28,7 @@ import java.util.UUID;
  */
 public class PCA {
 
+    private HashMap<UUID, SimplifiedIndividual> simplifiedIndividuals;
     private List<Snapshot> snapshots;
     private SparkContext sparkContext;
 
@@ -93,9 +89,14 @@ public class PCA {
             double[] genome = genetics[i];
             double[] principalComponents = pca[i];
             int specie = 0;
+
             SimplifiedIndividual simplifiedIndividual = new SimplifiedIndividual(
                     uuid, parents, genome, principalComponents, specie);
             snapshot.add(uuid, simplifiedIndividual);
+            if (!simplifiedIndividuals.containsKey(uuid)) {
+                simplifiedIndividuals.put(uuid, simplifiedIndividual);
+            }
+
             points[i] = new Point2D(pca[i][0], pca[i][1]);
             colors[i] = specie;
         }

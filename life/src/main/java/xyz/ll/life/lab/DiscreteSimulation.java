@@ -44,7 +44,7 @@ public class DiscreteSimulation {
     private static final int POINT_SIZE = 10;
 
     private static final int REPRODUCTION_SPACIAL_DISTANCE = 3;
-    private static final int REPRODUCTION_GENIC_DISTANCE = 3;
+    private static final int REPRODUCTION_GENIC_DISTANCE = 15;
 
     private static final int GENES = 100;
     private static final int MAX_FILE_NUMBER = 1;
@@ -52,7 +52,7 @@ public class DiscreteSimulation {
     private static final int FRAME_STEP = 100;
     private static final int POPULATION_SIZE = 1000;
 
-    private static void plot(int[][] map, int[][] individuals) {
+    private static void plot(int[][] map, double[][] individuals) {
         System.out.println();
         System.out.println();
 
@@ -349,8 +349,15 @@ public class DiscreteSimulation {
                                 }
 
                                 //potential mutation
-                                if (random.nextInt(100) == 0) {
+                                for (int iGene = 0; iGene < individuals[i].length; iGene++) {
+                                    if (random.nextInt(1000) == 0) {
+                                        individuals[i][iGene] = (individuals[i][iGene] == 0) ? 1 : 0;
+                                    }
+                                }
+                                /*if (random.nextInt(100) == 0) {
                                     int mutation = random.nextInt(individuals[i].length);
+                                    individuals[i][mutation] = (individuals[i][mutation] == 0) ? 1 : 0;
+                                    /*int mutation = random.nextInt(individuals[i].length);
                                     //individuals[i][mutation] = individuals[i][mutation] == 0 ? 1 : 0;
                                     double diff = random.nextDouble() / 10;
                                     if (random.nextBoolean()) {
@@ -364,7 +371,7 @@ public class DiscreteSimulation {
                                     if (individuals[i][mutation] < 0) {
                                         individuals[i][mutation] = 1;
                                     }
-                                }
+                                }*/
 
                                 //move to the new position
                                 if (random.nextInt(10) == 0) {
