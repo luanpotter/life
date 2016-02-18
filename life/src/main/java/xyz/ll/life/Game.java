@@ -25,7 +25,7 @@ public class Game {
     private Viewport viewport;
     private Individual selected;
     private boolean rendering;
-    //private PCA pca;
+    private PCA pca;
     private long tick;
 
     public Game(Dimension dimension) {
@@ -34,7 +34,7 @@ public class Game {
         this.viewport = new Viewport(dimension);
         this.em = new EntityManager();
         this.rendering = true;
-        //this.pca = new PCA();
+        this.pca = new PCA();
         this.tick = 0;
 
         randomStart();
@@ -64,8 +64,9 @@ public class Game {
     }
 
     public synchronized void tick() {
-        if (tick % 5000 == 0) {
-            //pca.iterate(individuals().collect(Collectors.toList()));
+        if (tick % 100 == 0) {
+            System.out.println("PCA iteration!");
+            pca.iterate(individuals().collect(Collectors.toList()));
         }
         generateRandomFood();
 
@@ -201,8 +202,11 @@ public class Game {
     }
 
     public PCA getPca() {
-        return null;
+        return pca;
     }
 
 
+    public long getTick() {
+        return tick;
+    }
 }

@@ -47,7 +47,7 @@ public class Controls extends Stage {
     private Pane content() {
         BorderPane grid = new BorderPane();
 
-        grid.setTop(chart(1000));
+        //grid.setTop(chart(1000));
         grid.setCenter(history());
         grid.setBottom(input());
 

@@ -38,6 +38,7 @@ public class PCA {
                 .setMaster("local");
         this.sparkContext = new SparkContext(conf);
         this.snapshots = new ArrayList<>();
+        this.simplifiedIndividuals = new HashMap<>();
     }
 
     private double[][] covariance(double[][] genetics) {
@@ -99,6 +100,7 @@ public class PCA {
 
             points[i] = new Point2D(pca[i][0], pca[i][1]);
             colors[i] = specie;
+            i++;
         }
         snapshot.setPoints(points);
         snapshot.setColors(colors);
@@ -152,5 +154,9 @@ public class PCA {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public void showPhylogeneticsTreeAnalyser() {
+        showPhylogeneticsTreeAnalyser(0, snapshots.size(), 1);
     }
 }

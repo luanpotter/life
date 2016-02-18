@@ -3,6 +3,8 @@ package xyz.ll.life.pca;
 import javafx.geometry.Point2D;
 import javafx.geometry.Point3D;
 
+import java.util.Arrays;
+
 /**
  * Created by lucas-cleto on 2/17/16.
  */
@@ -40,5 +42,10 @@ public class PhylogeneticsTree {
 
     public void setConnections(Point2D[] connections) {
         this.connections = connections;
+    }
+
+    @Override
+    public String toString() {
+        return Arrays.toString(points);
     }
 }

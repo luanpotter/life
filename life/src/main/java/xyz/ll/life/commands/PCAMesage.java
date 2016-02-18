@@ -13,7 +13,7 @@ public class PCAMesage implements Message {
 
     @Override
     public String exec(Game game) {
-        //game.getPca().showPhylogeneticsTreeAnalyser(0, (int) (game.getTick() / 5000), 1);
+        game.getPca().showPhylogeneticsTreeAnalyser();
         return "success";
     }
 }
