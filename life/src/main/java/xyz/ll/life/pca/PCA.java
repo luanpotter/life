@@ -15,13 +15,9 @@ import org.apache.spark.mllib.linalg.Vectors;
 import org.apache.spark.mllib.linalg.distributed.RowMatrix;
 import org.jzy3d.analysis.AnalysisLauncher;
 import xyz.ll.life.model.Individual;
+import xyz.luan.geometry.Point;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 /**
  * Created by lucas-cleto on 2/16/16.
@@ -79,31 +75,25 @@ public class PCA {
     }
 
     private Snapshot generateSnapshot(List<Individual> individuals, double[][] genetics, double[][] pca, long time) {
-        Point2D[] points = new Point2D[pca.length];
-        int[] colors = new int[pca.length];
-
         Snapshot snapshot = new Snapshot(time);
-        int i = 0;
-        for (Individual individual : individuals) {
+
+        for (int i = 0; i < individuals.size(); i++) {
+            Individual individual = individuals.get(i);
             UUID uuid = individual.getUUID();
             UUID[] parents = individual.getParents();
             double[] genome = genetics[i];
             double[] principalComponents = pca[i];
-            int specie = 0;
 
-            SimplifiedIndividual simplifiedIndividual = new SimplifiedIndividual(
-                    uuid, parents, genome, principalComponents, specie);
-            snapshot.add(uuid, simplifiedIndividual);
+            Point point = new Point(pca[i][0], pca[i][1]);
+            int species = 0; // TODO
+
+            SimplifiedIndividual simplifiedIndividual = new SimplifiedIndividual(uuid, parents, genome, principalComponents, species);
             if (!simplifiedIndividuals.containsKey(uuid)) {
                 simplifiedIndividuals.put(uuid, simplifiedIndividual);
             }
 
-            points[i] = new Point2D(pca[i][0], pca[i][1]);
-            colors[i] = specie;
-            i++;
+            snapshot.add(new PCAPoint(uuid, point, species));
         }
-        snapshot.setPoints(points);
-        snapshot.setColors(colors);
 
         return snapshot;
     }
@@ -122,21 +112,28 @@ public class PCA {
     }
 
     private PhylogeneticsTree generatePhylogeneticsTree(int begin, int end, int step) {
+        Map<PCAPoint, Integer> pointsIndexes = new HashMap<>();
         ArrayList<Point3D> points = new ArrayList<>();
         ArrayList<Integer> colors = new ArrayList<>();
         ArrayList<Point2D> lines = new ArrayList<>();
 
+        Snapshot current = null, previous;
         for (int i = begin, z = 0; i < end; i += step, z++) {
-            Snapshot snapshot = snapshots.get(i);
+            previous = current;
+            current = snapshots.get(i);
 
-            HashMap<UUID, SimplifiedIndividual> simplifiedIndividuals = snapshot.getSimplifiedIndividuals();
-            Point2D[] subPoints = snapshot.getPoints();
-            int[] subColors = snapshot.getColors();
-
-            for (Point2D p : subPoints) {
-                points.add(new Point3D(p.getX(), p.getY(), z));
+            for (PCAPoint p : current.getPoints()) {
+                int currentIndex = colors.size();
+                colors.add(p.getSpecies());
+                points.add(new Point3D(p.getPoint().getX(), p.getPoint().getY(), z));
+                if (previous != null) {
+                    PCAPoint previousPoint = previous.findPoint(p.getIndividualId());
+                    if (previousPoint != null) {
+                        lines.add(new Point2D(pointsIndexes.get(previousPoint), currentIndex));
+                    }
+                }
+                pointsIndexes.put(p, currentIndex);
             }
-            colors.addAll(Arrays.asList(Arrays.stream(subColors).boxed().toArray(Integer[]::new)));
         }
 
         Point3D[] p = points.toArray(new Point3D[points.size()]);
