@@ -11,9 +11,6 @@ import org.jzy3d.plot3d.primitives.Point;
 import org.jzy3d.plot3d.primitives.Scatter;
 import org.jzy3d.plot3d.rendering.canvas.Quality;
 
-import java.util.ArrayList;
-
-
 /**
  * Created by lucas-cleto on 2/17/16.
  */
@@ -33,9 +30,12 @@ public class PhylogeneticsTreeAnalyser extends AbstractAnalysis {
             points[i++] = new Coord3d(p.getX(), p.getY(), p.getZ());
         }
 
+        int maxColor = phylogeneticsTree.countColors();
         i = 0;
         for (Integer c : phylogeneticsTree.getColors()) {
-            colors[i++] = new Color(c, c, c);
+            float hue = maxColor == 0 ? 0.5f : (float) c / maxColor;
+            java.awt.Color color = java.awt.Color.getHSBColor(hue, 1f, 1f);
+            colors[i++] = new Color(color.getRed(), color.getGreen(), color.getBlue());
         }
 
         i = 0;
@@ -45,7 +45,7 @@ public class PhylogeneticsTreeAnalyser extends AbstractAnalysis {
         }
     }
 
-    public void init(){
+    public void init() {
         Scatter scatter = new Scatter(points, colors);
         scatter.setWidth(3);
         chart = AWTChartComponentFactory.chart(Quality.Advanced, "newt");

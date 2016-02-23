@@ -20,6 +20,16 @@ public class PhylogeneticsTree {
         this.connections = connections;
     }
 
+    public int countColors() {
+        int maxColor = -1;
+        for (int color : colors) {
+            if (color > maxColor) {
+                maxColor = color;
+            }
+        }
+        return maxColor;
+    }
+
     public Point3D[] getPoints() {
         return points;
     }
