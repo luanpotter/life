@@ -1,20 +1,19 @@
 package xyz.ll.life.model;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 import xyz.luan.geometry.Point;
 import xyz.luan.geometry.Polygon;
 import xyz.luan.geometry.Shape;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 public class EntityShape {
 
-    private Shape shape;
+    private Polygon shape;
     private Color color;
     private Color strokeColor;
-    private double area;
 
     private Point velocity;
     private double angleAcc;
@@ -22,16 +21,14 @@ public class EntityShape {
     public EntityShape(Point center, List<Point> vertices) {
         List<Point> points = vertices.stream().map(v -> v.translateTo(center)).collect(Collectors.toList());
         this.shape = new Polygon(points);
-        this.area = this.shape.area();
     }
 
-    public EntityShape(Shape shape) {
+    public EntityShape(Polygon shape) {
         this.shape = shape;
-        this.area = shape.area();
     }
 
     public double getArea() {
-        return this.area;
+        return this.shape.getArea();
     }
 
     public void translate(double x, double y) {
@@ -90,11 +87,6 @@ public class EntityShape {
         return this.shape.getBounds().getCenter();
     }
 
-    public void setShape(Shape shape) {
-        this.shape = shape;
-        this.area = shape.area();
-    }
-
     public void draw(GraphicsContext g) {
         g.setFill(color);
         shape.fill(g);
@@ -106,5 +98,10 @@ public class EntityShape {
 
     public void setPosition(Point point) {
         this.shape.translate(point.minusTo(getCenter()));
+    }
+
+    public void rotate(double speed) {
+        getVelocity().rotate(speed);
+        shape.rotate(speed);
     }
 }
