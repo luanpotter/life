@@ -18,7 +18,7 @@ public class World {
     public World(Dimension borders) {
         this.borders = borders;
         this.walls = new ArrayList<>();
-        WorldTypes.TWO_AREAS.build(this);
+        WorldTypes.RING.build(this);
     }
 
     public Point randomPoint() {

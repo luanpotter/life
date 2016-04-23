@@ -1,22 +1,26 @@
 package xyz.ll.life;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
-
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
-import xyz.ll.life.model.Organic;
+import javafx.scene.transform.Affine;
 import xyz.ll.life.model.Food;
 import xyz.ll.life.model.Individual;
+import xyz.ll.life.model.Organic;
 import xyz.ll.life.model.Species;
 import xyz.ll.life.model.world.Dimension;
 import xyz.ll.life.model.world.Viewport;
 import xyz.ll.life.model.world.World;
 import xyz.ll.life.pca.PCA;
+import xyz.luan.geometry.Point;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class Game {
+
+    private static final double FOOD_ABUNDANCE = 4;
 
     private List<Organic> entities;
     private World world;
@@ -30,14 +34,14 @@ public class Game {
 
     public Game(Dimension dimension) {
         this.entities = new ArrayList<>();
-        this.world = new World(dimension);
+        this.world = new World(new Dimension(5000, 5000));
         this.viewport = new Viewport(dimension);
         this.em = new EntityManager();
         this.rendering = true;
         this.pca = new PCA();
         this.tick = 0;
 
-        randomStart();
+        predefinedStart();
     }
 
     public boolean isRendering() {
@@ -48,6 +52,15 @@ public class Game {
         this.rendering = rendering;
     }
 
+    private void predefinedStart() {
+        int foodAmount = (int) (0.000125 * world.area() * FOOD_ABUNDANCE);
+        for (int i = 0; i < foodAmount; i++) {
+            entities.add(Food.randomFood(world));
+        }
+        for (int i = 0; i < 10; i++) {
+            entities.add(Individual.abiogenesis(new Point(200 + 50*(Math.random() - .5d), 200 + 50*(Math.random() - 0.5d)), 4d));
+        }
+    }
     private void randomStart() {
         int foodAmount = (int) (0.000125 * world.area());
         int lifeAmount = (int) (0.000050 * world.area());
@@ -190,10 +203,13 @@ public class Game {
     }
 
     public void render(GraphicsContext g) {
+        Affine t = g.getTransform().clone();
         drawBackground(g);
-        world.draw(g);
+        viewport.setup(g);
         food().forEach(e -> e.draw(g));
+        world.draw(g);
         individuals().forEach(e -> e.draw(g));
+        g.setTransform(t);
     }
 
     private void drawBackground(GraphicsContext g) {

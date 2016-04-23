@@ -15,6 +15,9 @@ import xyz.ll.life.model.world.Dimension;
 import xyz.luan.geometry.Point;
 
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.function.Consumer;
 
 public class Main extends Application {
 
@@ -27,6 +30,16 @@ public class Main extends Application {
     private EntityShape preview;
     private EntityShape newPreview;
     private double strokeWidth;
+
+    private static final Map<String, Consumer<Game>> keyBindings = new HashMap();
+    static {
+        keyBindings.put("q", game -> game.getViewport().zoom(2d));
+        keyBindings.put("e", game -> game.getViewport().zoom(.5d));
+        keyBindings.put("w", game -> game.getViewport().translate(0, +10));
+        keyBindings.put("a", game -> game.getViewport().translate(+10, 0));
+        keyBindings.put("s", game -> game.getViewport().translate(0, -10));
+        keyBindings.put("d", game -> game.getViewport().translate(-10, 0));
+    }
 
     public static void main(String[] args) {
         launch(args);
@@ -128,6 +141,11 @@ public class Main extends Application {
                 }
                 game.setSelected(null);
             }
+        });
+
+        scene.setOnKeyPressed(e -> {
+            String l = e.getText().toLowerCase();
+            keyBindings.getOrDefault(l, game -> {}).accept(game);
         });
 
         stage.setOnCloseRequest(e -> {
