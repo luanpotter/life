@@ -64,6 +64,10 @@ public class MorfologicGene implements Gene<MorfologicGene> {
 
     public EntityShape generateShape(Point center) {
         List<Point> vertices = new ArrayList<>();
+        vertices.add(new Point(-10, -2));
+        vertices.add(new Point(10, -2));
+        vertices.add(new Point(10, 2));
+        vertices.add(new Point(-10, 2));
         for (int i = 0; i < MorfologicGene.MORFOLOGIC_PRECISION; i++) {
             vertices.add(getPoint(i * MorfologicGene.ARC));
         }

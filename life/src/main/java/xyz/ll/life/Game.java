@@ -32,13 +32,15 @@ public class Game {
     private PCA pca;
     private long tick;
 
+    private static final boolean PCA = false;
+
     public Game(Dimension dimension) {
         this.entities = new ArrayList<>();
         this.world = new World(new Dimension(5000, 5000));
         this.viewport = new Viewport(dimension);
         this.em = new EntityManager();
         this.rendering = true;
-        this.pca = new PCA();
+        this.pca = PCA ? new PCA() : null;
         this.tick = 0;
 
         predefinedStart();
@@ -77,7 +79,7 @@ public class Game {
     }
 
     public synchronized void tick() {
-        if (tick % 100 == 0) {
+        if (PCA && tick % 100 == 0) {
             System.out.println("PCA iteration!");
             pca.iterate(individuals().collect(Collectors.toList()));
         }
