@@ -63,6 +63,7 @@ public class Game {
             entities.add(Individual.abiogenesis(new Point(200 + 50*(Math.random() - .5d), 200 + 50*(Math.random() - 0.5d)), 4d));
         }
     }
+
     private void randomStart() {
         int foodAmount = (int) (0.000125 * world.area());
         int lifeAmount = (int) (0.000050 * world.area());
@@ -104,9 +105,7 @@ public class Game {
         for (Organic e : em.getRemoved()) {
             entities.remove(e);
         }
-        for (Organic e : em.getAdded()) {
-            entities.add(e);
-        }
+        entities.addAll(em.getAdded().stream().collect(Collectors.toList()));
         em.clear();
     }
 
@@ -127,11 +126,7 @@ public class Game {
 
     private void dealWithCollisions(Organic e, EntityManager em) {
         if (!(e instanceof Food)) {
-            for (Organic otherOrganic : entities) {
-                if (e != otherOrganic) {
-                    e.onCollide(otherOrganic, em);
-                }
-            }
+            entities.stream().filter(otherOrganic -> e != otherOrganic).forEach(otherOrganic -> e.onCollide(otherOrganic, em));
         }
     }
 
@@ -140,10 +135,6 @@ public class Game {
         if (Math.random() < prob) {
             entities.add(Food.randomFood(world));
         }
-    }
-
-    public void remove(Organic e) {
-        em.remove(e);
     }
 
     public void add(Organic e) {
@@ -196,10 +187,6 @@ public class Game {
         return viewport;
     }
 
-    public Individual getSelected() {
-        return selected;
-    }
-
     public void setSelected(Individual selected) {
         this.selected = selected;
     }
@@ -221,10 +208,5 @@ public class Game {
 
     public PCA getPca() {
         return pca;
-    }
-
-
-    public long getTick() {
-        return tick;
     }
 }
