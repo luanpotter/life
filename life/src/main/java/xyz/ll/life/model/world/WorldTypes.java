@@ -50,6 +50,17 @@ public enum WorldTypes {
                 p1 = p2;
             }
         }
+    }, PROPPER_RING {
+        @Override
+        public void build(World world) {
+            double w = world.getBorders().getWidth();
+            double h = world.getBorders().getHeight();
+            double s = 100;
+
+            BOX.build(world);
+
+            world.getWalls().add(new Wall(new Rectangle(s, w - s, s, h - s)));
+        }
     };
 
     public abstract void build(World world);

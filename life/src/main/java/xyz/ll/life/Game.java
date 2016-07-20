@@ -36,7 +36,7 @@ public class Game {
 
     public Game(Dimension dimension) {
         this.entities = new ArrayList<>();
-        this.world = new World(new Dimension(5000, 5000));
+        this.world = new World(new Dimension(10000, 10000));
         this.viewport = new Viewport(dimension);
         this.em = new EntityManager();
         this.rendering = true;
@@ -60,7 +60,10 @@ public class Game {
             entities.add(Food.randomFood(world));
         }
         for (int i = 0; i < 10; i++) {
-            entities.add(Individual.abiogenesis(new Point(200 + 50*(Math.random() - .5d), 200 + 50*(Math.random() - 0.5d)), 4d));
+            entities.add(Individual.abiogenesis(new Point(50 + 50*(Math.random() - .5d), 50 + 50*(Math.random() - 0.5d)), 4d));
+        }
+        for (int i = 0; i < 10; i++) {
+            entities.add(Individual.abiogenesis(new Point(world.getWidth() - 50 - 50*(Math.random() - .5d), world.getHeight() - 50 - 50*(Math.random() - 0.5d)), 4d));
         }
     }
 

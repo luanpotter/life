@@ -18,7 +18,7 @@ public class World {
     public World(Dimension borders) {
         this.borders = borders;
         this.walls = new ArrayList<>();
-        WorldTypes.RING.build(this);
+        WorldTypes.PROPPER_RING.build(this);
     }
 
     public Point randomPoint() {
@@ -52,6 +52,14 @@ public class World {
 
     Dimension getBorders() {
         return borders;
+    }
+
+    public double getWidth() {
+        return borders.getWidth();
+    }
+
+    public double getHeight() {
+        return borders.getHeight();
     }
 
     public void draw(GraphicsContext g) {
